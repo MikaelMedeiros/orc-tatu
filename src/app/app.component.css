@@ -1,0 +1,8 @@
+.center-card {
+    justify-content: center;
+    display: flex;
+}
+
+.default-width-card {
+    width: 360px;
+}
