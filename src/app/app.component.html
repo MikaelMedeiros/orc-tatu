@@ -9,13 +9,13 @@
 
       <div class="field" >
         <label htmlFor="valorcm" class="block">Valor do cm</label>
-        <input type="text" pInputText formControlName="valorcm"/>
+        <p-inputNumber formControlName="valorcm" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR"> </p-inputNumber>          
         <small class="p-error block" *ngIf="budgetForm.get('valorcm')?.invalid && budgetForm.get('valorcm')?.dirty"> valor obrigatório</small>
       </div>
 
       <div class="field" >
         <label htmlFor="cm" class="block">Tamanho (cm)</label>
-        <input type="text" pInputText formControlName="cm"/>
+        <p-inputNumber formControlName="cm" suffix="cm" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [showButtons]="true" inputId="minmax-buttons" [min]="1"> </p-inputNumber>          
         <small class="p-error block" *ngIf="budgetForm.get('cm')?.invalid && budgetForm.get('cm')?.dirty"> tamanho da tatuagem obrigatória</small>
       </div>
 
@@ -26,9 +26,9 @@
       </div>
 
       <div class="field">
-        <label htmlFor="category" class="block">Categoria</label>
-        <input type="text" pInputText formControlName="category"/>
-        <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Descrição obrigatória</small>
+        <label htmlFor="category" class="block">Categoria</label>        
+        <p-selectButton [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+        <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
       </div>
 
       <div class="field" >
@@ -38,8 +38,8 @@
       </div>
       
       <div class="field" >
-        <label htmlFor="details" class="block">Detalhes</label>
-        <input type="text" pInputText formControlName="details"/>
+        <label htmlFor="details" class="block">Detalhes</label>        
+        <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
       </div>   
 
       <div class="formgroup-inline">
@@ -47,7 +47,7 @@
           <p-button type="submit" accessKey="enter" label="Orçar" [disabled]="budgetForm.invalid"></p-button>
         </div>
 
-        <p-button type="button" label="Clear" (onClick)="resetForm()"></p-button>
+        <p-button type="button" label="Limpar" severity="info" (onClick)="resetForm()"></p-button>
       </div>
 
     </form>
