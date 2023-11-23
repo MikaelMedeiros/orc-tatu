@@ -1,56 +1,71 @@
 <div class="center-card">  
   <p-card header="Orc Tatu" [style]="{width: '360px'}">
-    <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">
-      <div class="field" >
-        <label htmlFor="client" class="block">Cliente</label>
-        <input type="text" pInputText formControlName="client"/>
-        <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
-      </div>
-
-      <div class="field" >
-        <label htmlFor="valorcm" class="block">Valor do cm</label>
-        <p-inputNumber formControlName="valorcm" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR"> </p-inputNumber>          
-        <small class="p-error block" *ngIf="budgetForm.get('valorcm')?.invalid && budgetForm.get('valorcm')?.dirty"> valor obrigatório</small>
-      </div>
-
-      <div class="field" >
-        <label htmlFor="cm" class="block">Tamanho (cm)</label>
-        <p-inputNumber formControlName="cm" suffix="cm" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [showButtons]="true" inputId="minmax-buttons" [min]="1"> </p-inputNumber>          
-        <small class="p-error block" *ngIf="budgetForm.get('cm')?.invalid && budgetForm.get('cm')?.dirty"> tamanho da tatuagem obrigatória</small>
-      </div>
-
-      <div class="field" >
-        <label htmlFor="draw" class="block">Desenho</label>
-        <input type="text" pInputText formControlName="draw"/>
-        <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
-      </div>
-
-      <div class="field">
-        <label htmlFor="category" class="block">Categoria</label>        
-        <p-selectButton [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
-        <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
-      </div>
-
-      <div class="field" >
-        <label htmlFor="bodyLocal" class="block">Local no corpo</label>
-        <input type="text" pInputText formControlName="bodyLocal"/>
-        <small class="p-error block" *ngIf="budgetForm.get('bodyLocal')?.invalid && budgetForm.get('bodyLocal')?.dirty"> Local do corpo obrigatória</small>
-      </div>
-      
-      <div class="field" >
-        <label htmlFor="details" class="block">Detalhes</label>        
-        <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
-      </div>   
-
-      <div class="formgroup-inline">
-        <div class="field">
-          <p-button type="submit" accessKey="enter" label="Orçar" [disabled]="budgetForm.invalid"></p-button>
-        </div>
-
-        <p-button type="button" label="Limpar" severity="info" (onClick)="resetForm()"></p-button>
-      </div>
-
-    </form>
+    <p-tabView styleClass="tabview-custom">
+      <p-tabPanel>
+        <ng-template pTemplate="header">
+          <i class="pi pi-calculator"></i>
+        </ng-template>
+        <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">
+          <div class="field" >
+            <label htmlFor="client" class="block">Cliente</label>
+            <input type="text" pInputText formControlName="client"/>
+            <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
+          </div>
+    
+          <div class="field" >
+            <label htmlFor="valorcm" class="block">Valor do cm</label>
+            <p-inputNumber formControlName="valorcm" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR"> </p-inputNumber>          
+            <small class="p-error block" *ngIf="budgetForm.get('valorcm')?.invalid && budgetForm.get('valorcm')?.dirty"> valor obrigatório</small>
+          </div>
+    
+          <div class="field" >
+            <label htmlFor="cm" class="block">Tamanho (cm)</label>
+            <p-inputNumber formControlName="cm" suffix="cm" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [showButtons]="true" inputId="minmax-buttons" [min]="1"> </p-inputNumber>          
+            <small class="p-error block" *ngIf="budgetForm.get('cm')?.invalid && budgetForm.get('cm')?.dirty"> tamanho da tatuagem obrigatória</small>
+          </div>
+    
+          <div class="field" >
+            <label htmlFor="draw" class="block">Desenho</label>
+            <input type="text" pInputText formControlName="draw"/>
+            <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
+          </div>
+    
+          <div class="field">
+            <label htmlFor="category" class="block">Categoria</label>        
+            <p-selectButton [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+            <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
+          </div>
+    
+          <div class="field" >
+            <label htmlFor="bodyLocal" class="block">Local no corpo</label>
+            <input type="text" pInputText formControlName="bodyLocal"/>
+            <small class="p-error block" *ngIf="budgetForm.get('bodyLocal')?.invalid && budgetForm.get('bodyLocal')?.dirty"> Local do corpo obrigatória</small>
+          </div>
+          
+          <div class="field" >
+            <label htmlFor="details" class="block">Detalhes</label>        
+            <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+          </div>   
+    
+          <div class="formgroup-inline">
+            <div class="field">
+              <p-button type="submit" accessKey="enter" label="Orçar" [disabled]="budgetForm.invalid"></p-button>
+            </div>
+    
+            <p-button type="button" label="Limpar" severity="info" (onClick)="resetForm()"></p-button>
+          </div>
+        </form>
+      </p-tabPanel>
+      <p-tabPanel>
+        <ng-template pTemplate="header">
+          <i class="pi pi-cog"></i>          
+        </ng-template>
+        <p>
+          Em construção <i class="pi pi-spin pi-spinner" style="font-size: 1rem"></i>
+        </p>
+      </p-tabPanel>
+  </p-tabView>
+   
 
     <div>
       {{generatedBudget}}
@@ -60,6 +75,4 @@
 
     <p-button icon="pi pi-copy" *ngIf="generatedBudget" type="button" severity="success" title="Copiar texto" (click)="copyText()"></p-button>
   </p-card>
-
-  
 </div>

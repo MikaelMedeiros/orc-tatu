@@ -18,6 +18,7 @@ export class AppComponent implements OnInit{
 
   categories: any[] = [];
   details: any[] = [];
+  bodyLocal: any[] = [];
   
   ngOnInit(): void {
     this.categories = [
@@ -35,6 +36,24 @@ export class AppComponent implements OnInit{
       { name: 'Colorido', value: 'colorido' },
       { name: 'Tinta Branca', value: 'tinta branca' }
     ];
+
+    this.bodyLocal = [
+      { name: 'Rosto', category: 'category', addtion: '1'},
+      { name: 'Pescoço', category: 'category 2', addtion: '2'},
+      { name: 'Ombro', category: 'category 2', addtion: '2'},
+      { name: 'Peito', category: 'category 2', addtion: '2'},
+      { name: 'Barriga', category: 'category 2', addtion: '2'},
+      { name: 'Braço', category: 'category 2', addtion: '2'},
+      { name: 'Antebraço', category: 'category 2', addtion: '2'},
+      { name: 'Mão', category: 'category 2', addtion: '2'},
+      { name: 'Costas', category: 'category 2', addtion: '2'},
+      { name: 'Costelas', category: 'category 2', addtion: '2'},
+      { name: 'Lombar', category: 'category 2', addtion: '2'},
+      { name: 'Glúteos', category: 'category 2', addtion: '2'},
+      { name: 'Perna', category: 'category 2', addtion: '2'},
+      { name: 'Canela', category: 'category 2', addtion: '2'},
+      { name: 'Pé', category: 'category 2', addtion: '2'}
+    ]
   }
 ;
 
@@ -76,16 +95,15 @@ export class AppComponent implements OnInit{
     }
   }
 
-  getTextFormated(lista: string []| undefined | null): string | undefined | null {
-    console.log(lista);
+  getTextFormated(lista: string []| undefined | null): string | undefined | null {    
     if (typeof lista !== undefined && lista != null) {
-      const stringOrganizada = lista
-      .map((str: string) => str + ", ")
-      .join("")            
-    
-      return stringOrganizada.replace(/,\s*$/, " e");
-    }
-    
+      if(lista.length > 1) {
+        let ultimo = lista.pop();
+        return lista.join(', ') + ' e ' + ultimo;                
+      } else {
+        return lista[0];
+      }
+    } 
     return "";
   }
 
