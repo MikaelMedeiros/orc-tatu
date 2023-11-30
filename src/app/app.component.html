@@ -67,8 +67,8 @@
   </p-tabView>
    
 
-    <div>
-      {{generatedBudget}}
+    <div *ngIf="(generatedBudget !== '')">
+      <textarea [value]="generatedBudget" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
     </div>
       
     <br/>

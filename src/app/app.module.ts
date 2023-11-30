@@ -10,6 +10,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TabViewModule } from 'primeng/tabview';
 import { DragDropModule } from 'primeng/dragdrop';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { DragDropModule } from 'primeng/dragdrop';
     CardModule,
     ButtonModule,
     TabViewModule,
-    DragDropModule
+    DragDropModule,
+    InputTextareaModule
   ],
   providers: [],
   bootstrap: [AppComponent]
