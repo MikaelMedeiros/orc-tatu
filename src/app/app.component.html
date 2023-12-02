@@ -1,6 +1,7 @@
 <div class="center-card">  
   <p-card header="Orc Tatu" [style]="{width: '360px'}">
     <p-tabView styleClass="tabview-custom">
+      <!-- Orçamento -->
       <p-tabPanel>
         <ng-template pTemplate="header">
           <i class="pi pi-calculator"></i>
@@ -20,13 +21,21 @@
 
           <div class="field">
             <label htmlFor="category" class="block">Categoria</label>        
-            <p-selectButton [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
-            <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
+            <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
+              <div style="width: 600px;">
+                <p-selectButton  [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
+              </div>
+            </div>
           </div>
           
           <div class="field" >
             <label htmlFor="details" class="block">Detalhes</label>        
-            <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+            <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
+              <div style="width: 600px;">
+                <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+              </div>
+            </div>
           </div>
 
           <div class="field" >
@@ -56,6 +65,7 @@
           </div>
         </form>
       </p-tabPanel>
+      <!-- TAXAS -->
       <p-tabPanel>
         <ng-template pTemplate="header">
           <i class="pi pi-cog"></i>          
