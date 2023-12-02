@@ -10,6 +10,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 export class AppComponent implements OnInit{
   title = 'orc-tatu';
   generatedBudget = '';
+  netValue = 0;
+  
 
   constructor(
     private fb: FormBuilder,
@@ -72,8 +74,13 @@ export class AppComponent implements OnInit{
     details: [['']]
   }) 
 
+  configForm = this.fb.group({
+    percentageTax: [30]
+  })
+
   generateBudget() {
     this.calculateValueTattoo();    
+    this.calculateNetValue();
     this.generateTextBudget();
   }
 
@@ -83,6 +90,15 @@ export class AppComponent implements OnInit{
     if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {      
       this.pixValue = (valorcm * cm) + 10;
       this.creditValue = this.pixValue + 20;      
+    }
+  }
+
+  calculateNetValue() {
+    let tax = this.configForm.get('percentageTax')?.value;
+    if (tax) {
+      this.netValue = this.pixValue - (this.pixValue * tax / 100) 
+    } else {
+      this.netValue = this.pixValue - (this.pixValue * 0 / 100) 
     }
   }
 
