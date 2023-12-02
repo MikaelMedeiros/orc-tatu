@@ -64,7 +64,7 @@
         <form [formGroup]="configForm" (ngSubmit)="generateBudget()">
           <div class="field" >
             <label htmlFor="percentageTax" class="block">Imposto</label>            
-            <p-inputNumber id="percentageTax" inputId="integeronly" [disabled]="true" suffix="%" formControlName="percentageTax"> </p-inputNumber>            
+            <p-inputNumber id="percentageTax" inputId="integeronly" suffix="%" formControlName="percentageTax"> </p-inputNumber> 
           </div>
         </form>
       </p-tabPanel>

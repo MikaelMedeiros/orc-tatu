@@ -77,4 +77,18 @@ describe('AppComponent', () => {
     expect(spy).toHaveBeenCalledWith(textarea.generatedBudget);
 
   })
+
+  it(`should generate budget tattoo correctly without client, category, local body, draw and details`, () => {
+    component.budgetForm.get('client')?.reset();
+    component.budgetForm.get('category')?.reset();
+    component.budgetForm.get('bodyLocal')?.reset();
+    component.budgetForm.get('draw')?.reset();
+    component.budgetForm.get('details')?.reset();
+    
+    fixture.detectChanges();
+    component.generateBudget();    
+    expect(component.generatedBudget).toEqual('sua tattoo de aproximadamente 10cm, fica no valor de R$60 no PIX ou R$80 no Cartão de Crédito em até 3x.')
+
+  })
 });
+

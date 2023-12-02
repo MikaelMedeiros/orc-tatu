@@ -103,14 +103,35 @@ export class AppComponent implements OnInit{
   }
 
   generateTextBudget() {
-    this.generatedBudget = `${this.budgetForm.get('client')?.value},`.concat(
-      ` sua tattoo ${this.getTextFormated(this.budgetForm.get('category')?.value)}`).concat(
-      ` ${this.budgetForm.get('draw')?.value}`).concat(
-      ` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`).concat(
-      ` no(a) ${this.budgetForm.get('bodyLocal')?.value}`).concat(
-      ` com detalhe em ${this.getTextFormated(this.budgetForm.get('details')?.value)}`).concat(
-      ` fica no valor de R$${this.pixValue} no PIX`).concat(
-      ` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
+    this.generatedBudget = '';
+    if(this.budgetForm.get('client')?.value) {
+      this.generatedBudget = `${this.budgetForm.get('client')?.value}, `;
+    }
+    //default
+    this.generatedBudget = this.generatedBudget.concat(`sua tattoo`);
+
+    if(this.budgetForm.get('category')?.value) {
+      this.generatedBudget = this.generatedBudget.concat(` ${this.getTextFormated(this.budgetForm.get('category')?.value)}`);
+    }
+
+    if(this.budgetForm.get('draw')?.value) {
+      this.generatedBudget = this.generatedBudget.concat(` ${this.budgetForm.get('draw')?.value}`);
+    }
+
+    //default
+    this.generatedBudget = this.generatedBudget.concat(` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`);
+
+    if(this.budgetForm.get('bodyLocal')?.value) {
+      this.generatedBudget = this.generatedBudget.concat(` no(a) ${this.budgetForm.get('bodyLocal')?.value}`);
+    }
+
+    if(this.getTextFormated(this.budgetForm.get('details')?.value)) {
+      this.generatedBudget = this.generatedBudget.concat(` com detalhe em ${this.getTextFormated(this.budgetForm.get('details')?.value)}`);
+    }
+
+    //default
+    this.generatedBudget = this.generatedBudget.concat(` fica no valor de R$${this.pixValue} no PIX`)
+    .concat(` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
   }
 
   getTextFormated(lista: string []| undefined | null): string | undefined | null {        
@@ -123,7 +144,6 @@ export class AppComponent implements OnInit{
         return listaFiltrada[0];
       }      
     } 
-    console.log('lista vazia: ', lista)
     return "";
   }
 
