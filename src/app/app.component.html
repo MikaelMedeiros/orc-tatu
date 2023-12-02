@@ -8,7 +8,7 @@
         <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">
           <div class="field" >
             <label htmlFor="client" class="block">Cliente</label>
-            <input type="text" pInputText formControlName="client"/>
+            <input type="text" id="client" pInputText formControlName="client"/>
             <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
           </div>
     
@@ -66,9 +66,8 @@
       </p-tabPanel>
   </p-tabView>
    
-
     <div *ngIf="(generatedBudget !== '')">
-      <textarea [value]="generatedBudget" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
+      <textarea id="generatedBudget" [(ngModel)]="generatedBudget" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
     </div>
       
     <br/>

@@ -19,6 +19,8 @@ export class AppComponent implements OnInit{
   categories: any[] = [];
   details: any[] = [];
   bodyLocal: any[] = [];
+  pixValue = 0;
+  creditValue = 0;
   
   ngOnInit(): void {
     this.categories = [
@@ -61,58 +63,74 @@ export class AppComponent implements OnInit{
 
   budgetForm = this.fb.group({
     id: [''],
-    client: ['', Validators.required],    
-    draw: ['', Validators.required],
+    client: [''],    
+    draw: [''],
     valorcm: [22.50, Validators.required],
-    cm: [null, Validators.required],
-    category: [[], Validators.required],
+    cm: [0, Validators.required],
     bodyLocal: [''],
-    details: [[]]
+    category:  [[''], Validators.required],
+    details: [['']]
   }) 
 
   generateBudget() {
     this.calculateValueTattoo();    
+    this.generateTextBudget();
   }
 
   calculateValueTattoo() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.budgetForm.get('valorcm')?.value;
     if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {      
-      let pixValue = (valorcm * cm) + 10;
-      let creditValue = pixValue + 20;
-
-      this.generatedBudget = `${this.budgetForm.get('client')?.value},`.concat(
-        ` sua tattoo ${this.getTextFormated(this.budgetForm.get('category')?.value)}`).concat(
-        ` ${this.budgetForm.get('draw')?.value}`).concat(
-        ` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`).concat(
-        ` no(a) ${this.budgetForm.get('bodyLocal')?.value}`).concat(
-        ` com detalhe em ${this.getTextFormated(this.budgetForm.get('details')?.value)}`).concat(
-        ` fica no valor de R$${pixValue} no PIX`).concat(
-        ` ou R$${creditValue} no Cartão de Crédito em até 3x.`);
-
-      console.log('Pix: R$', pixValue);
-      console.log('Crédito: R$', creditValue);
+      this.pixValue = (valorcm * cm) + 10;
+      this.creditValue = this.pixValue + 20;      
     }
   }
 
-  getTextFormated(lista: string []| undefined | null): string | undefined | null {    
-    if (typeof lista !== undefined && lista != null) {
-      if(lista.length > 1) {
-        let ultimo = lista.pop();
-        return lista.join(', ') + ' e ' + ultimo;                
-      } else {
-        return lista[0];
-      }
+  generateTextBudget() {
+    if(this.budgetForm.get('client')?.value && 
+      this.budgetForm.get('draw')?.value && 
+      this.budgetForm.get('bodyLocal')?.value && 
+      this.budgetForm.get('category')?.value
+      ) {
+        this.generatedBudget = `${this.budgetForm.get('client')?.value},`.concat(
+          ` sua tattoo ${this.getTextFormated(this.budgetForm.get('category')?.value)}`).concat(
+          ` ${this.budgetForm.get('draw')?.value}`).concat(
+          ` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`).concat(
+          ` no(a) ${this.budgetForm.get('bodyLocal')?.value}`).concat(
+          ` com detalhe em ${this.getTextFormated(this.budgetForm.get('details')?.value)}`).concat(
+          ` fica no valor de R$${this.pixValue} no PIX`).concat(
+          ` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
+    } else {
+      this.generatedBudget = 
+        `Aproximadamente: ${this.budgetForm.get('cm')?.value}cm
+`.concat(`Pix: R$${this.pixValue}
+`).concat(`Até 3x no Cartão de Crédito: R$${this.creditValue}`);
+    }
+  }
+
+  getTextFormated(lista: string []| undefined | null): string | undefined | null {        
+    if (typeof lista !== undefined && lista != null) {      
+      let listaFiltrada = lista.filter(item => item !== '');      
+      if(listaFiltrada.length > 1) {
+        let ultimo = listaFiltrada.pop();
+        return listaFiltrada.join(', ') + ' e ' + ultimo;                
+      } else if (listaFiltrada.length > 0) {
+        return listaFiltrada[0];
+      }      
     } 
+    console.log('lista vazia: ', lista)
     return "";
   }
 
-  copyText() {
+  copyText() {    
     this.clipboard.copy(this.generatedBudget);
   }
 
   resetForm() {
     this.budgetForm.reset();
+    this.budgetForm.get('cm')?.setValue(0);
+    this.budgetForm.get('valorcm')?.setValue(22.50);    
+    this.budgetForm.get('category')?.setValue(['']);    
     this.generatedBudget = ''
   }
 }
