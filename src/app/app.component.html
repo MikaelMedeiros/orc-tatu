@@ -63,8 +63,18 @@
 
         <form [formGroup]="configForm" (ngSubmit)="generateBudget()">
           <div class="field" >
-            <label htmlFor="percentageTax" class="block">Imposto</label>            
+            <label htmlFor="percentageTax" class="block">Porcentagem do studio (-)</label>            
             <p-inputNumber id="percentageTax" inputId="integeronly" suffix="%" formControlName="percentageTax"> </p-inputNumber> 
+          </div>
+
+          <div class="field" >
+            <label htmlFor="valorcm" class="block">Estacionamento</label>
+            <p-inputNumber formControlName="parkingPrice" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>                      
+          </div>
+
+          <div class="field" >
+            <label htmlFor="valorcm" class="block">Taxa de crédito</label>
+            <p-inputNumber formControlName="creditTax" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>                      
           </div>
         </form>
       </p-tabPanel>

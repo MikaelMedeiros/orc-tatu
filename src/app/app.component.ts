@@ -75,22 +75,42 @@ export class AppComponent implements OnInit{
   }) 
 
   configForm = this.fb.group({
-    percentageTax: [30]
+    percentageTax: [30],
+    parkingPrice: [10],
+    creditTax: [20]
   })
 
   generateBudget() {
-    this.calculateValueTattoo();    
+    this.calculatePixValue();    
+    this.calculateCreditValue(); 
+    this.addParkingPrice();
     this.calculateNetValue();
     this.generateTextBudget();
   }
 
-  calculateValueTattoo() {
+  calculatePixValue() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.budgetForm.get('valorcm')?.value;
     if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {      
-      this.pixValue = (valorcm * cm) + 10;
-      this.creditValue = this.pixValue + 20;      
+      this.pixValue = (valorcm * cm);      
     }
+  }
+
+  calculateCreditValue() {
+    let creditTax = this.configForm.get('creditTax')?.value;
+    if(creditTax) {
+      this.creditValue = this.pixValue + creditTax;      
+    } else {
+      this.creditValue = this.pixValue;   
+    } 
+  }
+
+  addParkingPrice() {
+    let parkingPrice = this.configForm.get('parkingPrice')?.value;
+    if(parkingPrice) {
+      this.pixValue = this.pixValue + parkingPrice;
+      this.creditValue = this.creditValue + parkingPrice;
+    } 
   }
 
   calculateNetValue() {
