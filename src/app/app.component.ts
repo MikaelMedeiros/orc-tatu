@@ -87,25 +87,14 @@ export class AppComponent implements OnInit{
   }
 
   generateTextBudget() {
-    if(this.budgetForm.get('client')?.value && 
-      this.budgetForm.get('draw')?.value && 
-      this.budgetForm.get('bodyLocal')?.value && 
-      this.budgetForm.get('category')?.value
-      ) {
-        this.generatedBudget = `${this.budgetForm.get('client')?.value},`.concat(
-          ` sua tattoo ${this.getTextFormated(this.budgetForm.get('category')?.value)}`).concat(
-          ` ${this.budgetForm.get('draw')?.value}`).concat(
-          ` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`).concat(
-          ` no(a) ${this.budgetForm.get('bodyLocal')?.value}`).concat(
-          ` com detalhe em ${this.getTextFormated(this.budgetForm.get('details')?.value)}`).concat(
-          ` fica no valor de R$${this.pixValue} no PIX`).concat(
-          ` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
-    } else {
-      this.generatedBudget = 
-        `Aproximadamente: ${this.budgetForm.get('cm')?.value}cm
-`.concat(`Pix: R$${this.pixValue}
-`).concat(`Até 3x no Cartão de Crédito: R$${this.creditValue}`);
-    }
+    this.generatedBudget = `${this.budgetForm.get('client')?.value},`.concat(
+      ` sua tattoo ${this.getTextFormated(this.budgetForm.get('category')?.value)}`).concat(
+      ` ${this.budgetForm.get('draw')?.value}`).concat(
+      ` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`).concat(
+      ` no(a) ${this.budgetForm.get('bodyLocal')?.value}`).concat(
+      ` com detalhe em ${this.getTextFormated(this.budgetForm.get('details')?.value)}`).concat(
+      ` fica no valor de R$${this.pixValue} no PIX`).concat(
+      ` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
   }
 
   getTextFormated(lista: string []| undefined | null): string | undefined | null {        
