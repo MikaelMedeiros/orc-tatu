@@ -8,13 +8,13 @@
         <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">          
           <div class="field" >
             <label htmlFor="valorcm" class="block">Valor do cm</label>
-            <p-inputNumber formControlName="valorcm" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>          
+            <p-inputNumber (onInput)="generateBudget()" formControlName="valorcm" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>          
             <small class="p-error block" *ngIf="budgetForm.get('valorcm')?.invalid && budgetForm.get('valorcm')?.dirty"> valor obrigatório</small>
           </div>
     
           <div class="field" >
             <label htmlFor="cm" class="block">Tamanho (cm)</label>
-            <p-inputNumber formControlName="cm" suffix="cm" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [showButtons]="true" inputId="minmax-buttons" [min]="1"> </p-inputNumber>          
+            <p-inputNumber (onInput)="generateBudget()" formControlName="cm" suffix="cm" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [showButtons]="true" inputId="minmax-buttons" [min]="1"> </p-inputNumber>          
             <small class="p-error block" *ngIf="budgetForm.get('cm')?.invalid && budgetForm.get('cm')?.dirty"> tamanho da tatuagem obrigatória</small>
           </div>
 
@@ -64,17 +64,17 @@
         <form [formGroup]="configForm" (ngSubmit)="generateBudget()">
           <div class="field" >
             <label htmlFor="percentageTax" class="block">Porcentagem do studio (-)</label>            
-            <p-inputNumber id="percentageTax" inputId="integeronly" suffix="%" formControlName="percentageTax"> </p-inputNumber> 
+            <p-inputNumber (onInput)="generateBudget()" id="percentageTax" inputId="integeronly" suffix="%" formControlName="percentageTax" [showButtons]="true"> </p-inputNumber> 
           </div>
 
           <div class="field" >
             <label htmlFor="valorcm" class="block">Estacionamento</label>
-            <p-inputNumber formControlName="parkingPrice" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>                      
+            <p-inputNumber (onInput)="generateBudget()" formControlName="parkingPrice" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>                      
           </div>
 
           <div class="field" >
             <label htmlFor="valorcm" class="block">Taxa de crédito</label>
-            <p-inputNumber formControlName="creditTax" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>                      
+            <p-inputNumber (onInput)="generateBudget()" formControlName="creditTax" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>                      
           </div>
         </form>
       </p-tabPanel>

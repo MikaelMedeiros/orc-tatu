@@ -11,6 +11,7 @@ export class AppComponent implements OnInit{
   title = 'orc-tatu';
   generatedBudget = '';
   netValue = 0;
+  parkingPrice: number | null | undefined = 0;
   
 
   constructor(
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit{
   details: any[] = [];
   bodyLocal: any[] = [];
   pixValue = 0;
+  tattooValue = 0;
   creditValue = 0;
   
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class AppComponent implements OnInit{
     client: [''],    
     draw: [''],
     valorcm: [22.50, Validators.required],
-    cm: [0, Validators.required],
+    cm: [1, Validators.required],
     bodyLocal: [''],
     category:  [[''], Validators.required],
     details: [['']]
@@ -81,18 +83,19 @@ export class AppComponent implements OnInit{
   })
 
   generateBudget() {
-    this.calculatePixValue();    
+    this.calculateTatooValue();    
     this.calculateCreditValue(); 
     this.addParkingPrice();
     this.calculateNetValue();
     this.generateTextBudget();
   }
 
-  calculatePixValue() {
+  calculateTatooValue() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.budgetForm.get('valorcm')?.value;
     if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {      
-      this.pixValue = (valorcm * cm);      
+      this.tattooValue = (valorcm * cm); 
+      this.pixValue = this.tattooValue;     
     }
   }
 
@@ -106,19 +109,19 @@ export class AppComponent implements OnInit{
   }
 
   addParkingPrice() {
-    let parkingPrice = this.configForm.get('parkingPrice')?.value;
-    if(parkingPrice) {
-      this.pixValue = this.pixValue + parkingPrice;
-      this.creditValue = this.creditValue + parkingPrice;
+    this.parkingPrice = this.configForm.get('parkingPrice')?.value;
+    if(this.parkingPrice) {
+      this.pixValue = this.pixValue + this.parkingPrice;
+      this.creditValue = this.creditValue + this.parkingPrice;
     } 
   }
 
   calculateNetValue() {
-    let tax = this.configForm.get('percentageTax')?.value;
+    let tax = this.configForm.get('percentageTax')?.value;    
     if (tax) {
-      this.netValue = this.pixValue - (this.pixValue * tax / 100) 
+      this.netValue = this.tattooValue - (this.tattooValue * tax / 100) 
     } else {
-      this.netValue = this.pixValue - (this.pixValue * 0 / 100) 
+      this.netValue = this.tattooValue - (this.tattooValue * 0 / 100) 
     }
   }
 
@@ -167,7 +170,8 @@ export class AppComponent implements OnInit{
     return "";
   }
 
-  copyText() {    
+  copyText() {  
+    this.generateBudget();
     this.clipboard.copy(this.generatedBudget);
   }
 
