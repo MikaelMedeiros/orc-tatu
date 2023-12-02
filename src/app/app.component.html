@@ -5,16 +5,10 @@
         <ng-template pTemplate="header">
           <i class="pi pi-calculator"></i>
         </ng-template>
-        <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">
-          <div class="field" >
-            <label htmlFor="client" class="block">Cliente</label>
-            <input type="text" id="client" pInputText formControlName="client"/>
-            <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
-          </div>
-    
+        <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">          
           <div class="field" >
             <label htmlFor="valorcm" class="block">Valor do cm</label>
-            <p-inputNumber formControlName="valorcm" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR"> </p-inputNumber>          
+            <p-inputNumber formControlName="valorcm" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>          
             <small class="p-error block" *ngIf="budgetForm.get('valorcm')?.invalid && budgetForm.get('valorcm')?.dirty"> valor obrigatório</small>
           </div>
     
@@ -23,29 +17,35 @@
             <p-inputNumber formControlName="cm" suffix="cm" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [showButtons]="true" inputId="minmax-buttons" [min]="1"> </p-inputNumber>          
             <small class="p-error block" *ngIf="budgetForm.get('cm')?.invalid && budgetForm.get('cm')?.dirty"> tamanho da tatuagem obrigatória</small>
           </div>
+
+          <div class="field">
+            <label htmlFor="category" class="block">Categoria</label>        
+            <p-selectButton [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+            <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
+          </div>
+          
+          <div class="field" >
+            <label htmlFor="details" class="block">Detalhes</label>        
+            <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+          </div>
+
+          <div class="field" >
+            <label htmlFor="client" class="block">Nome do cliente</label>
+            <input type="text" id="client" pInputText formControlName="client"/>
+            <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
+          </div>
     
           <div class="field" >
             <label htmlFor="draw" class="block">Desenho</label>
             <input type="text" pInputText formControlName="draw"/>
             <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
           </div>
-    
-          <div class="field">
-            <label htmlFor="category" class="block">Categoria</label>        
-            <p-selectButton [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
-            <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
-          </div>
-    
+
           <div class="field" >
             <label htmlFor="bodyLocal" class="block">Local no corpo</label>
             <input type="text" pInputText formControlName="bodyLocal"/>
             <small class="p-error block" *ngIf="budgetForm.get('bodyLocal')?.invalid && budgetForm.get('bodyLocal')?.dirty"> Local do corpo obrigatória</small>
           </div>
-          
-          <div class="field" >
-            <label htmlFor="details" class="block">Detalhes</label>        
-            <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
-          </div>   
     
           <div class="formgroup-inline">
             <div class="field">
