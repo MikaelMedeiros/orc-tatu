@@ -11,6 +11,10 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { AccordionModule } from 'primeng/accordion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { DialogModule } from 'primeng/dialog';
 
 describe('AppComponent', () => {
 
@@ -21,6 +25,11 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
     declarations: [AppComponent],
     imports: [ InputTextModule,
+      BrowserModule,
+      BrowserAnimationsModule,
+      ReactiveFormsModule,
+      FormsModule,
+      InputTextModule,
       InputNumberModule,
       SelectButtonModule,
       CardModule,
@@ -28,8 +37,8 @@ describe('AppComponent', () => {
       TabViewModule,
       DragDropModule,
       InputTextareaModule,
-      ReactiveFormsModule,
-      FormsModule
+      AccordionModule,
+      DialogModule
     ]})
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;   

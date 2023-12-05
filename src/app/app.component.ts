@@ -12,6 +12,8 @@ export class AppComponent implements OnInit{
   generatedBudget = '';
   netValue = 0;
   parkingPrice: number | null | undefined = 0;
+  hintVisible: boolean = false;
+  studioPercent = 0;
   
 
   constructor(
@@ -79,18 +81,20 @@ export class AppComponent implements OnInit{
   configForm = this.fb.group({
     percentageTax: [30],
     parkingPrice: [10],
-    creditTax: [20]
+    creditTax: [20],
+    materials: [0]
   })
 
   generateBudget() {
-    this.calculateTatooValue();    
+    this.calculateTatooValueAndPix();    
     this.calculateCreditValue(); 
-    this.addParkingPrice();
+    this.addParkingPriceToPixAndCredit();
+    this.addMaterialValueToPixAndCredit();
     this.calculateNetValue();
     this.generateTextBudget();
   }
 
-  calculateTatooValue() {
+  calculateTatooValueAndPix() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.budgetForm.get('valorcm')?.value;
     if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {      
@@ -108,7 +112,7 @@ export class AppComponent implements OnInit{
     } 
   }
 
-  addParkingPrice() {
+  addParkingPriceToPixAndCredit() {
     this.parkingPrice = this.configForm.get('parkingPrice')?.value;
     if(this.parkingPrice) {
       this.pixValue = this.pixValue + this.parkingPrice;
@@ -116,14 +120,24 @@ export class AppComponent implements OnInit{
     } 
   }
 
-  calculateNetValue() {
+  addMaterialValueToPixAndCredit() {
+    let materialValue = this.configForm.get('materials')?.value;    
+    if (materialValue) {      
+      this.pixValue = this.pixValue + materialValue;
+      this.creditValue = this.creditValue + materialValue; 
+    }
+  }
+
+  calculateNetValue() {    
     let tax = this.configForm.get('percentageTax')?.value;    
     if (tax) {
+      this.studioPercent = this.tattooValue * tax / 100;
       this.netValue = this.tattooValue - (this.tattooValue * tax / 100) 
     } else {
       this.netValue = this.tattooValue - (this.tattooValue * 0 / 100) 
-    }
+    }    
   }
+
 
   generateTextBudget() {
     this.generatedBudget = '';
@@ -177,9 +191,15 @@ export class AppComponent implements OnInit{
 
   resetForm() {
     this.budgetForm.reset();
-    this.budgetForm.get('cm')?.setValue(0);
+    this.budgetForm.get('cm')?.setValue(1);
     this.budgetForm.get('valorcm')?.setValue(22.50);    
     this.budgetForm.get('category')?.setValue(['']);    
-    this.generatedBudget = ''
+    this.generatedBudget = '';
+    this.studioPercent = 0;
+    this.netValue = 0;
+  }
+
+  showHint(event: any) {    
+    this.hintVisible = !this.hintVisible;
   }
 }

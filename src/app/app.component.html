@@ -19,44 +19,49 @@
             <small class="p-error block" *ngIf="budgetForm.get('cm')?.invalid && budgetForm.get('cm')?.dirty"> tamanho da tatuagem obrigatória</small>
           </div>
 
-          <div class="field">
-            <label htmlFor="category" class="block">Categoria</label>        
-            <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
-              <div style="width: 600px;">
-                <p-selectButton  [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
-                <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
+          <p-accordion>
+            <p-accordionTab header="Informações da tattoo">
+              <div class="field">
+                <label htmlFor="category" class="block">Categoria</label>        
+                <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
+                  <div style="width: 600px;">
+                    <p-selectButton  [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                    <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+              
+              <div class="field" >
+                <label htmlFor="details" class="block">Detalhes</label>        
+                <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
+                  <div style="width: 600px;">
+                    <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="field" >
+                <label htmlFor="client" class="block">Nome do cliente</label>
+                <input type="text" id="client" pInputText formControlName="client"/>
+                <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
+              </div>
+        
+              <div class="field" >
+                <label htmlFor="draw" class="block">Desenho</label>
+                <input type="text" pInputText formControlName="draw"/>
+                <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
+              </div>
+    
+              <div class="field" >
+                <label htmlFor="bodyLocal" class="block">Local no corpo</label>
+                <input type="text" pInputText formControlName="bodyLocal"/>
+                <small class="p-error block" *ngIf="budgetForm.get('bodyLocal')?.invalid && budgetForm.get('bodyLocal')?.dirty"> Local do corpo obrigatória</small>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
           
-          <div class="field" >
-            <label htmlFor="details" class="block">Detalhes</label>        
-            <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
-              <div style="width: 600px;">
-                <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
-              </div>
-            </div>
-          </div>
-
-          <div class="field" >
-            <label htmlFor="client" class="block">Nome do cliente</label>
-            <input type="text" id="client" pInputText formControlName="client"/>
-            <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
-          </div>
     
-          <div class="field" >
-            <label htmlFor="draw" class="block">Desenho</label>
-            <input type="text" pInputText formControlName="draw"/>
-            <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
-          </div>
-
-          <div class="field" >
-            <label htmlFor="bodyLocal" class="block">Local no corpo</label>
-            <input type="text" pInputText formControlName="bodyLocal"/>
-            <small class="p-error block" *ngIf="budgetForm.get('bodyLocal')?.invalid && budgetForm.get('bodyLocal')?.dirty"> Local do corpo obrigatória</small>
-          </div>
-    
-          <div class="formgroup-inline">
+          <div class="formgroup-inline mt-3">
             <div class="field">
               <p-button type="submit" accessKey="enter" label="Orçar" [disabled]="budgetForm.invalid"></p-button>
             </div>
@@ -78,22 +83,52 @@
           </div>
 
           <div class="field" >
-            <label htmlFor="valorcm" class="block">Estacionamento</label>
-            <p-inputNumber (onInput)="generateBudget()" formControlName="parkingPrice" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>                      
+            <div class="formgroup-inline">
+              <label htmlFor="valorcm" class="block">Transporte</label>
+              <i class="pi pi-info-circle" (click)="showHint($event)" style="font-size: 0.8rem; color: #b19df7"></i>   
+            </div>
+            <p-inputNumber (onInput)="generateBudget()" formControlName="parkingPrice" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="0" [step]="0.5"> </p-inputNumber>                      
           </div>
 
           <div class="field" >
-            <label htmlFor="valorcm" class="block">Taxa de crédito</label>
-            <p-inputNumber (onInput)="generateBudget()" formControlName="creditTax" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>                      
+            <label htmlFor="valorcm" class="block">Acrécimo do cartão de crédito (R$)</label>
+            <p-inputNumber (onInput)="generateBudget()" formControlName="creditTax" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="0" [step]="0.5"> </p-inputNumber>
+          </div>
+
+          <div class="field" >
+            <label htmlFor="valorcm" class="block">Materiais (R$)</label>      
+            <p-inputNumber (onInput)="generateBudget()" formControlName="materials" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="0" [step]="0.5"> </p-inputNumber>                                                 
           </div>
         </form>
       </p-tabPanel>
   </p-tabView>
    
     <div *ngIf="(generatedBudget !== '')" class="flex flex-wrap">  
-      <div>
-        <label class="" htmlFor="netValue" class="block">A receber: R${{netValue}}</label>          
-      </div>    
+      <div class="formgroup-inline">
+        <div class="pr-2">
+          <i class="pi pi-wallet" style="font-size: 1rem; color: #93deac"></i>                  
+        </div>
+        <label style="color: #93deac" htmlFor="netValue" class="block"> R${{netValue}}</label>          
+      </div> 
+
+      <div class="pl-3">
+        <div class="formgroup-inline">
+          <div class="pr-2">
+            <i class="pi pi-percentage" style="font-size: 1rem; color: #de9393"></i>                  
+          </div>
+          <label style="color: #de9393" htmlFor="netValue" class="block"> R${{studioPercent}}</label>          
+        </div> 
+      </div>
+
+      <div class="pl-3">
+        <div class="formgroup-inline">
+          <div class="pr-2">
+            <i class="pi pi-palette" style="font-size: 1rem; color: #93bade"></i>                  
+          </div>          
+          <label style="color: #93bade" htmlFor="netValue" class="block"> R${{netValue + studioPercent}}</label>          
+        </div> 
+      </div>      
+
       <div class="mt-3">
         <textarea id="generatedBudget" [(ngModel)]="generatedBudget" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>      
       </div>
@@ -102,5 +137,12 @@
     <div class="mt-3">
       <p-button icon="pi pi-copy" *ngIf="generatedBudget" type="button" severity="success" title="Copiar texto" (click)="copyText()"></p-button>
     </div>
+
+    <p-dialog header="Dica" [modal]="true" [closable]="true" position="bottom" [(visible)]="hintVisible" [style]="{width: '90vw'}">
+      <p>
+          Informe aqui os custos com metrô, gasolina e/ou estacionamento.
+      </p>
+    </p-dialog>
+
   </p-card>
 </div>
