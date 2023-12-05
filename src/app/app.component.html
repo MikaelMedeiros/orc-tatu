@@ -8,53 +8,53 @@
         </ng-template>
         <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">          
           <div class="field" >
-            <label htmlFor="valorcm" class="block">Valor do cm</label>
-            <p-inputNumber (onInput)="generateBudget()" formControlName="valorcm" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="1" [step]="0.5"> </p-inputNumber>          
+            <label for="valorcm" class="block">Valor do cm</label>
+            <p-inputNumber inputId="valorcm" (onInput)="generateBudget()" formControlName="valorcm" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="1" [step]="0.5"> </p-inputNumber>          
             <small class="p-error block" *ngIf="budgetForm.get('valorcm')?.invalid && budgetForm.get('valorcm')?.dirty"> valor obrigatório</small>
           </div>
     
           <div class="field" >
-            <label htmlFor="cm" class="block">Tamanho (cm)</label>
-            <p-inputNumber (onInput)="generateBudget()" formControlName="cm" suffix="cm" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [showButtons]="true" inputId="minmax-buttons" [min]="1"> </p-inputNumber>          
+            <label for="cm" class="block">Tamanho (cm)</label>
+            <p-inputNumber inputId="cm" (onInput)="generateBudget()" formControlName="cm" suffix="cm" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [showButtons]="true" [min]="1"> </p-inputNumber>          
             <small class="p-error block" *ngIf="budgetForm.get('cm')?.invalid && budgetForm.get('cm')?.dirty"> tamanho da tatuagem obrigatória</small>
           </div>
 
           <p-accordion>
             <p-accordionTab header="Informações da tattoo">
               <div class="field">
-                <label htmlFor="category" class="block">Categoria</label>        
+                <label class="block">Categoria</label>        
                 <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                   <div style="width: 600px;">
-                    <p-selectButton  [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                    <p-selectButton id="category"  [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
                     <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
                   </div>
                 </div>
               </div>
               
               <div class="field" >
-                <label htmlFor="details" class="block">Detalhes</label>        
+                <label class="block">Detalhes</label>        
                 <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                   <div style="width: 600px;">
-                    <p-selectButton [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                    <p-selectButton id="details" [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
                   </div>
                 </div>
               </div>
-              
+
               <div class="field" >
-                <label htmlFor="client" class="block">Nome do cliente</label>
+                <label for="client" class="block">Nome do cliente</label>
                 <input type="text" id="client" pInputText formControlName="client"/>
                 <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
               </div>
         
               <div class="field" >
-                <label htmlFor="draw" class="block">Desenho</label>
-                <input type="text" pInputText formControlName="draw"/>
+                <label for="draw" class="block">Desenho</label>
+                <input type="text" id="draw" pInputText formControlName="draw"/>
                 <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
               </div>
     
               <div class="field" >
-                <label htmlFor="bodyLocal" class="block">Local no corpo</label>
-                <input type="text" pInputText formControlName="bodyLocal"/>
+                <label for="bodyLocal" class="block">Local no corpo</label>
+                <input type="text" id="bodyLocal" pInputText formControlName="bodyLocal"/>
                 <small class="p-error block" *ngIf="budgetForm.get('bodyLocal')?.invalid && budgetForm.get('bodyLocal')?.dirty"> Local do corpo obrigatória</small>
               </div>
             </p-accordionTab>
@@ -78,26 +78,26 @@
 
         <form [formGroup]="configForm" (ngSubmit)="generateBudget()">
           <div class="field" >
-            <label htmlFor="percentageTax" class="block">Porcentagem do studio (-)</label>            
-            <p-inputNumber (onInput)="generateBudget()" id="percentageTax" inputId="integeronly" suffix="%" formControlName="percentageTax" [showButtons]="true"> </p-inputNumber> 
+            <label for="percentageTax" class="block">Porcentagem do studio (-)</label>            
+            <p-inputNumber (onInput)="generateBudget()" inputId="percentageTax" suffix="%" formControlName="percentageTax" [showButtons]="true"> </p-inputNumber> 
           </div>
 
           <div class="field" >
             <div class="formgroup-inline">
-              <label htmlFor="valorcm" class="block">Transporte</label>
+              <label for="parkingPrice" class="block">Transporte</label>
               <i class="pi pi-info-circle" (click)="showHint($event)" style="font-size: 0.8rem; color: #b19df7"></i>   
             </div>
-            <p-inputNumber (onInput)="generateBudget()" formControlName="parkingPrice" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="0" [step]="0.5"> </p-inputNumber>                      
+            <p-inputNumber (onInput)="generateBudget()" formControlName="parkingPrice" inputId="parkingPrice" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="0" [step]="0.5"> </p-inputNumber>                      
           </div>
 
           <div class="field" >
-            <label htmlFor="valorcm" class="block">Acrécimo do cartão de crédito (R$)</label>
-            <p-inputNumber (onInput)="generateBudget()" formControlName="creditTax" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="0" [step]="0.5"> </p-inputNumber>
+            <label for="creditTax" class="block">Acrécimo do cartão de crédito (R$)</label>
+            <p-inputNumber (onInput)="generateBudget()" formControlName="creditTax" inputId="creditTax" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="0" [step]="0.5"> </p-inputNumber>
           </div>
 
           <div class="field" >
-            <label htmlFor="valorcm" class="block">Materiais (R$)</label>      
-            <p-inputNumber (onInput)="generateBudget()" formControlName="materials" inputId="currency-us" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" inputId="minmax-buttons" [min]="0" [step]="0.5"> </p-inputNumber>                                                 
+            <label for="materials" class="block">Materiais (R$)</label>      
+            <p-inputNumber (onInput)="generateBudget()" formControlName="materials" inputId="materials" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="0" [step]="0.5"> </p-inputNumber>                                                 
           </div>
         </form>
       </p-tabPanel>
@@ -108,7 +108,7 @@
         <div class="pr-2">
           <i class="pi pi-wallet" style="font-size: 1rem; color: #93deac"></i>                  
         </div>
-        <label style="color: #93deac" htmlFor="netValue" class="block"> R${{netValue}}</label>          
+        <label style="color: #93deac" class="block"> R${{netValue}}</label>          
       </div> 
 
       <div class="pl-3">
@@ -116,7 +116,7 @@
           <div class="pr-2">
             <i class="pi pi-percentage" style="font-size: 1rem; color: #de9393"></i>                  
           </div>
-          <label style="color: #de9393" htmlFor="netValue" class="block"> R${{studioPercent}}</label>          
+          <label style="color: #de9393" class="block"> R${{studioPercent}}</label>          
         </div> 
       </div>
 
@@ -125,7 +125,7 @@
           <div class="pr-2">
             <i class="pi pi-palette" style="font-size: 1rem; color: #93bade"></i>                  
           </div>          
-          <label style="color: #93bade" htmlFor="netValue" class="block"> R${{netValue + studioPercent}}</label>          
+          <label style="color: #93bade" class="block"> R${{netValue + studioPercent}}</label>          
         </div> 
       </div>      
 
