@@ -10,3 +10,7 @@
 .p-card {
     padding: 0 !important;
 }
+
+.filter-violet{
+    filter: invert(73%) sepia(74%) saturate(2955%) hue-rotate(206deg) brightness(103%) contrast(94%);
+}

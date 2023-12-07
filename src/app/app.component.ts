@@ -46,21 +46,22 @@ export class AppComponent implements OnInit{
     ];
 
     this.bodyLocal = [
-      { name: 'Rosto', category: 'category', addtion: '1'},
-      { name: 'Pescoço', category: 'category 2', addtion: '2'},
-      { name: 'Ombro', category: 'category 2', addtion: '2'},
-      { name: 'Peito', category: 'category 2', addtion: '2'},
-      { name: 'Barriga', category: 'category 2', addtion: '2'},
-      { name: 'Braço', category: 'category 2', addtion: '2'},
-      { name: 'Antebraço', category: 'category 2', addtion: '2'},
-      { name: 'Mão', category: 'category 2', addtion: '2'},
-      { name: 'Costas', category: 'category 2', addtion: '2'},
-      { name: 'Costelas', category: 'category 2', addtion: '2'},
-      { name: 'Lombar', category: 'category 2', addtion: '2'},
-      { name: 'Glúteos', category: 'category 2', addtion: '2'},
-      { name: 'Perna', category: 'category 2', addtion: '2'},
-      { name: 'Canela', category: 'category 2', addtion: '2'},
-      { name: 'Pé', category: 'category 2', addtion: '2'}
+      { name: 'Braço', value:'Braço', category: 'category 2', addtion: '2'},
+      { name: 'Ombro', value:'Ombro', category: 'category 2', addtion: '2'},
+      { name: 'Mão', value:'Mão', category: 'category 2', addtion: '2'},
+      { name: 'Perna', value:'Perna', category: 'category 2', addtion: '2'},
+      { name: 'Virilha', value:'Virilha', category: 'category 2', addtion: '2'},
+      // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
+      // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
+      // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
+      // { name: 'Peito', value:'Peito', category: 'category 2', addtion: '2'},
+      // { name: 'Barriga', value:'Barriga', category: 'category 2', addtion: '2'},
+      // { name: 'Costas', value:'Costas', category: 'category 2', addtion: '2'},
+      // { name: 'Costelas', value:'Costelas', category: 'category 2', addtion: '2'},
+      // { name: 'Lombar', value:'Lombar', category: 'category 2', addtion: '2'},
+      // { name: 'Glúteos', value:'Glúteos', category: 'category 2', addtion: '2'},
+      // { name: 'Canela', value:'Canela', category: 'category 2', addtion: '2'},
+      // { name: 'Pé', value:'Pé', category: 'category 2', addtion: '2'}
     ]
   }
 ;
@@ -83,6 +84,14 @@ export class AppComponent implements OnInit{
     parkingPrice: [10],
     creditTax: [20],
     materials: [0]
+  })
+
+  bodyPriceForm = this.fb.group({
+    braco: [0],
+    perna: [0],
+    virilha: [0],
+    mao: [0],
+    pescoco: [0]
   })
 
   generateBudget() {
@@ -182,6 +191,10 @@ export class AppComponent implements OnInit{
       }      
     } 
     return "";
+  }
+
+  handleSlide(value: any, fieldForm: string) {
+    this.bodyPriceForm.get(fieldForm)?.setValue(value) ;
   }
 
   copyText() {  

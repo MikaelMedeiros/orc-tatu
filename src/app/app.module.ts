@@ -13,6 +13,7 @@ import { DragDropModule } from 'primeng/dragdrop';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AccordionModule } from 'primeng/accordion';
 import { DialogModule } from 'primeng/dialog';
+import { SliderModule } from 'primeng/slider';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DialogModule } from 'primeng/dialog';
     DragDropModule,
     InputTextareaModule,
     AccordionModule,
-    DialogModule
+    DialogModule,
+    SliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

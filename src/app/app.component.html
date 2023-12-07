@@ -1,3 +1,4 @@
+
 <div class="center-card">  
   <p-card header="Orc Tatu" [style]="{width: '360px'}">
     <p-tabView styleClass="tabview-custom">
@@ -57,6 +58,15 @@
                 <input type="text" id="bodyLocal" pInputText formControlName="bodyLocal"/>
                 <small class="p-error block" *ngIf="budgetForm.get('bodyLocal')?.invalid && budgetForm.get('bodyLocal')?.dirty"> Local do corpo obrigatória</small>
               </div>
+
+              <div class="field" >
+                <label for="bodyLocal" class="block">Local no corpo</label>
+                <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
+                  <div style="width: 600px;">
+                    <p-selectButton id="bodyLocal" [options]="bodyLocal" formControlName="bodyLocal" optionLabel="name" optionValue="value"></p-selectButton>
+                  </div>
+                </div>
+              </div>
             </p-accordionTab>
           </p-accordion>
           
@@ -99,6 +109,46 @@
             <label for="materials" class="block">Materiais (R$)</label>      
             <p-inputNumber (onInput)="generateBudget()" formControlName="materials" inputId="materials" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="0" [step]="0.5"> </p-inputNumber>                                                 
           </div>
+        </form>
+      </p-tabPanel>
+      <!-- Valores do corpo -->
+      <p-tabPanel>
+        <ng-template pTemplate="header">   
+          <i class="pi pi-dollar"></i>        
+          <i class="pi pi-user-edit"></i>        
+        </ng-template>   
+
+        <form [formGroup]="bodyPriceForm">          
+          <div class="field" >
+            <label for="virilha" class="block">Virilha</label>                 
+            <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="virilha" inputId="virilha" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>                                                 
+            <p-slider formControlName="virilha" (onSlideEnd)="handleSlide($event.value, 'virilha')"  class="w-full"></p-slider>  
+          </div>
+
+          <div class="field" >
+            <label for="braco" class="block">Braco</label>                 
+            <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="braco" inputId="braco" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>                                                 
+            <p-slider formControlName="braco" (onSlideEnd)="handleSlide($event.value, 'braco')"  class="w-full"></p-slider>  
+          </div>
+
+          <div class="field" >
+            <label for="perna" class="block">Perna</label>                 
+            <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="perna" inputId="perna" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>                                                 
+            <p-slider formControlName="perna" (onSlideEnd)="handleSlide($event.value, 'perna')"  class="w-full"></p-slider>  
+          </div>
+
+          <div class="field" >
+            <label for="mao" class="block">Mão</label>                 
+            <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="mao" inputId="mao" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>                                                 
+            <p-slider formControlName="mao" (onSlideEnd)="handleSlide($event.value, 'mao')"  class="w-full"></p-slider>  
+          </div>
+
+          <div class="field" >
+            <label for="pescoco" class="block">Pescoço</label>                 
+            <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="pescoco" inputId="pescoco" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>                                                 
+            <p-slider formControlName="pescoco" (onSlideEnd)="handleSlide($event.value, 'pescoco')"  class="w-full"></p-slider>  
+          </div>
+
         </form>
       </p-tabPanel>
   </p-tabView>

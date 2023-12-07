@@ -15,6 +15,8 @@ import { AccordionModule } from 'primeng/accordion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { DialogModule } from 'primeng/dialog';
+import { KnobModule } from 'primeng/knob';
+import { SliderModule } from 'primeng/slider';
 
 describe('AppComponent', () => {
 
@@ -38,7 +40,9 @@ describe('AppComponent', () => {
       DragDropModule,
       InputTextareaModule,
       AccordionModule,
-      DialogModule
+      DialogModule,
+      KnobModule,
+      SliderModule
     ]})
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;   
