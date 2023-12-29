@@ -51,7 +51,7 @@ describe('AppComponent', () => {
       cm: 10,
       valorcm: 5,
       client: 'John Doe',
-      category: ['Categoria'],
+      style: ['Categoria'],
       draw: 'Desenho',
       bodyLocal: 'Local do corpo',
       details: ['Detalhes']

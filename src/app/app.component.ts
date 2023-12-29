@@ -21,7 +21,7 @@ export class AppComponent implements OnInit{
     private clipboard: Clipboard   
   ) {}
 
-  categories: any[] = [];
+  styles: any[] = [];
   details: any[] = [];
   bodyLocal: any[] = [];
   pixValue = 0;
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit{
   creditValue = 0;
   
   ngOnInit(): void {
-    this.categories = [
+    this.styles = [
       { name: 'Fineline', value: 'fineline' },
       { name: 'Bold Line', value: 'bold line' },
       { name: 'Realismo', value: 'realismo' },
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit{
     valorcm: [22.50, Validators.required],
     cm: [1, Validators.required],
     bodyLocal: [''],
-    category:  [[''], Validators.required],
+    style:  [[''], Validators.required],
     details: [['']]
   }) 
 
@@ -156,8 +156,8 @@ export class AppComponent implements OnInit{
     //default
     this.generatedBudget = this.generatedBudget.concat(`sua tattoo`);
 
-    if(this.budgetForm.get('category')?.value) {
-      this.generatedBudget = this.generatedBudget.concat(` ${this.getTextFormated(this.budgetForm.get('category')?.value)}`);
+    if(this.budgetForm.get('style')?.value) {
+      this.generatedBudget = this.generatedBudget.concat(` ${this.getTextFormated(this.budgetForm.get('style')?.value)}`);
     }
 
     if(this.budgetForm.get('draw')?.value) {
@@ -206,7 +206,7 @@ export class AppComponent implements OnInit{
     this.budgetForm.reset();
     this.budgetForm.get('cm')?.setValue(1);
     this.budgetForm.get('valorcm')?.setValue(22.50);    
-    this.budgetForm.get('category')?.setValue(['']);    
+    this.budgetForm.get('style')?.setValue(['']);    
     this.generatedBudget = '';
     this.studioPercent = 0;
     this.netValue = 0;

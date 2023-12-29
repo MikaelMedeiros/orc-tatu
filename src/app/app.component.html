@@ -23,11 +23,11 @@
           <p-accordion>
             <p-accordionTab header="Informações da tattoo">
               <div class="field">
-                <label class="block">Categoria</label>        
+                <label class="block">Estilo</label>        
                 <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                   <div style="width: 600px;">
-                    <p-selectButton id="category"  [options]="categories" formControlName="category" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
-                    <small class="p-error block" *ngIf="budgetForm.get('category')?.invalid && budgetForm.get('category')?.dirty"> Categoria obrigatória</small>
+                    <p-selectButton id="style"  [options]="styles" formControlName="style" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                    <small class="p-error block" *ngIf="budgetForm.get('style')?.invalid && budgetForm.get('style')?.dirty"> Estilo obrigatório</small>
                   </div>
                 </div>
               </div>
