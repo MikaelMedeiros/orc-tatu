@@ -14,10 +14,16 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AccordionModule } from 'primeng/accordion';
 import { DialogModule } from 'primeng/dialog';
 import { SliderModule } from 'primeng/slider';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './login/service/auth.service';
+import { AppModuleRouting } from './app.module.routing';
+import { CalculadoraComponent } from './calculadora/calculadora.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    CalculadoraComponent    
   ],
   imports: [
     BrowserModule,
@@ -34,9 +40,10 @@ import { SliderModule } from 'primeng/slider';
     InputTextareaModule,
     AccordionModule,
     DialogModule,
-    SliderModule
+    SliderModule,
+    AppModuleRouting
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
