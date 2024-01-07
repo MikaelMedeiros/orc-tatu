@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './login/service/auth.service';
 import { AppModuleRouting } from './app.module.routing';
 import { CalculadoraComponent } from './calculadora/calculadora.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CalculadoraComponent } from './calculadora/calculadora.component';
     AccordionModule,
     DialogModule,
     SliderModule,
-    AppModuleRouting
+    AppModuleRouting,
+    HttpClientModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http'
 import { Usuario } from '../usuario';
 import { Router } from '@angular/router';
+
+import { Observable, map } from 'rxjs';
+import { Token } from '../model/token';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +17,28 @@ export class AuthService {
     new Usuario()
   ]
 
+  token: string = "";
+
   private usuarioAutenticado = false;
 
-  constructor(private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  fazerLogin(usuario: Usuario) {
+  baseUrl: string = 'http://localhost:8080/auth' ;
 
-    if(this.existe(usuario)) {
-      this.usuarioAutenticado = true;
-      this.router.navigate(['/']);
-    } else {
-      this.usuarioAutenticado = false;
-    }
+  fazerLogin(): any {
+    return this.http.get(`${this.baseUrl}/url`);
+  }
+
+  getToken(code: string): Observable<boolean> {
+    return this.http.get<Token>("http://localhost:8080/auth/callback?code=" + code, {observe: "response"})
+      .pipe(map((response: HttpResponse<Token>) => {
+        if (response.status === 200 && response.body !== null) {
+          this.token = response.body.token;
+          return true;
+        } else {
+          return false;
+        }
+      }));
   }
 
   existe(usuario: Usuario): boolean {
