@@ -14,17 +14,20 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AccordionModule } from 'primeng/accordion';
 import { DialogModule } from 'primeng/dialog';
 import { SliderModule } from 'primeng/slider';
+import { TableModule } from 'primeng/table';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './login/service/auth.service';
 import { AppModuleRouting } from './app.module.routing';
 import { CalculadoraComponent } from './calculadora/calculadora.component';
 import { HttpClientModule } from '@angular/common/http';
+import { HistoricComponent } from './historic/historic.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CalculadoraComponent    
+    CalculadoraComponent,
+    HistoricComponent    
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import { HttpClientModule } from '@angular/common/http';
     AccordionModule,
     DialogModule,
     SliderModule,
+    TableModule,
     AppModuleRouting,
     HttpClientModule
   ],

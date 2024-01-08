@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { HistoricService } from '../historic/service/historic.service';
+import { BudgetHistory } from '../historic/model/budget-history';
+import { AuthService } from '../login/service/auth.service';
 
 @Component({
   selector: 'app-calculadora',
@@ -17,7 +20,9 @@ export class CalculadoraComponent {
 
   constructor(
     private fb: FormBuilder,
-    private clipboard: Clipboard   
+    private clipboard: Clipboard,
+    private historicService: HistoricService, 
+    private authService: AuthService  
   ) {}
 
   styles: any[] = [];
@@ -199,6 +204,22 @@ export class CalculadoraComponent {
   copyText() {  
     this.generateBudget();
     this.clipboard.copy(this.generatedBudget);
+    this.saveBudget();
+  }
+
+  saveBudget() {
+    const budgetRaw = this.budgetForm.getRawValue();
+    
+    let budget = new BudgetHistory(
+      budgetRaw.client,
+      this.generatedBudget,
+      this.netValue,
+      this.studioPercent,
+      this.netValue + this.studioPercent
+    )    
+
+    this.historicService.saveOnBudgetHistory(budget).subscribe((data: any) => console.log('Deu bom!', data))
+    
   }
 
   resetForm() {

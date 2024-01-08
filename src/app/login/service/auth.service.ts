@@ -4,7 +4,7 @@ import { Usuario } from '../usuario';
 import { Router } from '@angular/router';
 
 import { Observable, map } from 'rxjs';
-import { Token } from '../model/token';
+import { Token } from '../model/token'
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthService {
     new Usuario()
   ]
 
-  token: string = "";
+  public token: string = "";
 
   private usuarioAutenticado = false;
 
