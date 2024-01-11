@@ -21,13 +21,18 @@ import { AppModuleRouting } from './app.module.routing';
 import { CalculadoraComponent } from './calculadora/calculadora.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HistoricComponent } from './historic/historic.component';
+import { HomeComponent } from './principal/home/home.component';
+import { AuthenticationComponent } from './principal/authentication/authentication.component';
+import { RouterOutlet } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CalculadoraComponent,
-    HistoricComponent    
+    HistoricComponent,
+    HomeComponent,
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +52,7 @@ import { HistoricComponent } from './historic/historic.component';
     SliderModule,
     TableModule,
     AppModuleRouting,
-    HttpClientModule
+    HttpClientModule, RouterOutlet
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

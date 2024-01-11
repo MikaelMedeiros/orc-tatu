@@ -21,8 +21,7 @@ export class CalculadoraComponent {
   constructor(
     private fb: FormBuilder,
     private clipboard: Clipboard,
-    private historicService: HistoricService, 
-    private authService: AuthService  
+    private historicService: HistoricService 
   ) {}
 
   styles: any[] = [];

@@ -16,10 +16,10 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.fazerLogin();
+    this.retrieveGoogleLoginUrl();
   }
 
-  fazerLogin() {    
-    this.authService.fazerLogin().subscribe((data: any) => this.url = data.authURL);    
+  retrieveGoogleLoginUrl() {    
+    this.authService.retrieveGoogleLoginUrl().subscribe((data: any) => this.url = data.authURL);    
   }
 }

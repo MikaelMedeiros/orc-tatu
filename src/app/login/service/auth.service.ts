@@ -25,7 +25,7 @@ export class AuthService {
 
   baseUrl: string = 'http://localhost:8080/auth' ;
 
-  fazerLogin(): any {
+  retrieveGoogleLoginUrl(): any {
     return this.http.get(`${this.baseUrl}/url`);
   }
 

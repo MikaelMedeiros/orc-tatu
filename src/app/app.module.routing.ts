@@ -3,11 +3,28 @@ import { RouterModule, Routes } from "@angular/router";
 import { LoginComponent } from "./login/login.component";
 import { CalculadoraComponent } from "./calculadora/calculadora.component";
 import { HistoricComponent } from "./historic/historic.component";
+import { HomeComponent } from "./principal/home/home.component";
+import { AuthenticationComponent } from "./principal/authentication/authentication.component";
+import { authGuard } from "./account/auth.guard";
 
 const routes: Routes = [
-    {path: '', component: CalculadoraComponent},    
-    {path: 'login', component: LoginComponent},
-    {path: 'historic', component: HistoricComponent},
+    {   
+        path: '', component: HomeComponent,
+        children: [
+            {   path: '', component: CalculadoraComponent       },
+            {   path: 'budgets', component: HistoricComponent   }
+        ],
+        canActivate: [authGuard]      
+    },    
+    {   
+
+        path: '', component: AuthenticationComponent,
+        children: [
+            {   path: '', redirectTo: 'login', pathMatch: 'full' },
+            {   path: 'login', component: LoginComponent }
+        ]
+    }
+    
 ]
 
 @NgModule({

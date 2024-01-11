@@ -7,9 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit{
-
-  componentToShow: string = "welcome";
+export class AppComponent implements OnInit{  
 
   constructor(private authService: AuthService, private route: ActivatedRoute) {}
 
@@ -19,9 +17,8 @@ export class AppComponent implements OnInit{
         if (params["code"] !== undefined) {
           this.authService.getToken(params["code"]).subscribe(result => {
             if (result === true) {
-              this.componentToShow = "protected";
-            } else {
-              this.componentToShow = "welcome";
+              console.log("setando Token...");
+              window.localStorage.setItem('token', 'meu-token');              
             }
           });
         }
