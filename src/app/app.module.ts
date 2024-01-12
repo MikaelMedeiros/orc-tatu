@@ -19,11 +19,12 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './login/service/auth.service';
 import { AppModuleRouting } from './app.module.routing';
 import { CalculadoraComponent } from './calculadora/calculadora.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { HistoricComponent } from './historic/historic.component';
 import { HomeComponent } from './principal/home/home.component';
 import { AuthenticationComponent } from './principal/authentication/authentication.component';
 import { RouterOutlet } from '@angular/router';
+import { LoggingInterceptor } from './account/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -52,9 +53,15 @@ import { RouterOutlet } from '@angular/router';
     SliderModule,
     TableModule,
     AppModuleRouting,
-    HttpClientModule, RouterOutlet
+    RouterOutlet
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
+    provideHttpClient(
+      withInterceptorsFromDi()
+    )
+  ],  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

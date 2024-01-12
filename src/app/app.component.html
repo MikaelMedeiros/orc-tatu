@@ -1,6 +1,11 @@
 <div class="center-card">  
   <p-card header="Orc Tatu" [style]="{width: '360px'}">
-
+     <div class="grid">
+        <div *ngIf="toki" class="col-4 col-offset-8">
+          <p-button icon="pi pi-sign-out" (onClick)="logout()"></p-button>
+        </div>
+     </div>
+      
       <router-outlet></router-outlet>
 
   </p-card>

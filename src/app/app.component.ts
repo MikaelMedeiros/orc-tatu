@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './login/service/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,7 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 
 export class AppComponent implements OnInit{  
 
-  constructor(private authService: AuthService, private route: ActivatedRoute) {}
+  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {}
+
+  toki: string | null = this.authService.token;
 
   ngOnInit(): void {
     this.route.queryParams
@@ -17,13 +19,20 @@ export class AppComponent implements OnInit{
         if (params["code"] !== undefined) {
           this.authService.getToken(params["code"]).subscribe(result => {
             if (result === true) {
-              console.log("setando Token...");
-              window.localStorage.setItem('token', 'meu-token');              
+              console.log("setando Token...", this.authService.token);
+              this.toki = this.authService.token;
+              window.localStorage.setItem('token', this.authService.token);              
             }
           });
         }
       }
     );
+  }
+
+  logout() {
+    localStorage.removeItem('token')
+    this.toki = null;
+    this.router.navigate(['/login'])
   }
   
 }
