@@ -5,18 +5,18 @@ import { CalculadoraComponent } from "./calculadora/calculadora.component";
 import { HistoricComponent } from "./historic/historic.component";
 import { HomeComponent } from "./principal/home/home.component";
 import { AuthenticationComponent } from "./principal/authentication/authentication.component";
-import { authGuard } from "./account/auth.guard";
+//import { authGuard } from "./account/auth.guard";
 
 const routes: Routes = [
-    {   
+    {
         path: '', component: HomeComponent,
         children: [
             {   path: '', component: CalculadoraComponent       },
             {   path: 'budgets', component: HistoricComponent   }
         ],
-        canActivate: [authGuard]      
-    },    
-    {   
+        //canActivate: [authGuard]
+    },
+    {
 
         path: '', component: AuthenticationComponent,
         children: [
@@ -24,7 +24,7 @@ const routes: Routes = [
             {   path: 'login', component: LoginComponent }
         ]
     }
-    
+
 ]
 
 @NgModule({
