@@ -11,28 +11,20 @@ export class AppComponent implements OnInit{
 
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {}
 
-  toki: string | null = this.authService.token;
-
   ngOnInit(): void {
+    window.localStorage.setItem('token', 'token-teste');    
     this.route.queryParams
       .subscribe(params => {
         if (params["code"] !== undefined) {
           this.authService.getToken(params["code"]).subscribe(result => {
             if (result === true) {
               console.log("setando Token...", this.authService.token);
-              this.toki = this.authService.token;
               window.localStorage.setItem('token', this.authService.token);              
             }
           });
         }
       }
     );
-  }
-
-  logout() {
-    localStorage.removeItem('token')
-    this.toki = null;
-    this.router.navigate(['/login'])
   }
   
 }
