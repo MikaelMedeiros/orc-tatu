@@ -7,7 +7,7 @@
       <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">        
         <div class="field" >
           <label for="client" class="block">Nome do cliente</label>
-          <input type="text" id="client" pInputText formControlName="client"/>
+          <input type="text" id="client" (onInput)="generateBudget()" pInputText formControlName="client"/>
           <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
         </div>  
   
@@ -19,7 +19,7 @@
 
         <div class="field" >
           <label for="draw" class="block">Desenho</label>
-          <input type="text" id="draw" pInputText formControlName="draw"/>
+          <input type="text" id="draw" (onInput)="generateBudget()" pInputText formControlName="draw"/>
           <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
         </div> 
 
@@ -28,7 +28,7 @@
               <label class="block">Estilo</label>        
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="style"  [options]="styles" formControlName="style" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="style"  (onChange)="generateBudget()" [options]="styles" formControlName="style" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
                   <small class="p-error block" *ngIf="budgetForm.get('style')?.invalid && budgetForm.get('style')?.dirty"> Estilo obrigatório</small>
                 </div>
               </div>
@@ -38,7 +38,7 @@
               <label class="block">Detalhes</label>        
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="details" [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="details" (onChange)="generateBudget()" [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@
               <label for="bodyLocal" class="block">Local no corpo</label>
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="bodyLocal" [options]="bodyLocal" formControlName="bodyLocal" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="bodyLocal" (onChange)="generateBudget()" [options]="bodyLocal" formControlName="bodyLocal" optionLabel="name" optionValue="value"></p-selectButton>
                 </div>
               </div>
             </div>
