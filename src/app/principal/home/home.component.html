@@ -1,5 +1,6 @@
 
-<img src="../../../assets/imagens/imagem-google.png" class="round-image" alt="Foto do perfil" >
+<img [src]="user.picture" class="profile-picture" alt="Foto do perfil" >
+{{user.picture}}
 <div class="grid">
     <div class="col-4 col-offset-8">
       <p-button icon="pi pi-sign-out" (onClick)="logout()"></p-button>
