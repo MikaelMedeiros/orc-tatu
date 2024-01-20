@@ -12,10 +12,10 @@ import { Token } from '../model/token'
 export class AuthService {
 
   usuarios: Usuario[] = [
-    {nome: 'mika', senha: '123'},
-    {nome: 'ju', senha: '123'},
     new Usuario()
   ]
+
+  user: Usuario = new Usuario();
 
   public token: string = "";
 
@@ -29,11 +29,13 @@ export class AuthService {
     return this.http.get(`${this.baseUrl}/url`);
   }
 
-  getToken(code: string): Observable<boolean> {
-    return this.http.get<Token>("http://localhost:8080/auth/callback?code=" + code, {observe: "response"})
-      .pipe(map((response: HttpResponse<Token>) => {
+  getUser(code: string): Observable<boolean> {
+    return this.http.get<Usuario>("http://localhost:8080/auth/callback?code=" + code, {observe: "response"})
+      .pipe(map((response: HttpResponse<Usuario>) => {
         if (response.status === 200 && response.body !== null) {
           this.token = response.body.token;
+          this.user = response.body;
+          console.log(this.user)
           return true;
         } else {
           return false;
@@ -41,7 +43,6 @@ export class AuthService {
       }));
   }
 
-  existe(usuario: Usuario): boolean {
-    return this.usuarios.some(obj => obj.nome === usuario.nome && obj.senha === usuario.senha);
-  }
+
+
 }

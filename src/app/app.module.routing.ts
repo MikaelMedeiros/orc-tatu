@@ -8,15 +8,15 @@ import { AuthenticationComponent } from "./principal/authentication/authenticati
 import { authGuard } from "./account/auth.guard";
 
 const routes: Routes = [
-    {   
+    {
         path: '', component: HomeComponent,
         children: [
             {   path: '', component: CalculadoraComponent       },
             {   path: 'budgets', component: HistoricComponent   }
         ],
-        canActivate: [authGuard]      
-    },    
-    {   
+         canActivate: [authGuard]
+    },
+    {
 
         path: '', component: AuthenticationComponent,
         children: [
@@ -24,7 +24,7 @@ const routes: Routes = [
             {   path: 'login', component: LoginComponent }
         ]
     }
-    
+
 ]
 
 @NgModule({
