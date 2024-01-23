@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/login/service/auth.service';
 import { Usuario } from 'src/app/login/usuario';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -13,7 +14,6 @@ export class HomeComponent implements OnInit{
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {}
 
   user: Usuario = new Usuario();
-
   logout() {
     localStorage.removeItem('token')
     this.router.navigate(['/login'])
@@ -39,5 +39,6 @@ export class HomeComponent implements OnInit{
       }
     );
   }
+
 
 }

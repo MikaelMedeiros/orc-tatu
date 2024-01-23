@@ -6,3 +6,12 @@
 }
 
 
+.align-content-start{
+  display: flex;
+}
+
+.nome-cliente {
+  left: 10px;
+  top: 5px;
+  position: relative;
+}
