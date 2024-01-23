@@ -1,4 +1,6 @@
 export class Usuario {
-    nome!: string;
-    senha!: string;
+    name!: string;
+    picture!: string;
+    token!: string;
+    expiration!: Date;
 }

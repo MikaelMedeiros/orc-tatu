@@ -19,7 +19,7 @@ export class LoginComponent {
     this.retrieveGoogleLoginUrl();
   }
 
-  retrieveGoogleLoginUrl() {    
-    this.authService.retrieveGoogleLoginUrl().subscribe((data: any) => this.url = data.authURL);    
+  retrieveGoogleLoginUrl() {
+    this.authService.retrieveGoogleLoginUrl().subscribe((data: any) => this.url = data.authURL);
   }
 }

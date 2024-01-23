@@ -1,17 +1,17 @@
+<div class="center-card">
+  <p-card [style]="{ width: '360px' }">
+    <ng-template pTemplate="header" >
+      <div style="text-align: right;">
+        <p-header class="header-description" > Orc Tatu </p-header>
+      </div>
+    </ng-template>
+    
+    <router-outlet></router-outlet>
 
-
-
-
-<div class="center-card">    
-  <p-card header="Orc Tattoo" [style]="{width: '360px'}">
-           
-      <router-outlet></router-outlet>
-      
-        <div class="flex flex-row-reverse flex-wrap">
-          <div class="animation-duration-1000">
-            <p-button icon="pi pi-whatsapp" [link]="true" (onClick)="mandarUmWhatsapp()"></p-button>
-          </div>
-        </div>
-      
+    <div class="flex flex-row-reverse flex-wrap">
+      <div class="animation-duration-1000">
+        <p-button icon="pi pi-whatsapp" [link]="true" (onClick)="mandarUmWhatsapp()"></p-button>
+      </div>
+    </div>
   </p-card>
 </div>
