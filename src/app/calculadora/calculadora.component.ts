@@ -49,11 +49,15 @@ export class CalculadoraComponent {
     ];
 
     this.bodyLocal = [
-      { name: 'Braço', value:'Braço', category: 'category 2', addtion: '2'},
-      { name: 'Ombro', value:'Ombro', category: 'category 2', addtion: '2'},
-      { name: 'Mão', value:'Mão', category: 'category 2', addtion: '2'},
-      { name: 'Perna', value:'Perna', category: 'category 2', addtion: '2'},
-      { name: 'Virilha', value:'Virilha', category: 'category 2', addtion: '2'},
+      { name: 'Braço', value:'braço', category: 'category 2', addtion: '2'},
+      { name: 'Ombro', value:'ombro', category: 'category 2', addtion: '2'},
+      { name: 'Mão', value:'mão', category: 'category 2', addtion: '2'},
+      { name: 'Perna', value:'perna', category: 'category 2', addtion: '2'},
+      { name: 'Tornozelo', value:'tornozelo', category: 'category 2', addtion: '2'},
+      { name: 'Canela', value:'canela', category: 'category 2', addtion: '2'},
+      { name: 'Costela', value:'costela', category: 'category 2', addtion: '2'},
+      { name: 'Costas', value:'costas', category: 'category 2', addtion: '2'},
+      { name: 'Pescoço', value:'pescoço', category: 'category 2', addtion: '2'},
       // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
       // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
       // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
@@ -75,7 +79,6 @@ export class CalculadoraComponent {
     id: [''],
     client: [''],    
     draw: [''],
-    valorcm: [22.50, Validators.required],
     cm: [1, Validators.required],
     bodyLocal: [''],
     style:  [[''], Validators.required],
@@ -83,6 +86,7 @@ export class CalculadoraComponent {
   }) 
 
   configForm = this.fb.group({
+    valorcm: [22.50, Validators.required],
     percentageTax: [30],
     parkingPrice: [10],
     creditTax: [20],
@@ -108,7 +112,7 @@ export class CalculadoraComponent {
 
   calculateTatooValueAndPix() {
     let cm = this.budgetForm.get('cm')?.value;
-    let valorcm = this.budgetForm.get('valorcm')?.value;
+    let valorcm = this.configForm.get('valorcm')?.value;
     if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {      
       this.tattooValue = (valorcm * cm); 
       this.pixValue = this.tattooValue;     
@@ -224,7 +228,7 @@ export class CalculadoraComponent {
   resetForm() {
     this.budgetForm.reset();
     this.budgetForm.get('cm')?.setValue(1);
-    this.budgetForm.get('valorcm')?.setValue(22.50);    
+    this.configForm.get('valorcm')?.setValue(22.50);    
     this.budgetForm.get('style')?.setValue(['']);    
     this.generatedBudget = '';
     this.studioPercent = 0;
