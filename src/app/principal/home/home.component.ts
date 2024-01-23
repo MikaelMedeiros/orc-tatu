@@ -2,6 +2,8 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/login/service/auth.service';
 import { Usuario } from 'src/app/login/usuario';
+import { ImageSharp } from 'sharp';
+
 
 @Component({
   selector: 'app-home',
@@ -13,6 +15,7 @@ export class HomeComponent implements OnInit{
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {}
 
   user: Usuario = new Usuario();
+  imageSharp: ImageSharp;
 
   logout() {
     localStorage.removeItem('token')
@@ -38,6 +41,15 @@ export class HomeComponent implements OnInit{
         }
       }
     );
+    const base64Image = this.getResizedImage('https://example.com/images/profile-picture.jpg', 100, 100);
+  }
+
+  async getResizedImage(url: string, width: number, height: number): Promise<string> {
+    const image = await this.imageSharp.load(url);
+    const resizedImage = image.resize(width, height);
+    const base64Image = resizedImage.toBase64();
+
+    return base64Image;
   }
 
 }
