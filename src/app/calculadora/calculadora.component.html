@@ -4,12 +4,12 @@
       <ng-template pTemplate="header">
         <i class="pi pi-calculator"></i>
       </ng-template>
-      <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">          
+      <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">        
         <div class="field" >
-          <label for="valorcm" class="block">Valor do cm</label>
-          <p-inputNumber inputId="valorcm" (onInput)="generateBudget()" formControlName="valorcm" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="1" [step]="0.5"> </p-inputNumber>          
-          <small class="p-error block" *ngIf="budgetForm.get('valorcm')?.invalid && budgetForm.get('valorcm')?.dirty"> valor obrigatório</small>
-        </div>
+          <label for="client" class="block">Nome do cliente</label>
+          <input type="text" id="client" (onInput)="generateBudget()" pInputText formControlName="client"/>
+          <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
+        </div>  
   
         <div class="field" >
           <label for="cm" class="block">Tamanho (cm)</label>
@@ -17,13 +17,18 @@
           <small class="p-error block" *ngIf="budgetForm.get('cm')?.invalid && budgetForm.get('cm')?.dirty"> tamanho da tatuagem obrigatória</small>
         </div>
 
-        <p-accordion>
-          <p-accordionTab header="Informações da tattoo">
+        <div class="field" >
+          <label for="draw" class="block">Desenho</label>
+          <input type="text" id="draw" (onInput)="generateBudget()" pInputText formControlName="draw"/>
+          <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
+        </div> 
+
+     
             <div class="field">
               <label class="block">Estilo</label>        
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="style"  [options]="styles" formControlName="style" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="style"  (onChange)="generateBudget()" [options]="styles" formControlName="style" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
                   <small class="p-error block" *ngIf="budgetForm.get('style')?.invalid && budgetForm.get('style')?.dirty"> Estilo obrigatório</small>
                 </div>
               </div>
@@ -33,39 +38,20 @@
               <label class="block">Detalhes</label>        
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="details" [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="details" (onChange)="generateBudget()" [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
                 </div>
               </div>
-            </div>
-
-            <div class="field" >
-              <label for="client" class="block">Nome do cliente</label>
-              <input type="text" id="client" pInputText formControlName="client"/>
-              <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Nome do cliente é obrigatório</small>
-            </div>
-      
-            <div class="field" >
-              <label for="draw" class="block">Desenho</label>
-              <input type="text" id="draw" pInputText formControlName="draw"/>
-              <small class="p-error block" *ngIf="budgetForm.get('draw')?.invalid && budgetForm.get('draw')?.dirty"> Nome do desenho obrigatório</small>
-            </div>
-  
-            <div class="field" >
-              <label for="bodyLocal" class="block">Local no corpo</label>
-              <input type="text" id="bodyLocal" pInputText formControlName="bodyLocal"/>
-              <small class="p-error block" *ngIf="budgetForm.get('bodyLocal')?.invalid && budgetForm.get('bodyLocal')?.dirty"> Local do corpo obrigatória</small>
             </div>
 
             <div class="field" >
               <label for="bodyLocal" class="block">Local no corpo</label>
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="bodyLocal" [options]="bodyLocal" formControlName="bodyLocal" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="bodyLocal" (onChange)="generateBudget()" [options]="bodyLocal" formControlName="bodyLocal" optionLabel="name" optionValue="value"></p-selectButton>
                 </div>
               </div>
             </div>
-          </p-accordionTab>
-        </p-accordion>
+            
         
   
         <div class="formgroup-inline mt-3">
@@ -84,6 +70,12 @@
       </ng-template>       
 
       <form [formGroup]="configForm" (ngSubmit)="generateBudget()">
+        <div class="field" >
+          <label for="valorcm" class="block">Valor do cm</label>
+          <p-inputNumber inputId="valorcm" (onInput)="generateBudget()" formControlName="valorcm" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="1" [step]="0.5"> </p-inputNumber>          
+          <small class="p-error block" *ngIf="configForm.get('valorcm')?.invalid && configForm.get('valorcm')?.dirty"> valor obrigatório</small>
+        </div>
+
         <div class="field" >
           <label for="percentageTax" class="block">Porcentagem do studio (-)</label>            
           <p-inputNumber (onInput)="generateBudget()" inputId="percentageTax" suffix="%" formControlName="percentageTax" [showButtons]="true"> </p-inputNumber> 
@@ -109,7 +101,7 @@
       </form>
     </p-tabPanel>
     <!-- Valores do corpo -->
-    <p-tabPanel>
+    <p-tabPanel *ngIf="false">
       <ng-template pTemplate="header">   
         <i class="pi pi-dollar"></i>        
         <i class="pi pi-user-edit"></i>        

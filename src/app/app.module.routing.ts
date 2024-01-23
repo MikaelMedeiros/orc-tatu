@@ -6,6 +6,7 @@ import { HistoricComponent } from "./historic/historic.component";
 import { HomeComponent } from "./principal/home/home.component";
 import { AuthenticationComponent } from "./principal/authentication/authentication.component";
 import { authGuard } from "./account/auth.guard";
+import { CommonModule } from "@angular/common";
 
 const routes: Routes = [
     {
@@ -27,10 +28,10 @@ const routes: Routes = [
 
 ]
 
-@NgModule({
-    declarations:[],
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
-})
+    @NgModule({
+        declarations:[],
+        imports: [CommonModule, RouterModule.forRoot(routes)],
+        exports: [RouterModule]
+    })
 
-export class AppModuleRouting {}
+    export class AppModuleRouting {}
