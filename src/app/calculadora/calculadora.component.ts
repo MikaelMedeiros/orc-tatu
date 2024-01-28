@@ -86,7 +86,7 @@ export class CalculadoraComponent {
   }) 
 
   configForm = this.fb.group({
-    valorcm: [22.50, Validators.required],
+    valorcm: [30, Validators.required],
     percentageTax: [30],
     parkingPrice: [10],
     creditTax: [20],

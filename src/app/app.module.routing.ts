@@ -15,7 +15,7 @@ const routes: Routes = [
             {   path: '', component: CalculadoraComponent       },
             {   path: 'budgets', component: HistoricComponent   }
         ],
-         canActivate: [authGuard]
+        // canActivate: [authGuard]
     },
     {
 

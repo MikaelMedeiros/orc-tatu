@@ -1,18 +1,19 @@
-<p-table [value]="budgets" [tableStyle]="{ 'min-width': '50rem' }">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Quantity</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product>
-        <tr>
-            <td>{{ product.code }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
-        </tr>
-    </ng-template>
-</p-table>
+<form [formGroup]="historicForm" (ngSubmit)="agendar()">        
+    <div class="field" >
+      <label for="titulo" class="block">Titulo</label>
+      <input type="text" id="titulo" pInputText formControlName="titulo"/>
+    </div> 
+
+    <div class="field" >
+        <label for="client" class="block">Descricao</label>
+        <input type="text" id="client" pInputText formControlName="descricao"/>
+      </div> 
+
+      <div class="formgroup-inline mt-3">
+        <div class="field">
+          <p-button type="submit" accessKey="enter" label="Agendar" ></p-button>
+        </div>
+
+        <p-button type="button" label="Limpar" severity="info" (onClick)="resetForm()"></p-button>
+      </div>
+</form>

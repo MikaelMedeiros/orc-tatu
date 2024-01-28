@@ -27,4 +27,8 @@ export class HistoricService {
     
     return this.http.post(this.baseUrl, budget, options);
   }
+
+  agendarTattoo(agendamento: any) {
+    return this.http.post('http://localhost:8080/events', agendamento);
+  }
 }
