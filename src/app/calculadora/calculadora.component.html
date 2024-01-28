@@ -140,6 +140,15 @@
 
       </form>
     </p-tabPanel>
+    <!-- Historico -->
+    <p-tabPanel *ngIf="true">
+      <ng-template pTemplate="header">   
+        <i class="pi pi-list"></i>                     
+      </ng-template> 
+
+      <app-historic></app-historic>
+    
+    </p-tabPanel>
 </p-tabView>
  
   <div *ngIf="(generatedBudget !== '')" class="flex flex-wrap">  
