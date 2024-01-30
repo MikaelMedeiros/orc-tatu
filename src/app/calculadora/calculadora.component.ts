@@ -38,6 +38,7 @@ export class CalculadoraComponent {
       { name: 'Realismo', value: 'realismo' },
       { name: 'Old School', value: 'old school' },
       { name: 'Black Work', value: 'black work' },
+      { name: 'Micro Realismo', value: 'micro realismo' },
     ];
 
     this.details = [      
