@@ -80,7 +80,7 @@ export class CalculadoraComponent {
     client: [''],    
     draw: [''],
     cm: [1, Validators.required],
-    bodyLocal: [''],
+    bodyLocal: [['']],
     style:  [[''], Validators.required],
     details: [['']]
   }) 
@@ -206,23 +206,34 @@ export class CalculadoraComponent {
 
   copyText() {  
     this.generateBudget();
-    this.clipboard.copy(this.generatedBudget);
-    this.saveBudget();
+    this.clipboard.copy(this.generatedBudget);    
   }
 
   saveBudget() {
     const budgetRaw = this.budgetForm.getRawValue();
+    const configRaw = this.configForm.getRawValue();
     
-    let budget = new BudgetHistory(
+    let budget: BudgetHistory = new BudgetHistory(
       budgetRaw.client,
       this.generatedBudget,
-      this.netValue,
-      this.studioPercent,
-      this.netValue + this.studioPercent
-    )    
+      budgetRaw.draw,
+      budgetRaw.cm,
+      configRaw.valorcm,
+      budgetRaw.bodyLocal,
+      budgetRaw.style,
+      budgetRaw.details,
+      configRaw.percentageTax,
+      configRaw.parkingPrice,
+      configRaw.materials,
+      configRaw.creditTax
+    );
 
     this.historicService.saveOnBudgetHistory(budget).subscribe((data: any) => console.log('Deu bom!', data))
-    
+  }
+
+  copyAndSave() {
+    this.copyText();
+    this.saveBudget();
   }
 
   resetForm() {

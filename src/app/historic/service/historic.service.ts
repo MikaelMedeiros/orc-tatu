@@ -16,9 +16,9 @@ export class HistoricService {
   getHistoric() {
     
     return [
-      new BudgetHistory('Mikaelfo', "Mikaelfo, seu orçamento deu 100 conto", 70, 30, 100),
-      new BudgetHistory('Bentorc', "Bentorc, seu orçamento deu 100 conto", 70, 30, 100),
-      new BudgetHistory('Leticeira', "Leticeira, seu orçamento deu 100 conto", 70, 30, 100)
+      new BudgetHistory('Mikaelfo', "Mikaelfo, seu orçamento deu 100 conto", '70', 30, 100, null, null, null, null, null, null, null),
+      new BudgetHistory('Bentorc', "Bentorc, seu orçamento deu 100 conto", '70', 30, 100, null, null, null, null, null, null, null),
+      new BudgetHistory('Leticeira', "Leticeira, seu orçamento deu 100 conto", '70', 30, 100, null, null, null, null, null, null, null)
     ]
   }
 
