@@ -1,0 +1,35 @@
+.ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px; /* Adiciona algum espaçamento entre as bolas */
+}
+
+.historic-balls{
+  justify-content: center;
+  align-items: center;
+}
+
+.bordar-carousel {
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.blue {
+  background-color: blue;
+}

@@ -1,19 +1,38 @@
-<form [formGroup]="historicForm" (ngSubmit)="agendar()">        
-    <div class="field" >
-      <label for="titulo" class="block">Titulo</label>
-      <input type="text" id="titulo" pInputText formControlName="titulo"/>
-    </div> 
-
-    <div class="field" >
-        <label for="client" class="block">Descricao</label>
-        <input type="text" id="client" pInputText formControlName="descricao"/>
-      </div> 
-
-      <div class="formgroup-inline mt-3">
-        <div class="field">
-          <p-button type="submit" accessKey="enter" label="Agendar" ></p-button>
-        </div>
-
-        <p-button type="button" label="Limpar" severity="info" (onClick)="resetForm()"></p-button>
+<div class="border-round">
+<p-carousel
+  [value]="budgets"
+  [numVisible]="1"
+  [numScroll]="1"
+  (onPage)="handlePageChange($event)"
+  orientation="vertical"
+  verticalViewPortHeight="250px"
+  [responsiveOptions]="responsiveOptions"
+  [showIndicators]="false"
+  [ngClass]="'seu-componente'"
+>
+  <ng-template let-budget pTemplate="item"  style="border: 1px solid lightgray; border-radius: 8px; padding: 10px;">
+    <div class="bordar-carousel">
+          <div class="flex center gap-3 col-12">
+            <div class="p-mb-1 col-8">
+              <p>{{"Cliente: " + budget.clientName }}</p>
+            </div>
+            <div class="p-mt-0 p-mb-3 align-items-end col-4">
+              <p>Valor:{{ budget.tattooValue }}</p>
+            </div>
+          </div>
+          <div class=" flex center gap-3 description">
+            <p class="p-mb-1 col-12 ">{{"Descrição: " + budget.desc }}</p>
+           <p></p>
+          </div>
+      <div class="flex center gap-3 center historic-balls">
+        <div [ngClass]="getClassBalls(budget.status)" [title]="getTooltipText(budget.status)"></div>
       </div>
-</form>
+    </div>
+  </ng-template>
+</p-carousel>
+<div class="text-center">
+  {{ currentIndex == null ? 1 : currentIndex }} de {{ budgets.length }}
+</div>
+
+</div>
+<p>Valor arrecadado: {{ returnsAmountCollected() }}</p>

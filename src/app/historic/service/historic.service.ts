@@ -14,17 +14,19 @@ export class HistoricService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getHistoric() {
-    
+
     return [
-      new BudgetHistory('Mikaelfo', "Mikaelfo, seu orçamento deu 100 conto", 70, 30, 100),
-      new BudgetHistory('Bentorc', "Bentorc, seu orçamento deu 100 conto", 70, 30, 100),
-      new BudgetHistory('Leticeira', "Leticeira, seu orçamento deu 100 conto", 70, 30, 100)
+      new BudgetHistory('Mikaelfo', "Mikaelfo, seu orçamento deu 100 conto", 70, 30, 100, "verde"),
+      new BudgetHistory('Bentorc', "Bentorc, seu orçamento deu 100 conto", 70, 30, 100, "amarelo"),
+      new BudgetHistory('Leticeira', "Leticeira, seu orçamento deu 100 conto", 70, 30, 100, "vermelho"),
+      new BudgetHistory('Mikaelson', "Mikaelson, seu orçamento deu 100 conto", 70, 30, 100, "azul")
+
     ]
   }
 
   saveOnBudgetHistory(budget: BudgetHistory) {
     let options: any = {headers: new HttpHeaders({"Authorization": "Bearer " + this.authService.token})};
-    
+
     return this.http.post(this.baseUrl, budget, options);
   }
 

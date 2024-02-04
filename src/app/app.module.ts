@@ -25,6 +25,8 @@ import { HomeComponent } from './principal/home/home.component';
 import { AuthenticationComponent } from './principal/authentication/authentication.component';
 import { RouterOutlet } from '@angular/router';
 import { LoggingInterceptor } from './account/auth.interceptor';
+import { CarouselModule } from 'primeng/carousel';
+
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { LoggingInterceptor } from './account/auth.interceptor';
     SliderModule,
     TableModule,
     AppModuleRouting,
-    RouterOutlet
+    RouterOutlet,
+    CarouselModule
   ],
   providers: [
     AuthService,
@@ -61,7 +64,7 @@ import { LoggingInterceptor } from './account/auth.interceptor';
     provideHttpClient(
       withInterceptorsFromDi()
     )
-  ],  
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

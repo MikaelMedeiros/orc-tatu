@@ -16,12 +16,12 @@ export class CalculadoraComponent {
   parkingPrice: number | null | undefined = 0;
   hintVisible: boolean = false;
   studioPercent = 0;
-  
+
 
   constructor(
     private fb: FormBuilder,
     private clipboard: Clipboard,
-    private historicService: HistoricService 
+    private historicService: HistoricService
   ) {}
 
   styles: any[] = [];
@@ -30,7 +30,7 @@ export class CalculadoraComponent {
   pixValue = 0;
   tattooValue = 0;
   creditValue = 0;
-  
+
   ngOnInit(): void {
     this.styles = [
       { name: 'Fineline', value: 'fineline' },
@@ -40,7 +40,7 @@ export class CalculadoraComponent {
       { name: 'Black Work', value: 'black work' },
     ];
 
-    this.details = [      
+    this.details = [
       { name: 'Sombreamento', value: 'sombreamento' },
       { name: 'Pontilhismo', value: 'pontilhismo' },
       { name: 'Linhas', value: 'linhas' },
@@ -77,13 +77,13 @@ export class CalculadoraComponent {
 
   budgetForm = this.fb.group({
     id: [''],
-    client: [''],    
+    client: [''],
     draw: [''],
     cm: [1, Validators.required],
     bodyLocal: [''],
     style:  [[''], Validators.required],
     details: [['']]
-  }) 
+  })
 
   configForm = this.fb.group({
     valorcm: [30, Validators.required],
@@ -102,8 +102,8 @@ export class CalculadoraComponent {
   })
 
   generateBudget() {
-    this.calculateTatooValueAndPix();    
-    this.calculateCreditValue(); 
+    this.calculateTatooValueAndPix();
+    this.calculateCreditValue();
     this.addParkingPriceToPixAndCredit();
     this.addMaterialValueToPixAndCredit();
     this.calculateNetValue();
@@ -113,19 +113,19 @@ export class CalculadoraComponent {
   calculateTatooValueAndPix() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.configForm.get('valorcm')?.value;
-    if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {      
-      this.tattooValue = (valorcm * cm); 
-      this.pixValue = this.tattooValue;     
+    if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {
+      this.tattooValue = (valorcm * cm);
+      this.pixValue = this.tattooValue;
     }
   }
 
   calculateCreditValue() {
     let creditTax = this.configForm.get('creditTax')?.value;
     if(creditTax) {
-      this.creditValue = this.pixValue + creditTax;      
+      this.creditValue = this.pixValue + creditTax;
     } else {
-      this.creditValue = this.pixValue;   
-    } 
+      this.creditValue = this.pixValue;
+    }
   }
 
   addParkingPriceToPixAndCredit() {
@@ -133,25 +133,25 @@ export class CalculadoraComponent {
     if(this.parkingPrice) {
       this.pixValue = this.pixValue + this.parkingPrice;
       this.creditValue = this.creditValue + this.parkingPrice;
-    } 
-  }
-
-  addMaterialValueToPixAndCredit() {
-    let materialValue = this.configForm.get('materials')?.value;    
-    if (materialValue) {      
-      this.pixValue = this.pixValue + materialValue;
-      this.creditValue = this.creditValue + materialValue; 
     }
   }
 
-  calculateNetValue() {    
-    let tax = this.configForm.get('percentageTax')?.value;    
+  addMaterialValueToPixAndCredit() {
+    let materialValue = this.configForm.get('materials')?.value;
+    if (materialValue) {
+      this.pixValue = this.pixValue + materialValue;
+      this.creditValue = this.creditValue + materialValue;
+    }
+  }
+
+  calculateNetValue() {
+    let tax = this.configForm.get('percentageTax')?.value;
     if (tax) {
       this.studioPercent = this.tattooValue * tax / 100;
-      this.netValue = this.tattooValue - (this.tattooValue * tax / 100) 
+      this.netValue = this.tattooValue - (this.tattooValue * tax / 100)
     } else {
-      this.netValue = this.tattooValue - (this.tattooValue * 0 / 100) 
-    }    
+      this.netValue = this.tattooValue - (this.tattooValue * 0 / 100)
+    }
   }
 
 
@@ -187,16 +187,16 @@ export class CalculadoraComponent {
     .concat(` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
   }
 
-  getTextFormated(lista: string []| undefined | null): string | undefined | null {        
-    if (typeof lista !== undefined && lista != null) {      
-      let listaFiltrada = lista.filter(item => item !== '');      
+  getTextFormated(lista: string []| undefined | null): string | undefined | null {
+    if (typeof lista !== undefined && lista != null) {
+      let listaFiltrada = lista.filter(item => item !== '');
       if(listaFiltrada.length > 1) {
         let ultimo = listaFiltrada.pop();
-        return listaFiltrada.join(', ') + ' e ' + ultimo;                
+        return listaFiltrada.join(', ') + ' e ' + ultimo;
       } else if (listaFiltrada.length > 0) {
         return listaFiltrada[0];
-      }      
-    } 
+      }
+    }
     return "";
   }
 
@@ -204,7 +204,7 @@ export class CalculadoraComponent {
     this.bodyPriceForm.get(fieldForm)?.setValue(value) ;
   }
 
-  copyText() {  
+  copyText() {
     this.generateBudget();
     this.clipboard.copy(this.generatedBudget);
     this.saveBudget();
@@ -212,30 +212,31 @@ export class CalculadoraComponent {
 
   saveBudget() {
     const budgetRaw = this.budgetForm.getRawValue();
-    
+
     let budget = new BudgetHistory(
       budgetRaw.client,
       this.generatedBudget,
       this.netValue,
       this.studioPercent,
-      this.netValue + this.studioPercent
-    )    
+      this.netValue + this.studioPercent,
+      "verde"
+    )
 
     this.historicService.saveOnBudgetHistory(budget).subscribe((data: any) => console.log('Deu bom!', data))
-    
+
   }
 
   resetForm() {
     this.budgetForm.reset();
     this.budgetForm.get('cm')?.setValue(1);
-    this.configForm.get('valorcm')?.setValue(22.50);    
-    this.budgetForm.get('style')?.setValue(['']);    
+    this.configForm.get('valorcm')?.setValue(22.50);
+    this.budgetForm.get('style')?.setValue(['']);
     this.generatedBudget = '';
     this.studioPercent = 0;
     this.netValue = 0;
   }
 
-  showHint(event: any) {    
+  showHint(event: any) {
     this.hintVisible = !this.hintVisible;
   }
 }
