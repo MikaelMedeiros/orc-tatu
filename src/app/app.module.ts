@@ -26,6 +26,10 @@ import { AuthenticationComponent } from './principal/authentication/authenticati
 import { RouterOutlet } from '@angular/router';
 import { LoggingInterceptor } from './account/auth.interceptor';
 import { CarouselModule } from 'primeng/carousel';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import {  ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+
 
 
 @NgModule({
@@ -56,14 +60,18 @@ import { CarouselModule } from 'primeng/carousel';
     TableModule,
     AppModuleRouting,
     RouterOutlet,
-    CarouselModule
+    CarouselModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
   providers: [
     AuthService,
     {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
     provideHttpClient(
       withInterceptorsFromDi()
-    )
+    ),
+    ConfirmationService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

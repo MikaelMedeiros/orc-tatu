@@ -14,12 +14,11 @@ export class HistoricService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getHistoric() {
-
     return [
-      new BudgetHistory('Mikaelfo', "Mikaelfo, seu orçamento deu 100 conto", 70, 30, 100, "verde"),
-      new BudgetHistory('Bentorc', "Bentorc, seu orçamento deu 100 conto", 70, 30, 100, "amarelo"),
-      new BudgetHistory('Leticeira', "Leticeira, seu orçamento deu 100 conto", 70, 30, 100, "vermelho"),
-      new BudgetHistory('Mikaelson', "Mikaelson, seu orçamento deu 100 conto", 70, 30, 100, "azul")
+      new BudgetHistory('Mikaelfo', "Mikaelfo, seu orçamento deu 100 conto", 70, 30, 100, "Done"),
+      new BudgetHistory('Bentorc', "Bentorc, seu orçamento deu 100 conto", 70, 30, 100, "Canceled"),
+      new BudgetHistory('Leticeira', "Leticeira, seu orçamento deu 100 conto", 70, 30, 100, "Scheduled"),
+      new BudgetHistory('Mikaelson', "Mikaelson, seu orçamento deu 100 conto", 70, 30, 100, "Budgeted")
 
     ]
   }

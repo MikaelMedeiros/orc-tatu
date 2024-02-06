@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoricService } from './service/historic.service';
 import { FormBuilder } from '@angular/forms';
+import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
+import { BudgetHistory } from './model/budget-history';
 
 @Component({
   selector: 'app-historic',
   templateUrl: './historic.component.html',
-  styleUrls: ['./historic.component.css']
+  styleUrls: ['./historic.component.css'],
 })
 export class HistoricComponent implements OnInit {
 
@@ -15,7 +17,9 @@ export class HistoricComponent implements OnInit {
 
   constructor(
     private historicService: HistoricService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {}
 
 
@@ -59,10 +63,10 @@ export class HistoricComponent implements OnInit {
   getClassBalls(status: string): any {
     const colorClasses = {
       'ball': true,
-      'green': status === 'verde',
-      'red': status === 'vermelho'  || status === null,
-      'yellow': status === 'amarelo',
-      'blue': status === 'azul',
+      'green': status === 'Done',
+      'red': status === 'Canceled'  || status === null,
+      'yellow': status === 'Scheduled',
+      'blue': status === 'Budgeted',
       // Adicione mais cores conforme necessário
     };
 
@@ -71,14 +75,14 @@ export class HistoricComponent implements OnInit {
 
   getTooltipText(status: string): string {
     switch (status) {
-      case 'verde':
+      case 'Done':
         return 'Tatoo concluida';
-      case 'vermelho':
+      case 'Canceled':
         return 'Orçamento cancelado';
-      case 'amarelo':
+      case 'Scheduled':
         return 'Tatoo agendado';
-      case 'azul':
-        return 'Foi feito o orçamento';
+      case 'Budgeted':
+        return 'Orçado';
       default:
         return 'Sem informação';
     }
@@ -94,4 +98,26 @@ export class HistoricComponent implements OnInit {
     .reduce((total: any, budget: { tattooValue: any; }) => total + (budget.tattooValue || 0), 0);
   }
 
+
+  confirm1(event: Event, budget: BudgetHistory) {
+    console.log('arou')
+    this.confirmationService.confirm({
+        target: event.target as EventTarget,
+        message: 'Voce deseja cancelar esse orçamento?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        acceptIcon:"none",
+        rejectIcon:"none",
+        rejectButtonStyleClass:"p-button-text",
+        accept: () => {
+            this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Esse orçamento foi cancelado' });
+        }
+    });
+    this.messageService.clear();
+}
+
+
+ returnMsgEvents():string{
+  return 'Voce deseja cancelar esse orçamento?'
+ }
 }

@@ -25,11 +25,13 @@
            <p></p>
           </div>
       <div class="flex center gap-3 center historic-balls">
-        <div [ngClass]="getClassBalls(budget.status)" [title]="getTooltipText(budget.status)"></div>
+        <p-button [styleClass]="'green'" (click)="confirm1($event, budget); $event.stopPropagation()" icon="pi pi-check" [title]="getTooltipText(budget.status)"></p-button>
       </div>
     </div>
   </ng-template>
 </p-carousel>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
 <div class="text-center">
   {{ currentIndex == null ? 1 : currentIndex }} de {{ budgets.length }}
 </div>

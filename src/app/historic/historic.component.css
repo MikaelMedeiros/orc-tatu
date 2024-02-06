@@ -19,17 +19,18 @@
 
 
 .green {
-  background-color: green;
+  background-color: green!important;
+  background: green!important;
 }
 
 .red {
-  background-color: red;
+  background-color: red!important;
 }
 
 .yellow {
-  background-color: yellow;
+  background-color: yellow!important;
 }
 
 .blue {
-  background-color: blue;
+  background-color: blue!important;
 }
