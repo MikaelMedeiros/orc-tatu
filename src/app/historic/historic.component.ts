@@ -2,7 +2,7 @@ import { ModalAgendamentoComponent } from './../modal-agendamento/modal-agendame
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HistoricService } from './service/historic.service';
 import { FormBuilder } from '@angular/forms';
-import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { BudgetHistory } from './model/budget-history';
 
 @Component({
@@ -16,8 +16,8 @@ export class HistoricComponent implements OnInit {
   responsiveOptions: any[] | undefined;
   currentIndex: number | undefined;
   visible: boolean = false;
-  @ViewChild(ModalAgendamentoComponent, {static: false})
-  modalAgendamento: ModalAgendamentoComponent | undefined;
+  @ViewChild(ModalAgendamentoComponent, { static: false })
+  modalAgendamento!: ModalAgendamentoComponent;
 
   constructor(
     private historicService: HistoricService,
@@ -133,7 +133,10 @@ export class HistoricComponent implements OnInit {
  }
 
  showDialgAgendar(){
-  console.log('rapa');
-  this.visible= true;
+  this.modalAgendamento.visible = true;
+ }
+
+ exibeModal(){
+  this.modalAgendamento.visible = true;
  }
 }

@@ -31,6 +31,8 @@ import {  ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { ModalAgendamentoComponent } from './modal-agendamento/modal-agendamento.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
+
 
 
 
@@ -66,7 +68,8 @@ import { ModalAgendamentoComponent } from './modal-agendamento/modal-agendamento
     CarouselModule,
     ConfirmDialogModule,
     ToastModule,
-    CalendarModule
+    CalendarModule,
+    RadioButtonModule
   ],
   providers: [
     AuthService,
