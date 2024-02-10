@@ -33,12 +33,7 @@
 }
 
 .botton-footer-calendar{
-    position: relative;
-    left: 13rem;
-}
-
-.booton-agendar{
-    top: 8rem;
-    position: relative;
-    left: 12rem;
+    justify-content: flex-end;
+    display: flex;
+    padding-right: 10px;
 }
