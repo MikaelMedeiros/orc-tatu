@@ -1,11 +1,11 @@
 <div class="border-round">
 <p-carousel
   [value]="budgets"
-  [numVisible]="1"
-  [numScroll]="1"
+  [numVisible]="2"
+  [numScroll]="2"
   (onPage)="handlePageChange($event)"
   orientation="vertical"
-  verticalViewPortHeight="250px"
+  verticalViewPortHeight="500px"
   [responsiveOptions]="responsiveOptions"
   [showIndicators]="false"
   [ngClass]="'seu-componente'"
@@ -25,16 +25,23 @@
            <p></p>
           </div>
       <div class="flex center gap-3 center historic-balls">
-        <p-button [styleClass]="'green'" (click)="confirm1($event, budget); $event.stopPropagation()" icon="pi pi-check" [title]="getTooltipText(budget.status)"></p-button>
+        <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-cancelado" (click)="confirm1($event, budget); $event.stopPropagation()" >
+          <span class="pi pi-times p-button-icon ng-star-inserted"></span>
+        </button>
+        <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-agendar" (click)="showDialgAgendar()" >
+          <span class="pi pi-calendar-plus p-button-icon ng-star-inserted"></span>
+        </button>
       </div>
     </div>
   </ng-template>
 </p-carousel>
-<p-toast></p-toast>
+<p-toast class="custom-toast"></p-toast>
 <p-confirmDialog></p-confirmDialog>
+
 <div class="text-center">
   {{ currentIndex == null ? 1 : currentIndex }} de {{ budgets.length }}
 </div>
 
 </div>
 <p>Valor arrecadado: {{ returnsAmountCollected() }}</p>
+<app-modal-agendamento></app-modal-agendamento>

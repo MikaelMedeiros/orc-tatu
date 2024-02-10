@@ -29,6 +29,8 @@ import { CarouselModule } from 'primeng/carousel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import {  ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { CalendarModule } from 'primeng/calendar';
+import { ModalAgendamentoComponent } from './modal-agendamento/modal-agendamento.component';
 
 
 
@@ -39,7 +41,8 @@ import { ToastModule } from 'primeng/toast';
     CalculadoraComponent,
     HistoricComponent,
     HomeComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    ModalAgendamentoComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +65,8 @@ import { ToastModule } from 'primeng/toast';
     RouterOutlet,
     CarouselModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    CalendarModule
   ],
   providers: [
     AuthService,

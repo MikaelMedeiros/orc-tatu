@@ -27,10 +27,34 @@
   background-color: red!important;
 }
 
-.yellow {
+.p-button-success{
   background-color: yellow!important;
 }
 
 .blue {
   background-color: blue!important;
 }
+
+
+/* Reduz a largura do p-toast */
+:host ::ng-deep .ui-toast .ui-toast-message {
+  max-width: 250px; /* Ajuste a largura conforme necessário */
+}
+
+::ng-deep .custom-toast .p-toast {
+  width: 23rem!important;
+  right: 0.15rem!important;
+  align-items: center!important;
+}
+
+.p-button-cancelado {
+  background-color: #ff9b9b !important;
+}
+
+.p-button-agendar {
+  background-color: #ffec99 !important;
+}
+
+
+
+

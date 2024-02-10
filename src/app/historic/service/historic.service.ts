@@ -32,4 +32,9 @@ export class HistoricService {
   agendarTattoo(agendamento: any) {
     return this.http.post('http://localhost:8080/events', agendamento);
   }
+
+
+  atualizarBudget(budget: BudgetHistory){
+    console.log('atualizado com sucesso')
+  }
 }

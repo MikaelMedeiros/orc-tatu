@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ModalAgendamentoComponent } from './../modal-agendamento/modal-agendamento.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HistoricService } from './service/historic.service';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
@@ -14,6 +15,9 @@ export class HistoricComponent implements OnInit {
   budgets: any = [];
   responsiveOptions: any[] | undefined;
   currentIndex: number | undefined;
+  visible: boolean = false;
+  @ViewChild(ModalAgendamentoComponent, {static: false})
+  modalAgendamento: ModalAgendamentoComponent | undefined;
 
   constructor(
     private historicService: HistoricService,
@@ -21,6 +25,7 @@ export class HistoricComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
+
 
 
   ngOnInit(): void {
@@ -104,20 +109,31 @@ export class HistoricComponent implements OnInit {
     this.confirmationService.confirm({
         target: event.target as EventTarget,
         message: 'Voce deseja cancelar esse orçamento?',
-        header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         acceptIcon:"none",
         rejectIcon:"none",
         rejectButtonStyleClass:"p-button-text",
         accept: () => {
-            this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Esse orçamento foi cancelado' });
+            budget.status = 'cancelado'
+            this.historicService.atualizarBudget(budget);
+            this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Esse orçamento foi cancelado', life: 300000 });
+        },
+        reject: () => {
+
         }
     });
     this.messageService.clear();
 }
 
 
- returnMsgEvents():string{
+
+
+ returnMsgEvents():string {
   return 'Voce deseja cancelar esse orçamento?'
+ }
+
+ showDialgAgendar(){
+  console.log('rapa');
+  this.visible= true;
  }
 }
