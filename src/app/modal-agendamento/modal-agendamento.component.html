@@ -1,7 +1,7 @@
   <p-dialog header="Agendamento" [(visible)]="visible" [modal]="true" [style]="{ width: '360px',height: '500px' }">
     <p class="font-bold">Data do agendamento:</p>
     <p-calendar [(ngModel)]="date" [minDate]="minDate" [showTime]="true" hourFormat="24" [hideOnDateTimeSelect]="false" [touchUI]="true"  [showIcon]="true" #calendar>
-    <p-footer class="botton-footer-calendar">
+    <p-footer *ngIf="date" class="botton-footer-calendar">
       <button class="p-ripple p-element p-button p-component p-button-agendar" (click)="fecharCalendario(calendar)">Ok</button>
     </p-footer>
     </p-calendar>

@@ -3,6 +3,7 @@ import { RadioButton } from 'primeng/radiobutton';
 import { HistoricService } from '../historic/service/historic.service';
 import {  MessageService } from 'primeng/api';
 import { Calendar } from 'primeng/calendar';
+import { Nullable } from 'primeng/ts-helpers';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class ModalAgendamentoComponent{
   constructor(private historicoServie:HistoricService, private messageService: MessageService){}
 
  @Input() visible: boolean = false;
-  date: Date  | undefined;
+  date: Date  | Nullable;
   minDate: Date =  new Date();
   tipoTatoo: string = "tatoo";
   pagamentoAdiantado: string = "false";
