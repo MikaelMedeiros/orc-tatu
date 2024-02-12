@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HistoricService } from '../historic/service/historic.service';
-import { BudgetHistory } from '../historic/model/budget-history';
+import { BudgetHistory } from '../historic/model/budget-reponse';
 import { AuthService } from '../login/service/auth.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class CalculadoraComponent {
 
   ngOnInit(): void {
     this.styles = [
-      { name: 'Fineline', value: 'fineline' },
+      { name: 'Fineline', value: 'FINELINE' },
       { name: 'Bold Line', value: 'bold line' },
       { name: 'Realismo', value: 'realismo' },
       { name: 'Old School', value: 'old school' },
@@ -41,7 +41,7 @@ export class CalculadoraComponent {
     ];
 
     this.details = [
-      { name: 'Sombreamento', value: 'sombreamento' },
+      { name: 'Sombreamento', value: 'SHADING' },
       { name: 'Pontilhismo', value: 'pontilhismo' },
       { name: 'Linhas', value: 'linhas' },
       { name: 'Colorido', value: 'colorido' },
@@ -57,7 +57,7 @@ export class CalculadoraComponent {
       { name: 'Canela', value:'canela', category: 'category 2', addtion: '2'},
       { name: 'Costela', value:'costela', category: 'category 2', addtion: '2'},
       { name: 'Costas', value:'costas', category: 'category 2', addtion: '2'},
-      { name: 'Pescoço', value:'pescoço', category: 'category 2', addtion: '2'},
+      { name: 'Pescoço', value:'NECK', category: 'category 2', addtion: '2'},
       // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
       // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
       // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
@@ -76,13 +76,13 @@ export class CalculadoraComponent {
   text: string | undefined;
 
   budgetForm = this.fb.group({
-    id: [''],
-    client: [''],
-    draw: [''],
+    id: [],
+    client: [],
+    draw: [],
     cm: [1, Validators.required],
-    bodyLocal: [''],
-    style:  [[''], Validators.required],
-    details: [['']]
+    bodyLocal: [],
+    style:  [[], Validators.required],
+    details: [[]]
   })
 
   configForm = this.fb.group({
@@ -212,25 +212,32 @@ export class CalculadoraComponent {
 
   saveBudget() {
     const budgetRaw = this.budgetForm.getRawValue();
+    const configRaw = this.configForm.getRawValue();
 
-    let budget = new BudgetHistory(
+    let budget: BudgetHistory = new BudgetHistory(
       budgetRaw.client,
       this.generatedBudget,
-      this.netValue,
-      this.studioPercent,
-      this.netValue + this.studioPercent,
-      "verde"
-    )
+      budgetRaw.draw,
+      budgetRaw.cm,
+      configRaw.valorcm,
+      budgetRaw.bodyLocal,
+      budgetRaw.style,
+      budgetRaw.details,
+      configRaw.percentageTax,
+      configRaw.parkingPrice,
+      configRaw.materials,
+      configRaw.creditTax,
+      'Orçado'
+    );
 
     this.historicService.saveOnBudgetHistory(budget).subscribe((data: any) => console.log('Deu bom!', data))
-
   }
 
   resetForm() {
     this.budgetForm.reset();
     this.budgetForm.get('cm')?.setValue(1);
-    this.configForm.get('valorcm')?.setValue(22.50);
-    this.budgetForm.get('style')?.setValue(['']);
+    this.configForm.get('valorcm')?.setValue(30);
+    this.budgetForm.get('style')?.setValue(null);
     this.generatedBudget = '';
     this.studioPercent = 0;
     this.netValue = 0;

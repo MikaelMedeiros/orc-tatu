@@ -1,40 +1,56 @@
+import { BudgetHistory } from '../model/budget-reponse';
 import { Component, Input, ViewChild } from '@angular/core';
 import { RadioButton } from 'primeng/radiobutton';
 import { HistoricService } from '../service/historic.service';
-import {  MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { Calendar } from 'primeng/calendar';
 import { Nullable } from 'primeng/ts-helpers';
-
+import { AgendarService } from '../service/agendar.service';
+import { AgendaDTO } from '../model/agendaDTO';
 
 @Component({
   selector: 'app-modal-agendamento',
   templateUrl: './modal-agendamento.component.html',
   styleUrls: ['./modal-agendamento.component.css'],
 })
-export class ModalAgendamentoComponent{
+export class ModalAgendamentoComponent {
+  constructor(
+    private agendarService: AgendarService,
+    private messageService: MessageService
+  ) {}
 
-
-  constructor(private historicoServie:HistoricService, private messageService: MessageService){}
-
- @Input() visible: boolean = false;
-  date: Date  | Nullable;
-  minDate: Date =  new Date();
-  tipoTatoo: string = "tatoo";
-  pagamentoAdiantado: string = "false";
+  @Input() budget: BudgetHistory | Nullable;
+  visible: boolean = false;
+  date: Date | Nullable;
+  minDate: Date = new Date();
+  tipoTatoo: string = 'tatoo';
+  pagamentoAdiantado: string = 'false';
 
   @ViewChild('tatoo') tatoo: RadioButton | undefined;
 
-  agendar(){
+  agendar() {
     if (this.date === undefined) {
-      this.messageService.add({ severity: 'error', summary: 'Erro ao agendar', detail: 'Por favor selecione data e hora.', life: 300000 });
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro ao agendar',
+        detail: 'Por favor selecione data e hora.',
+        life: 300000,
+      });
       return; // Sair do método após exibir a mensagem de erro
     }
-    console.log(this.date)
-    console.log("Agendado");
-    this.historicoServie.agendarTattoo(this.date)
+
+    this.agendarService.agendar(
+      new AgendaDTO(
+        this.budget?.id,
+        this.budget?.description,
+        this.tipoTatoo,
+        this.date,
+        30
+      )
+    );
   }
 
-  fecharCalendario(calendar: Calendar){
+  fecharCalendario(calendar: Calendar) {
     calendar.hideOverlay();
   }
 }

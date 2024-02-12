@@ -1,6 +1,7 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { BudgetHistory } from '../model/budget-history';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BudgetHistory } from '../model/budget-reponse';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from 'src/app/login/service/auth.service';
 
 @Injectable({
@@ -13,14 +14,8 @@ export class HistoricService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getHistoric() {
-    return [
-      new BudgetHistory('Mikaelfo', "Mikaelfo, seu orçamento deu 100 conto", 70, 30, 100, "Done"),
-      new BudgetHistory('Bentorc', "Bentorc, seu orçamento deu 100 conto", 70, 30, 100, "Canceled"),
-      new BudgetHistory('Leticeira', "Leticeira, seu orçamento deu 100 conto", 70, 30, 100, "Scheduled"),
-      new BudgetHistory('Mikaelson', "Mikaelson, seu orçamento deu 100 conto", 70, 30, 100, "Budgeted")
-
-    ]
+  getHistoric():Observable<BudgetHistory[]>{
+    return this.http.get<BudgetHistory[]>(this.baseUrl).pipe();
   }
 
   saveOnBudgetHistory(budget: BudgetHistory) {

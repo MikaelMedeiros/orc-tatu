@@ -3,8 +3,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HistoricService } from './service/historic.service';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { BudgetHistory } from './model/budget-history';
+import { BudgetHistory } from './model/budget-reponse';
 import { FormControl, FormGroup } from '@angular/forms';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-historic',
@@ -29,9 +30,31 @@ export class HistoricComponent implements OnInit {
 
   ngOnInit(): void {
     this.initFormFilters();
-    this.budgets = this.historicService.getHistoric();
     this.responsiveOption();
+    this.getBudgets();
+  }
 
+  getBudgets(){
+     this.historicService.getHistoric().subscribe({
+      next: (res:BudgetHistory[])=>{
+        this.budgets = res
+      },
+      error: (error:HttpErrorResponse)=>{
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmado',
+          detail: (this.errorBuild(error)),
+          life: 300000,
+        });
+      }
+    })
+  }
+
+  errorBuild(erro : any){
+    if(erro.status = '401'){
+      return 'vc errou';
+    }
+    return ''
   }
 
   initFormFilters() {
@@ -110,6 +133,8 @@ export class HistoricComponent implements OnInit {
   }
 
   returnsAmountCollected(): number {
+    console.log(this.budgets)
+    if(this.budgets){
     return this.budgets
       .filter((budget: { status: string }) => budget.status === 'verde')
       .reduce(
@@ -117,6 +142,9 @@ export class HistoricComponent implements OnInit {
           total + (budget.tattooValue || 0),
         0
       );
+    }else{
+      return this.budgets;
+    }
   }
 
   confirm1(event: Event, budget: BudgetHistory) {
