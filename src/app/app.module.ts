@@ -30,7 +30,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import {  ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
-import { ModalAgendamentoComponent } from './modal-agendamento/modal-agendamento.component';
+import { ModalAgendamentoComponent } from './historic/modal-agendamento/modal-agendamento.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
 
 

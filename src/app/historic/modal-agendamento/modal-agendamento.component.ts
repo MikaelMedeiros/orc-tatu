@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { RadioButton } from 'primeng/radiobutton';
-import { HistoricService } from '../historic/service/historic.service';
+import { HistoricService } from '../service/historic.service';
 import {  MessageService } from 'primeng/api';
 import { Calendar } from 'primeng/calendar';
 import { Nullable } from 'primeng/ts-helpers';

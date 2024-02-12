@@ -55,6 +55,10 @@
   background-color: #ffec99 !important;
 }
 
+.filter-calendar{
+  width: 6rem;
+  display: flex;
+}
 
 
 

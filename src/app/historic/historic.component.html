@@ -1,3 +1,16 @@
+<form [formGroup]="formFiltersGroup">
+  <div class="filters  row-gap-" style="display: flex;">
+    <div class="p-float-label">
+      <label style="justify-content: flex-end;" for="date">Data</label>
+      <p-calendar formControlName="data" class="filter-calendar"  id="date" selectionMode="range" dateFormat="dd/mm/yy" [readonlyInput]="true"></p-calendar>
+    </div>
+    <div class="p-float-label">
+      <label style="justify-content: flex-end;" for="username">Nome</label>
+      <input type="text" style="width: 6rem;" id="username" pInputText formControlName="nome" />
+    </div>
+  </div>
+</form>
+
 <div class="border-round">
 <p-carousel
   [value]="budgets"
@@ -44,5 +57,4 @@
 
 </div>
 <p>Valor arrecadado: {{ returnsAmountCollected() }}</p>
-{{visible}}
 <app-modal-agendamento></app-modal-agendamento>

@@ -1,9 +1,10 @@
-import { ModalAgendamentoComponent } from './../modal-agendamento/modal-agendamento.component';
+import { ModalAgendamentoComponent } from './modal-agendamento/modal-agendamento.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HistoricService } from './service/historic.service';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BudgetHistory } from './model/budget-history';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-historic',
@@ -11,13 +12,13 @@ import { BudgetHistory } from './model/budget-history';
   styleUrls: ['./historic.component.css'],
 })
 export class HistoricComponent implements OnInit {
-
   budgets: any = [];
   responsiveOptions: any[] | undefined;
   currentIndex: number | undefined;
   visible: boolean = false;
   @ViewChild(ModalAgendamentoComponent, { static: false })
   modalAgendamento!: ModalAgendamentoComponent;
+  formFiltersGroup: FormGroup | any;
 
   constructor(
     private historicService: HistoricService,
@@ -26,39 +27,50 @@ export class HistoricComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-
-
   ngOnInit(): void {
+    this.initFormFilters();
     this.budgets = this.historicService.getHistoric();
+    this.responsiveOption();
+
+  }
+
+  initFormFilters() {
+    this.formFiltersGroup = new FormGroup({
+      nome: new FormControl<string | null>(null),
+      data: new FormControl<Date | null>(null),
+    });
+  }
+
+  responsiveOption() {
     this.responsiveOptions = [
       {
-          breakpoint: '1199px',
-          numVisible: 1,
-          numScroll: 1
+        breakpoint: '1199px',
+        numVisible: 2,
+        numScroll: 2,
       },
       {
-          breakpoint: '991px',
-          numVisible: 2,
-          numScroll: 1
+        breakpoint: '991px',
+        numVisible: 2,
+        numScroll: 2,
       },
       {
-          breakpoint: '767px',
-          numVisible: 1,
-          numScroll: 1
-      }
-  ];
+        breakpoint: '767px',
+        numVisible: 2,
+        numScroll: 2,
+      },
+    ];
   }
 
   historicForm = this.fb.group({
     titulo: [''],
     descricao: [''],
-  })
+  });
 
   agendar() {
     let agendamento = this.historicForm.getRawValue();
-    this.historicService.agendarTattoo(agendamento).subscribe(
-      (data: any) => console.log('Deu bom!', data)
-    );
+    this.historicService
+      .agendarTattoo(agendamento)
+      .subscribe((data: any) => console.log('Deu bom!', data));
   }
 
   resetForm() {
@@ -67,11 +79,11 @@ export class HistoricComponent implements OnInit {
 
   getClassBalls(status: string): any {
     const colorClasses = {
-      'ball': true,
-      'green': status === 'Done',
-      'red': status === 'Canceled'  || status === null,
-      'yellow': status === 'Scheduled',
-      'blue': status === 'Budgeted',
+      ball: true,
+      green: status === 'Done',
+      red: status === 'Canceled' || status === null,
+      yellow: status === 'Scheduled',
+      blue: status === 'Budgeted',
       // Adicione mais cores conforme necessário
     };
 
@@ -81,11 +93,11 @@ export class HistoricComponent implements OnInit {
   getTooltipText(status: string): string {
     switch (status) {
       case 'Done':
-        return 'Tatoo concluida';
+        return 'Tattoo concluida';
       case 'Canceled':
         return 'Orçamento cancelado';
       case 'Scheduled':
-        return 'Tatoo agendado';
+        return 'Tattoo agendado';
       case 'Budgeted':
         return 'Orçado';
       default:
@@ -97,46 +109,45 @@ export class HistoricComponent implements OnInit {
     this.currentIndex = event.page + 1;
   }
 
+  returnsAmountCollected(): number {
+    return this.budgets
+      .filter((budget: { status: string }) => budget.status === 'verde')
+      .reduce(
+        (total: any, budget: { tattooValue: any }) =>
+          total + (budget.tattooValue || 0),
+        0
+      );
+  }
 
-  returnsAmountCollected(): number{
-    return this.budgets.filter((budget: { status: string; }) => budget.status === "verde")
-    .reduce((total: any, budget: { tattooValue: any; }) => total + (budget.tattooValue || 0), 0);
+  confirm1(event: Event, budget: BudgetHistory) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Voce deseja cancelar esse orçamento?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => {
+        budget.status = 'cancelado';
+        this.historicService.atualizarBudget(budget);
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmado',
+          detail: 'Esse orçamento foi cancelado',
+          life: 300000,
+        });
+      },
+      reject: () => {},
+    });
+    this.messageService.clear();
   }
 
 
-  confirm1(event: Event, budget: BudgetHistory) {
-    console.log('arou')
-    this.confirmationService.confirm({
-        target: event.target as EventTarget,
-        message: 'Voce deseja cancelar esse orçamento?',
-        icon: 'pi pi-exclamation-triangle',
-        acceptIcon:"none",
-        rejectIcon:"none",
-        rejectButtonStyleClass:"p-button-text",
-        accept: () => {
-            budget.status = 'cancelado'
-            this.historicService.atualizarBudget(budget);
-            this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Esse orçamento foi cancelado', life: 300000 });
-        },
-        reject: () => {
+  showDialgAgendar() {
+    this.modalAgendamento.visible = true;
+  }
 
-        }
-    });
-    this.messageService.clear();
-}
-
-
-
-
- returnMsgEvents():string {
-  return 'Voce deseja cancelar esse orçamento?'
- }
-
- showDialgAgendar(){
-  this.modalAgendamento.visible = true;
- }
-
- exibeModal(){
-  this.modalAgendamento.visible = true;
- }
+  exibeModal() {
+    this.modalAgendamento.visible = true;
+  }
 }
