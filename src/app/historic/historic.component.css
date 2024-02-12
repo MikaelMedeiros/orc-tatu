@@ -55,10 +55,12 @@
   background-color: #ffec99 !important;
 }
 
-.filter-calendar{
-  width: 6rem;
-  display: flex;
+
+
+
+.p-button-filter{
+ display: flex;
+ justify-content: end;
+ padding-top: 0.5rem;
+ padding-right: 1rem;
 }
-
-
-

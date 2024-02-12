@@ -1,14 +1,20 @@
-<form [formGroup]="formFiltersGroup">
-  <div class="filters  row-gap-" style="display: flex;">
-    <div class="p-float-label">
+<form [formGroup]="formFiltersGroup" class="p-inputgroup">
+  <div class="filters  gap-3" style="display: flex;">
+    <div>
       <label style="justify-content: flex-end;" for="date">Data</label>
-      <p-calendar formControlName="data" class="filter-calendar"  id="date" selectionMode="range" dateFormat="dd/mm/yy" [readonlyInput]="true"></p-calendar>
+      <p-calendar formControlName="data"   id="date" selectionMode="range" dateFormat="dd/mm/yy" [readonlyInput]="true"></p-calendar>
     </div>
-    <div class="p-float-label">
+    <div class="p-float-label  gap-6">
       <label style="justify-content: flex-end;" for="username">Nome</label>
       <input type="text" style="width: 6rem;" id="username" pInputText formControlName="nome" />
     </div>
   </div>
+  <div class="p-button-filter">
+    <button style="width: 2rem!important; padding: 0.3rem 0!important;" class="p-ripple p-element p-button p-component .p-button-filter p-button-agendar" (click)="showDialgAgendar()" >
+      <span class="pi pi-search p-button-icon ng-star-inserted"></span>
+    </button>
+  </div>
+
 </form>
 
 <div class="border-round">
