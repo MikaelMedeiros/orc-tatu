@@ -60,7 +60,7 @@ export class HistoricComponent implements OnInit {
   initFormFilters() {
     this.formFiltersGroup = new FormGroup({
       nome: new FormControl<string | null>(null),
-      data: new FormControl<Date | null>(null),
+      data: new FormControl<Date[] | null>(null),
     });
   }
 
