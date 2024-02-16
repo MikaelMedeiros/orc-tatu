@@ -1,18 +1,24 @@
 import { ModalAgendamentoComponent } from './modal-agendamento/modal-agendamento.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Directive, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { HistoricService } from './service/historic.service';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BudgetHistory } from './model/budget-reponse';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Nullable } from 'primeng/ts-helpers';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+
 
 @Component({
   selector: 'app-historic',
   templateUrl: './historic.component.html',
   styleUrls: ['./historic.component.css'],
+
 })
+
 export class HistoricComponent implements OnInit {
+
   budgets: any = [];
   responsiveOptions: any[] | undefined;
   currentIndex: number | undefined;
@@ -20,20 +26,49 @@ export class HistoricComponent implements OnInit {
   @ViewChild(ModalAgendamentoComponent, { static: false })
   modalAgendamento!: ModalAgendamentoComponent;
   formFiltersGroup: FormGroup | any;
+  isCanleados: boolean | any;
+  isAgendados: boolean | any;
+  selectedItem: any;
+  autocompleteBudget: any[]  =[];
 
   constructor(
     private historicService: HistoricService,
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private el: ElementRef, private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
     this.initFormFilters();
     this.responsiveOption();
     this.getBudgets();
+    this.removeClassCheckbox();
   }
 
+  filtrarBudgets(): BudgetHistory[] {
+    let filteredBudgets: BudgetHistory[] = this.budgets;
+
+    if (this.isCanleados === true) {
+      filteredBudgets = this.budgets.filter((budget: { status: number; }) => budget.status === 3); // Filtrar orçamentos cancelados
+    }
+    if (this.isAgendados === true) {
+      const agendados = this.budgets.filter((budget: { status: number; }) => budget.status === 1);
+      filteredBudgets = filteredBudgets.concat(agendados);
+    }
+    return filteredBudgets;
+  }
+
+  removeClassCheckbox(){
+    const checkbox = document.querySelector('p-checkbox');
+  // Verifique se o elemento foi encontrado antes de tentar remover a classe
+  if (checkbox) {
+    console.log('entrou')
+    // Use o Renderer2 para remover a classe do elemento
+    this.renderer.removeClass(checkbox, 'p-checkbox-box');
+  }
+
+  }
   getBudgets(){
      this.historicService.getHistoric().subscribe({
       next: (res:BudgetHistory[])=>{
@@ -59,10 +94,25 @@ export class HistoricComponent implements OnInit {
 
   initFormFilters() {
     this.formFiltersGroup = new FormGroup({
-      nome: new FormControl<string | null>(null),
+      nome: new FormControl<String | null>(null),
       data: new FormControl<Date[] | null>(null),
     });
   }
+
+  autocompleBudget(event: AutoCompleteCompleteEvent) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.budgets.length; i++) {
+        let budget = this.budgets[i];
+        if (budget.clientName.toLowerCase().indexOf(query.toLowerCase()) === 0 && !filtered.includes(budget.clientName)) {
+            filtered.push(budget.clientName);
+        }
+    }
+
+    this.autocompleteBudget = filtered;
+}
+
 
   responsiveOption() {
     this.responsiveOptions = [

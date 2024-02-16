@@ -32,6 +32,9 @@ import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { ModalAgendamentoComponent } from './historic/modal-agendamento/modal-agendamento.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
+import { RemoveClassCheckboxDirective } from './diretivas/remove-class-checkbox.directive';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 
@@ -44,7 +47,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     HistoricComponent,
     HomeComponent,
     AuthenticationComponent,
-    ModalAgendamentoComponent
+    ModalAgendamentoComponent,
+    RemoveClassCheckboxDirective,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +73,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     ConfirmDialogModule,
     ToastModule,
     CalendarModule,
-    RadioButtonModule
+    RadioButtonModule,
+    CheckboxModule,
+    AutoCompleteModule
   ],
   providers: [
     AuthService,

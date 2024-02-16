@@ -14,7 +14,7 @@
 .bordar-carousel {
   border: 1px solid lightgray;
   border-radius: 8px;
-  padding: 10px;
+  height: 16rem;
 }
 
 
@@ -63,4 +63,26 @@
  justify-content: flex-end;
  padding-top: 0.5rem;
  padding-right: 1rem;
+}
+
+
+::ng-deep .p-autocomplete-input {
+  width: 6.5rem;
+  right: 1.5rem;
+  position: relative;
+}
+
+::ng-deep .custom-panel-class{
+  right: 3rem;
+  position: relative;
+}
+
+::ng-deep .p-autocomplete-items{
+  width: 8rem;
+}
+
+
+::ng-deep .p-autocomplete-item{
+  right: 1rem;
+
 }
