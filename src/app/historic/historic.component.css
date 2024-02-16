@@ -56,16 +56,6 @@
 }
 
 
-
-
-.p-button-filter{
- display: flex;
- justify-content: flex-end;
- padding-top: 0.5rem;
- padding-right: 1rem;
-}
-
-
 ::ng-deep .p-autocomplete-input {
   width: 6.5rem;
   right: 1.5rem;
