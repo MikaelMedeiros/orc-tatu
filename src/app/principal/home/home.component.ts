@@ -20,25 +20,45 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(1)
-    // window.localStorage.setItem('token', 'token-teste');
-    this.route.queryParams
-      .subscribe(params => {
-        if (params["code"] !== undefined) {
-          console.log(2)
-          this.authService.getUser(params["code"]).subscribe(result => {
-            if (result === true) {
-              console.log(3)
-              console.log("setando Token...", this.authService.token);
-              window.localStorage.setItem('token', this.authService.token);
-              this.user = this.authService.user;
-              // console.log(this.user)
-            }
-          });
-        }
-      }
-    );
+   this.callback()
   }
 
 
+  callback(){
+     // window.localStorage.setItem('token', 'token-teste');
+     var userInLocal = this.recuperarObjetoLocalStorage('user');
+     if(userInLocal){
+       this.user = userInLocal;
+     }else{
+       this.route.queryParams
+       .subscribe(params => {
+         if (params["code"] !== undefined) {
+           console.log(2)
+           this.authService.getUser(params["code"]).subscribe(result => {
+             if (result === true) {
+               window.localStorage.setItem('token', this.authService.token);
+               this.user = this.authService.user;
+             }
+           });
+           this.router.navigate(["/"])
+         }
+         this.salvarObjetoLocalStorage('user', this.user)
+       }
+     );
+     }
+  }
+
+
+  salvarObjetoLocalStorage(chave: string, objeto: any): void {
+    localStorage.setItem(chave, JSON.stringify(objeto));
+  }
+
+  recuperarObjetoLocalStorage(chave: string): any {
+    const objetoString = localStorage.getItem(chave);
+    if (objetoString !== null) {
+      return JSON.parse(objetoString);
+    }
+    // Retornar null ou algum valor padrão caso não haja um objeto com a chave especificada
+    return null;
+  }
 }
