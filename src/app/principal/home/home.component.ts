@@ -38,27 +38,28 @@ export class HomeComponent implements OnInit{
              if (result === true) {
                window.localStorage.setItem('token', this.authService.token);
                this.user = this.authService.user;
+               this.salvarObjetoLocalStorage('user', this.user)
              }
            });
            this.router.navigate(["/"])
          }
-         this.salvarObjetoLocalStorage('user', this.user)
+
        }
      );
      }
   }
 
 
-  salvarObjetoLocalStorage(chave: string, objeto: any): void {
+  salvarObjetoLocalStorage(chave: string, objeto: Usuario): void {
     localStorage.setItem(chave, JSON.stringify(objeto));
   }
 
   recuperarObjetoLocalStorage(chave: string): any {
     const objetoString = localStorage.getItem(chave);
-    if (objetoString !== null) {
+    if (objetoString !== null && objetoString !== '{}') {
       return JSON.parse(objetoString);
     }
-    // Retornar null ou algum valor padrão caso não haja um objeto com a chave especificada
+
     return null;
   }
 }
