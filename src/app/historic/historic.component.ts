@@ -6,7 +6,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { BudgetHistory } from './model/budget-reponse';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Nullable } from 'primeng/ts-helpers';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 
@@ -25,10 +24,9 @@ export class HistoricComponent implements OnInit {
   visible: boolean = false;
   @ViewChild(ModalAgendamentoComponent, { static: false })
   modalAgendamento!: ModalAgendamentoComponent;
-  formFiltersGroup: FormGroup | any;
-  isCanleados: boolean | any;
-  isAgendados: boolean | any;
-  selectedItem: any;
+  formFiltersGroup!: FormGroup<any>;
+  isCanleados: boolean = false;
+  isAgendados: boolean =false;
   autocompleteBudget: any[]  =[];
 
   constructor(
@@ -46,9 +44,16 @@ export class HistoricComponent implements OnInit {
     this.removeClassCheckbox();
   }
 
+  filtrarCancelados(novoValor: boolean) {
+    this.isCanleados = novoValor;
+  }
+
+  onNameAutocompleSelect(selectedBudget: any) {
+    this.filtrarBudgets();
+  }
+
   filtrarBudgets(): BudgetHistory[] {
     let filteredBudgets: BudgetHistory[] = this.budgets;
-
     if (this.isCanleados === true) {
       filteredBudgets = this.budgets.filter((budget: { status: number; }) => budget.status === 3); // Filtrar orçamentos cancelados
     }
@@ -56,14 +61,20 @@ export class HistoricComponent implements OnInit {
       const agendados = this.budgets.filter((budget: { status: number; }) => budget.status === 1);
       filteredBudgets = filteredBudgets.concat(agendados);
     }
+
+    if (this.formFiltersGroup.get('nome')?.value) {
+      filteredBudgets = filteredBudgets.filter((budget: { clientName: string | null }) =>
+        budget.clientName?.toLowerCase().includes(this.formFiltersGroup?.get('nome')?.value.toLowerCase())
+      );
+    }
     return filteredBudgets;
-  }
+}
 
   removeClassCheckbox(){
     const checkbox = document.querySelector('p-checkbox');
   // Verifique se o elemento foi encontrado antes de tentar remover a classe
   if (checkbox) {
-    console.log('entrou')
+
     // Use o Renderer2 para remover a classe do elemento
     this.renderer.removeClass(checkbox, 'p-checkbox-box');
   }
@@ -183,7 +194,6 @@ export class HistoricComponent implements OnInit {
   }
 
   returnsAmountCollected(): number {
-    console.log(this.budgets)
     if(this.budgets){
     return this.budgets
       .filter((budget: { status: string }) => budget.status === 'verde')
@@ -225,7 +235,4 @@ export class HistoricComponent implements OnInit {
     this.modalAgendamento.visible = true;
   }
 
-  exibeModal() {
-    this.modalAgendamento.visible = true;
-  }
 }
