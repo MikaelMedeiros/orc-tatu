@@ -7,6 +7,7 @@ import { Calendar } from 'primeng/calendar';
 import { Nullable } from 'primeng/ts-helpers';
 import { AgendarService } from '../service/agendar.service';
 import { AgendaDTO } from '../model/agendaDTO';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-modal-agendamento',
@@ -26,9 +27,11 @@ export class ModalAgendamentoComponent {
   tipoTatoo: string = 'tatoo';
   pagamentoAdiantado: string = 'false';
 
+
   @ViewChild('tatoo') tatoo: RadioButton | undefined;
 
   agendar() {
+    console.log(this.tipoTatoo)
     if (this.date === undefined) {
       this.messageService.add({
         severity: 'error',
@@ -43,11 +46,29 @@ export class ModalAgendamentoComponent {
       new AgendaDTO(
         this.budget?.id,
         this.budget?.description,
-        this.tipoTatoo,
+        `${this.budget?.clientName}: ${this.budget?.draw}`,
         this.date,
-        30
+        this.tipoTatoo
       )
-    );
+    ).subscribe({
+      next:(n) =>{
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmado',
+          detail: 'VOCE ERROU DNV',
+          life: 300000,
+        });
+      },
+      error: (error:HttpErrorResponse)=>{
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Confirmado',
+          detail: error.message,
+          life: 300000,
+        });
+      }
+    })
+
   }
 
   fecharCalendario(calendar: Calendar) {

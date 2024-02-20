@@ -54,7 +54,7 @@
         <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-cancelado" (click)="confirm1($event, budget); $event.stopPropagation()" >
           <span class="pi pi-times p-button-icon ng-star-inserted"></span>
         </button>
-        <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-agendar" (click)="showDialgAgendar()" >
+        <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-agendar" (click)="showDialgAgendar(budget)" >
           <span class="pi pi-calendar-plus p-button-icon ng-star-inserted"></span>
         </button>
       </div>
@@ -72,4 +72,4 @@
 </div>
 
 
-<app-modal-agendamento></app-modal-agendamento>
+<app-modal-agendamento [budget]="modalBudgetInput"></app-modal-agendamento>

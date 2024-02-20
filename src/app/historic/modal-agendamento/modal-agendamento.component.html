@@ -5,6 +5,7 @@
       <button class="p-ripple p-element p-button p-component p-button-agendar" (click)="fecharCalendario(calendar)">Ok</button>
     </p-footer>
     </p-calendar>
+    <p-calendar [(ngModel)]="date"></p-calendar>
     <div class="flex flex-wrap gap-3 radios">
       <div class="flex align-items-center">
         <p-radioButton value="Retoque" [(ngModel)]="tipoTatoo" inputId="retoque"></p-radioButton>
@@ -34,6 +35,6 @@
         <span >Agendar</span>
       </button>
     </p-footer>
-   
+
   </p-dialog>
-  
+

@@ -28,6 +28,7 @@ export class HistoricComponent implements OnInit {
   isCanleados: boolean = false;
   isAgendados: boolean =false;
   autocompleteBudget: any[]  =[];
+  modalBudgetInput: BudgetHistory | any;
 
   constructor(
     private historicService: HistoricService,
@@ -231,8 +232,9 @@ export class HistoricComponent implements OnInit {
   }
 
 
-  showDialgAgendar() {
+  showDialgAgendar(budget: BudgetHistory) {
     this.modalAgendamento.visible = true;
+    this.modalBudgetInput = budget;
   }
 
 }

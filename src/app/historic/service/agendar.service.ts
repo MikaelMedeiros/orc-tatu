@@ -11,6 +11,7 @@ export class AgendarService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   agendar(agendaDTO: AgendaDTO){
+    console.log('arou')
    return this.http.post(this.baseUrl, agendaDTO).pipe()
   }
 }
