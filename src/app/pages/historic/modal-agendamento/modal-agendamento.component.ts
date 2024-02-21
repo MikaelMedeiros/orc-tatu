@@ -1,13 +1,12 @@
 import { BudgetHistory } from '../model/budget-reponse';
 import { Component, Input, ViewChild } from '@angular/core';
 import { RadioButton } from 'primeng/radiobutton';
-import { HistoricService } from '../service/historic.service';
 import { MessageService } from 'primeng/api';
 import { Calendar } from 'primeng/calendar';
 import { Nullable } from 'primeng/ts-helpers';
 import { AgendarService } from '../service/agendar.service';
 import { AgendaDTO } from '../model/agendaDTO';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-modal-agendamento',
@@ -30,8 +29,7 @@ export class ModalAgendamentoComponent {
 
   @ViewChild('tatoo') tatoo: RadioButton | undefined;
 
-  agendar() {
-    console.log(this.tipoTatoo)
+  agendar() {    
     if (this.date === undefined) {
       this.messageService.add({
         severity: 'error',

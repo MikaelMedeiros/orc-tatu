@@ -1,4 +1,4 @@
-import { TokenInfoDTO } from "./model/tokenInfoDTO";
+import { TokenInfoDTO } from "./tokenInfoDTO";
 
 export class Usuario {
     name!: string;
