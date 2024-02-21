@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/login/service/auth.service';
-import { Usuario } from 'src/app/login/usuario';
+import { LoggingInterceptor } from 'src/app/interceptor/auth.interceptor';
+import { AuthService } from 'src/app/pages/login/service/auth.service';
+import { Usuario } from 'src/app/pages/login/model/usuario';
 
 
 @Component({
@@ -15,7 +16,6 @@ export class HomeComponent implements OnInit{
 
   user: Usuario = new Usuario();
   logout() {
-    localStorage.removeItem('token')
     localStorage.removeItem('user')
     this.router.navigate(['/login'])
   }
@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit{
 
 
   callback(){
-     // window.localStorage.setItem('token', 'token-teste');
      var userInLocal = this.recuperarObjetoLocalStorage('user');
      if(userInLocal){
        this.user = userInLocal;
@@ -36,7 +35,6 @@ export class HomeComponent implements OnInit{
          if (params["code"] !== undefined) {
            this.authService.getUser(params["code"]).subscribe(result => {
              if (result === true) {
-               window.localStorage.setItem('token', this.authService.token);
                this.user = this.authService.user;
                this.salvarObjetoLocalStorage('user', this.user)
              }

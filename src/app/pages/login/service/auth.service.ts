@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http'
-import { Usuario } from '../usuario';
+import { Usuario } from '../model/usuario';
 import { Router } from '@angular/router';
 
 import { Observable, map } from 'rxjs';
+import { LoggingInterceptor, loggingInterceptor } from 'src/app/interceptor/auth.interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthService {
 
   private usuarioAutenticado = false;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) { }
 
   baseUrl: string = 'http://localhost:8080/authentication' ;
 

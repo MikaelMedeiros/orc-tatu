@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthService } from './service/auth.service';
-import { Usuario } from './usuario';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,11 +7,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
-  private usuario: Usuario = new Usuario();
+  
   url: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.retrieveGoogleLoginUrl();
