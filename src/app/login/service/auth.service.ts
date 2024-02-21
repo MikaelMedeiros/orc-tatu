@@ -34,7 +34,6 @@ export class AuthService {
         if (response.status === 200 && response.body !== null) {
           this.token = response.body.tokenInfoDTO.accessToken;
           this.user = response.body;
-          console.log(this.user)
           return true;
         } else {
           return false;

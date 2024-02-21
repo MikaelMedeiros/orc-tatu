@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit{
        this.route.queryParams
        .subscribe(params => {
          if (params["code"] !== undefined) {
-           console.log(2)
            this.authService.getUser(params["code"]).subscribe(result => {
              if (result === true) {
                window.localStorage.setItem('token', this.authService.token);

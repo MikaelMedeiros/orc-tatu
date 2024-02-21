@@ -3,7 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HistoricService } from '../historic/service/historic.service';
 import { BudgetHistory } from '../historic/model/budget-reponse';
-import { AuthService } from '../login/service/auth.service';
+import { HttpErrorResponse, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-calculadora',
@@ -21,7 +22,9 @@ export class CalculadoraComponent {
   constructor(
     private fb: FormBuilder,
     private clipboard: Clipboard,
-    private historicService: HistoricService
+    private historicService: HistoricService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) {}
 
   styles: any[] = [];
@@ -230,7 +233,25 @@ export class CalculadoraComponent {
       'Orçado'
     );
 
-    this.historicService.saveOnBudgetHistory(budget).subscribe((data: any) => console.log('Deu bom!', data))
+    this.historicService.saveOnBudgetHistory(budget)
+    .subscribe({
+      next: ()=>{
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Sucesso',
+          detail: "Salvo com sucesso",
+          life: 3000,
+        });
+      },
+      error: (error:HttpErrorResponse)=>{
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro.',
+          detail: "Erro ao salvar orçamento",
+          life: 3000,
+        });
+      }
+    })
   }
 
   resetForm() {

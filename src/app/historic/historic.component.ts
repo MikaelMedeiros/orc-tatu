@@ -151,13 +151,6 @@ export class HistoricComponent implements OnInit {
     descricao: [''],
   });
 
-  agendar() {
-    let agendamento = this.historicForm.getRawValue();
-    this.historicService
-      .agendarTattoo(agendamento)
-      .subscribe((data: any) => console.log('Deu bom!', data));
-  }
-
   resetForm() {
     this.historicForm.reset();
   }

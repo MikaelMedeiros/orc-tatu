@@ -13,7 +13,6 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 @Injectable()
 export class LoggingInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('Request URL: ' + req.url);
     let token: string | null  = window.localStorage.getItem('token');
     if(token) {
         const reqClone =  req.clone({

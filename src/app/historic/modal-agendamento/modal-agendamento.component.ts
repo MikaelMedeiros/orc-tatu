@@ -31,7 +31,6 @@ export class ModalAgendamentoComponent {
   @ViewChild('tatoo') tatoo: RadioButton | undefined;
 
   agendar() {
-    console.log(this.tipoTatoo)
     if (this.date === undefined) {
       this.messageService.add({
         severity: 'error',

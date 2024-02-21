@@ -1,4 +1,7 @@
-
+:host ::ng-deep .p-hidden-accessible {
+    position: relative;
+    top: 21px;
+}
 
 .label-radio {
     right: 36px;
