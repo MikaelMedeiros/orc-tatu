@@ -33,31 +33,31 @@ export class CalculadoraComponent {
 
   ngOnInit(): void {
     this.styles = [
-      { name: 'Fineline', value: 'FINELINE' },
-      { name: 'Bold Line', value: 'bold line' },
-      { name: 'Realismo', value: 'realismo' },
-      { name: 'Old School', value: 'old school' },
-      { name: 'Black Work', value: 'black work' },
+      { name: 'Fineline', value: 'FINELINE', ptbr: 'fineline' },
+      { name: 'Bold Line', value: 'BOLD_LINE', ptbr: 'bold line' },
+      { name: 'Realismo', value: 'REALISM', ptbr: 'realismo' },
+      { name: 'Old School', value: 'OLD_SCHOOL', ptbr: 'old school' },
+      { name: 'Black Work', value: 'BLACK_WORK', ptbr: 'black work' },
     ];
 
     this.details = [
-      { name: 'Sombreamento', value: 'SHADING' },
-      { name: 'Pontilhismo', value: 'pontilhismo' },
-      { name: 'Linhas', value: 'linhas' },
-      { name: 'Colorido', value: 'colorido' },
-      { name: 'Tinta Branca', value: 'tinta branca' }
+      { name: 'Sombreamento', value: 'SHADING', ptbr: 'sombreamento' },
+      { name: 'Pontilhismo', value: 'POINTILLISM', ptbr: 'pontilhismo'  },
+      { name: 'Linhas', value: 'LINES', ptbr: 'linhas' },
+      { name: 'Colorido', value: 'COLORFUL',  ptbr: 'colorido' },
+      { name: 'Tinta Branca', value: 'WHITE_INK', ptbr: 'tinta branca' }
     ];
 
     this.bodyLocal = [
-      { name: 'Braço', value:'braço', category: 'category 2', addtion: '2'},
-      { name: 'Ombro', value:'ombro', category: 'category 2', addtion: '2'},
-      { name: 'Mão', value:'mão', category: 'category 2', addtion: '2'},
-      { name: 'Perna', value:'perna', category: 'category 2', addtion: '2'},
-      { name: 'Tornozelo', value:'tornozelo', category: 'category 2', addtion: '2'},
-      { name: 'Canela', value:'canela', category: 'category 2', addtion: '2'},
-      { name: 'Costela', value:'costela', category: 'category 2', addtion: '2'},
-      { name: 'Costas', value:'costas', category: 'category 2', addtion: '2'},
-      { name: 'Pescoço', value:'NECK', category: 'category 2', addtion: '2'},
+      { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
+      { name: 'Ombro', value:'SHOULDER', ptbr: 'ombro', addtion: '2'},
+      { name: 'Mão', value:'HAND', ptbr: 'mão', addtion: '2'},
+      { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
+      { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
+      { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
+      { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
+      { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
+      { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
       // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
       // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
       // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
