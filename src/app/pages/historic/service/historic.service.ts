@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { BudgetHistory } from '../model/budget-reponse';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 
 @Injectable({
@@ -18,8 +18,8 @@ export class HistoricService {
     return this.http.get<BudgetHistory[]>(this.baseUrl).pipe();
   }
 
-  saveOnBudgetHistory(budget: BudgetHistory) {
-    return this.http.post(this.baseUrl, budget);
+  saveOnBudgetHistory(budget: BudgetHistory): Observable<HttpResponse<any>> {
+    return this.http.post<any>(this.baseUrl, budget,{observe: 'response'});
   }
 
   agendarTattoo(agendamento: any) {

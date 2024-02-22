@@ -35,6 +35,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RemoveClassCheckboxDirective } from './diretivas/remove-class-checkbox.directive';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ToastService } from './shared/toast.service';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
       withInterceptorsFromDi()
     ),
     ConfirmationService,
-    MessageService
+    MessageService,
+    ToastService
   ],
   bootstrap: [AppComponent]
 })
