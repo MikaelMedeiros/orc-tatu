@@ -13,12 +13,12 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 @Injectable()
 export class LoggingInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('Request URL: ' + req.url);
-    let token: string | null  = window.localStorage.getItem('token');  
+    let token: string | null  = window.localStorage.getItem('token');
     if(token) {
         const reqClone =  req.clone({
             setHeaders: {
-                'Authorization' : 'Bearer '+token
+                'Authorization' : 'Bearer '+token,
+                'Content-Type' : "application/json"
             }
         })
         return next.handle(reqClone);

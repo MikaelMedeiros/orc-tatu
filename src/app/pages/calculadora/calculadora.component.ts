@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HistoricService } from '../historic/service/historic.service';
-import { BudgetHistory } from '../historic/model/budget-history';
-import { AuthService } from '../login/service/auth.service';
+import { BudgetHistory } from '../historic/model/budget-reponse';
+import { HttpErrorResponse, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-calculadora',
@@ -16,12 +17,14 @@ export class CalculadoraComponent {
   parkingPrice: number | null | undefined = 0;
   hintVisible: boolean = false;
   studioPercent = 0;
-  
+
 
   constructor(
     private fb: FormBuilder,
     private clipboard: Clipboard,
-    private historicService: HistoricService 
+    private historicService: HistoricService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) {}
 
   styles: any[] = [];
@@ -30,34 +33,34 @@ export class CalculadoraComponent {
   pixValue = 0;
   tattooValue = 0;
   creditValue = 0;
-  
+
   ngOnInit(): void {
     this.styles = [
-      { name: 'Fineline', value: 'fineline' },
-      { name: 'Bold Line', value: 'bold line' },
-      { name: 'Realismo', value: 'realismo' },
-      { name: 'Old School', value: 'old school' },
-      { name: 'Black Work', value: 'black work' },
+      { name: 'Fineline', value: 'FINELINE', ptbr: 'fineline' },
+      { name: 'Bold Line', value: 'BOLD_LINE', ptbr: 'bold line' },
+      { name: 'Realismo', value: 'REALISM', ptbr: 'realismo' },
+      { name: 'Old School', value: 'OLD_SCHOOL', ptbr: 'old school' },
+      { name: 'Black Work', value: 'BLACK_WORK', ptbr: 'black work' },
     ];
 
-    this.details = [      
-      { name: 'Sombreamento', value: 'sombreamento' },
-      { name: 'Pontilhismo', value: 'pontilhismo' },
-      { name: 'Linhas', value: 'linhas' },
-      { name: 'Colorido', value: 'colorido' },
-      { name: 'Tinta Branca', value: 'tinta branca' }
+    this.details = [
+      { name: 'Sombreamento', value: 'SHADING', ptbr: 'sombreamento' },
+      { name: 'Pontilhismo', value: 'POINTILLISM', ptbr: 'pontilhismo'  },
+      { name: 'Linhas', value: 'LINES', ptbr: 'linhas' },
+      { name: 'Colorido', value: 'COLORFUL',  ptbr: 'colorido' },
+      { name: 'Tinta Branca', value: 'WHITE_INK', ptbr: 'tinta branca' }
     ];
 
     this.bodyLocal = [
-      { name: 'Braço', value:'braço', category: 'category 2', addtion: '2'},
-      { name: 'Ombro', value:'ombro', category: 'category 2', addtion: '2'},
-      { name: 'Mão', value:'mão', category: 'category 2', addtion: '2'},
-      { name: 'Perna', value:'perna', category: 'category 2', addtion: '2'},
-      { name: 'Tornozelo', value:'tornozelo', category: 'category 2', addtion: '2'},
-      { name: 'Canela', value:'canela', category: 'category 2', addtion: '2'},
-      { name: 'Costela', value:'costela', category: 'category 2', addtion: '2'},
-      { name: 'Costas', value:'costas', category: 'category 2', addtion: '2'},
-      { name: 'Pescoço', value:'pescoço', category: 'category 2', addtion: '2'},
+      { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
+      { name: 'Ombro', value:'SHOULDER', ptbr: 'ombro', addtion: '2'},
+      { name: 'Mão', value:'HAND', ptbr: 'mão', addtion: '2'},
+      { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
+      { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
+      { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
+      { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
+      { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
+      { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
       // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
       // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
       // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
@@ -76,14 +79,14 @@ export class CalculadoraComponent {
   text: string | undefined;
 
   budgetForm = this.fb.group({
-    id: [''],
-    client: [''],    
-    draw: [''],
+    id: [],
+    client: [],
+    draw: [],
     cm: [1, Validators.required],
-    bodyLocal: [''],
-    style:  [[''], Validators.required],
-    details: [['']]
-  }) 
+    bodyLocal: [],
+    style:  [[], Validators.required],
+    details: [[]]
+  })
 
   configForm = this.fb.group({
     valorcm: [30, Validators.required],
@@ -102,8 +105,8 @@ export class CalculadoraComponent {
   })
 
   generateBudget() {
-    this.calculateTatooValueAndPix();    
-    this.calculateCreditValue(); 
+    this.calculateTatooValueAndPix();
+    this.calculateCreditValue();
     this.addParkingPriceToPixAndCredit();
     this.addMaterialValueToPixAndCredit();
     this.calculateNetValue();
@@ -113,19 +116,19 @@ export class CalculadoraComponent {
   calculateTatooValueAndPix() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.configForm.get('valorcm')?.value;
-    if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {      
-      this.tattooValue = (valorcm * cm); 
-      this.pixValue = this.tattooValue;     
+    if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {
+      this.tattooValue = (valorcm * cm);
+      this.pixValue = this.tattooValue;
     }
   }
 
   calculateCreditValue() {
     let creditTax = this.configForm.get('creditTax')?.value;
     if(creditTax) {
-      this.creditValue = this.pixValue + creditTax;      
+      this.creditValue = this.pixValue + creditTax;
     } else {
-      this.creditValue = this.pixValue;   
-    } 
+      this.creditValue = this.pixValue;
+    }
   }
 
   addParkingPriceToPixAndCredit() {
@@ -133,25 +136,25 @@ export class CalculadoraComponent {
     if(this.parkingPrice) {
       this.pixValue = this.pixValue + this.parkingPrice;
       this.creditValue = this.creditValue + this.parkingPrice;
-    } 
-  }
-
-  addMaterialValueToPixAndCredit() {
-    let materialValue = this.configForm.get('materials')?.value;    
-    if (materialValue) {      
-      this.pixValue = this.pixValue + materialValue;
-      this.creditValue = this.creditValue + materialValue; 
     }
   }
 
-  calculateNetValue() {    
-    let tax = this.configForm.get('percentageTax')?.value;    
+  addMaterialValueToPixAndCredit() {
+    let materialValue = this.configForm.get('materials')?.value;
+    if (materialValue) {
+      this.pixValue = this.pixValue + materialValue;
+      this.creditValue = this.creditValue + materialValue;
+    }
+  }
+
+  calculateNetValue() {
+    let tax = this.configForm.get('percentageTax')?.value;
     if (tax) {
       this.studioPercent = this.tattooValue * tax / 100;
-      this.netValue = this.tattooValue - (this.tattooValue * tax / 100) 
+      this.netValue = this.tattooValue - (this.tattooValue * tax / 100)
     } else {
-      this.netValue = this.tattooValue - (this.tattooValue * 0 / 100) 
-    }    
+      this.netValue = this.tattooValue - (this.tattooValue * 0 / 100)
+    }
   }
 
 
@@ -187,16 +190,16 @@ export class CalculadoraComponent {
     .concat(` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
   }
 
-  getTextFormated(lista: string []| undefined | null): string | undefined | null {        
-    if (typeof lista !== undefined && lista != null) {      
-      let listaFiltrada = lista.filter(item => item !== '');      
+  getTextFormated(lista: string []| undefined | null): string | undefined | null {
+    if (typeof lista !== undefined && lista != null) {
+      let listaFiltrada = lista.filter(item => item !== '');
       if(listaFiltrada.length > 1) {
         let ultimo = listaFiltrada.pop();
-        return listaFiltrada.join(', ') + ' e ' + ultimo;                
+        return listaFiltrada.join(', ') + ' e ' + ultimo;
       } else if (listaFiltrada.length > 0) {
         return listaFiltrada[0];
-      }      
-    } 
+      }
+    }
     return "";
   }
 
@@ -204,7 +207,7 @@ export class CalculadoraComponent {
     this.bodyPriceForm.get(fieldForm)?.setValue(value) ;
   }
 
-  copyText() {  
+  copyText() {
     this.generateBudget();
     this.clipboard.copy(this.generatedBudget);
     this.saveBudget();
@@ -212,30 +215,56 @@ export class CalculadoraComponent {
 
   saveBudget() {
     const budgetRaw = this.budgetForm.getRawValue();
-    
-    let budget = new BudgetHistory(
+    const configRaw = this.configForm.getRawValue();
+
+    let budget: BudgetHistory = new BudgetHistory(
       budgetRaw.client,
       this.generatedBudget,
-      this.netValue,
-      this.studioPercent,
-      this.netValue + this.studioPercent
-    )    
+      budgetRaw.draw,
+      budgetRaw.cm,
+      configRaw.valorcm,
+      budgetRaw.bodyLocal,
+      budgetRaw.style,
+      budgetRaw.details,
+      configRaw.percentageTax,
+      configRaw.parkingPrice,
+      configRaw.materials,
+      configRaw.creditTax,
+      'Orçado'
+    );
 
-    this.historicService.saveOnBudgetHistory(budget).subscribe((data: any) => console.log('Deu bom!', data))
-    
+    this.historicService.saveOnBudgetHistory(budget)
+    .subscribe({
+      next: ()=>{
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Sucesso',
+          detail: "Salvo com sucesso",
+          life: 3000,
+        });
+      },
+      error: (error:HttpErrorResponse)=>{
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro.',
+          detail: "Erro ao salvar orçamento",
+          life: 3000,
+        });
+      }
+    })
   }
 
   resetForm() {
     this.budgetForm.reset();
     this.budgetForm.get('cm')?.setValue(1);
-    this.configForm.get('valorcm')?.setValue(22.50);    
-    this.budgetForm.get('style')?.setValue(['']);    
+    this.configForm.get('valorcm')?.setValue(30);
+    this.budgetForm.get('style')?.setValue(null);
     this.generatedBudget = '';
     this.studioPercent = 0;
     this.netValue = 0;
   }
 
-  showHint(event: any) {    
+  showHint(event: any) {
     this.hintVisible = !this.hintVisible;
   }
 }

@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/login/service/auth.service';
-import { Usuario } from 'src/app/login/usuario';
+import { LoggingInterceptor } from 'src/app/interceptor/auth.interceptor';
+import { AuthService } from 'src/app/pages/login/service/auth.service';
+import { Usuario } from 'src/app/pages/login/model/usuario';
+
 
 @Component({
   selector: 'app-home',
@@ -13,31 +15,49 @@ export class HomeComponent implements OnInit{
   constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {}
 
   user: Usuario = new Usuario();
-
   logout() {
-    localStorage.removeItem('token')
+    localStorage.removeItem('user')
     this.router.navigate(['/login'])
   }
 
   ngOnInit(): void {
-    console.log(1)
-    // window.localStorage.setItem('token', 'token-teste');
-    this.route.queryParams
-      .subscribe(params => {
-        if (params["code"] !== undefined) {
-          console.log(2)
-          this.authService.getUser(params["code"]).subscribe(result => {
-            if (result === true) {
-              console.log(3)
-              console.log("setando Token...", this.authService.token);
-              window.localStorage.setItem('token', this.authService.token);
-              this.user = this.authService.user;
-              // console.log(this.user)
-            }
-          });
-        }
-      }
-    );
+   this.callback()
   }
 
+
+  callback(){
+     var userInLocal = this.recuperarObjetoLocalStorage('user');
+     if(userInLocal){
+       this.user = userInLocal;
+     }else{
+       this.route.queryParams
+       .subscribe(params => {
+         if (params["code"] !== undefined) {
+           this.authService.getUser(params["code"]).subscribe(result => {
+             if (result === true) {
+               this.user = this.authService.user;
+               this.salvarObjetoLocalStorage('user', this.user)
+             }
+           });
+           this.router.navigate(["/"])
+         }
+
+       }
+     );
+     }
+  }
+
+
+  salvarObjetoLocalStorage(chave: string, objeto: Usuario): void {
+    localStorage.setItem(chave, JSON.stringify(objeto));
+  }
+
+  recuperarObjetoLocalStorage(chave: string): any {
+    const objetoString = localStorage.getItem(chave);
+    if (objetoString !== null && objetoString !== '{}') {
+      return JSON.parse(objetoString);
+    }
+
+    return null;
+  }
 }

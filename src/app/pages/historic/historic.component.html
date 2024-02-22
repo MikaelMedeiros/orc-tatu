@@ -1,0 +1,75 @@
+<form [formGroup]="formFiltersGroup" class="p-inputgroup">
+  <div class="filters  gap-3" style="display: flex;">
+    <div>
+      <label style="justify-content: flex-end;" for="date">Data</label>
+      <p-calendar formControlName="data"   id="date" selectionMode="range" dateFormat="dd/mm/yy" [readonlyInput]="true"></p-calendar>
+    </div>
+    <div class="p-float-label  gap-6" style="width: 3rem;">
+      <label style="justify-content: flex-end;" for="username">Nome</label>
+      <p-autoComplete [panelStyleClass]="'custom-panel-class'" (onSelect)="onNameAutocompleSelect($event)" formControlName="nome"  [suggestions]="autocompleteBudget" [forceSelection]="true" emptyMessage="true" (completeMethod)="autocompleBudget($event)" ></p-autoComplete>
+    </div>
+  </div>
+</form>
+<div class="flex align-items-center">
+  <div class="flex align-items-center">
+    <p-checkbox label="Cancelados" [binary]="true" (ngModelChange)="filtrarBudgets()"  name="teste" checkboxIcon="false" appRemoveClassCheckbox  [(ngModel)]="isCanleados"></p-checkbox>
+  </div>
+  <div class="flex align-items-center" style="padding-left: 2rem">
+    <p-checkbox label="Orçados" [binary]="true" (ngModelChange)="filtrarBudgets()" name="teste" checkboxIcon="false" appRemoveClassCheckbox [(ngModel)]="isAgendados"></p-checkbox>
+  </div>
+</div>{{!isCanleados}}
+
+
+<div *ngIf="!(budgets && budgets.length > 0)">
+  <p>Nenhum orçamento encontrado.</p>
+</div>
+<div class="border-round" *ngIf="budgets && budgets.length > 0">
+<p-carousel
+  [value]="filtrarBudgets()"
+  [numVisible]="2"
+  [numScroll]="2"
+  (onPage)="handlePageChange($event)"
+  orientation="vertical"
+  verticalViewPortHeight="33rem"
+  [responsiveOptions]="responsiveOptions"
+  [showIndicators]="false"
+  [ngClass]="'seu-componente'"
+>
+  <ng-template let-budget pTemplate="item"  style="border: 1px solid lightgray; border-radius: 8px; padding: 10px;">
+    <div class="bordar-carousel">
+      <div style="bottom: 1.5rem; position: relative;">
+          <div class="flex center gap-3 col-12">
+            <div class="p-mb-1 col-8">
+              <p>{{"Cliente: " + budget.clientName }}</p>
+            </div>
+            <div class="p-mt-0 p-mb-3 align-items-end col-4">
+              <p>Valor:{{ budget.tattooValue }}</p>
+            </div>
+          </div>
+          <div class=" flex center gap-3 description" style="bottom: 1rem;position: relative;">
+            <p class="p-mb-1 col-12 ">{{"Descrição: " + budget.description }}</p>
+           <p></p>
+          </div>
+      <div class="flex center gap-3 center historic-balls "  style="bottom: 1rem;position: relative;">
+        <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-cancelado" (click)="confirm1($event, budget); $event.stopPropagation()" >
+          <span class="pi pi-times p-button-icon ng-star-inserted"></span>
+        </button>
+        <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-agendar" (click)="showDialgAgendar(budget)" >
+          <span class="pi pi-calendar-plus p-button-icon ng-star-inserted"></span>
+        </button>
+      </div>
+      </div>
+    </div>
+  </ng-template>
+</p-carousel>
+<p-toast class="custom-toast"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="text-center">
+  {{ currentIndex == null ? 1 : currentIndex }} de {{ budgets.length }}
+</div>
+<p>Valor arrecadado: {{ returnsAmountCollected() }}</p>
+</div>
+
+
+<app-modal-agendamento [budget]="modalBudgetInput"></app-modal-agendamento>

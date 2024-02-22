@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { LoginComponent } from "./login/login.component";
-import { CalculadoraComponent } from "./calculadora/calculadora.component";
-import { HistoricComponent } from "./historic/historic.component";
+import { LoginComponent } from "./pages/login/login.component";
+import { CalculadoraComponent } from "./pages/calculadora/calculadora.component";
+import { HistoricComponent } from "./pages/historic/historic.component";
 import { HomeComponent } from "./principal/home/home.component";
 import { AuthenticationComponent } from "./principal/authentication/authentication.component";
-import { authGuard } from "./account/auth.guard";
+import { authGuard } from "./guard/auth.guard";
 import { CommonModule } from "@angular/common";
 
 const routes: Routes = [
@@ -15,7 +15,7 @@ const routes: Routes = [
             {   path: '', component: CalculadoraComponent       },
             {   path: 'budgets', component: HistoricComponent   }
         ],
-        // canActivate: [authGuard]
+         //canActivate: [authGuard]
     },
     {
 
