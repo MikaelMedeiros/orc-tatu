@@ -52,18 +52,18 @@ export class ModalAgendamentoComponent {
     ).subscribe({
       next:(n) =>{
         this.messageService.add({
-          severity: 'info',
-          summary: 'Confirmado',
-          detail: 'VOCE ERROU DNV',
-          life: 300000,
+          severity: 'success',
+          detail: 'Agendado.',
+          life: 3000,
         });
       },
       error: (error:HttpErrorResponse)=>{
+        error.status
         this.messageService.add({
           severity: 'error',
-          summary: 'Confirmado',
+          summary: 'Erro',
           detail: error.message,
-          life: 300000,
+          life: 3000,
         });
       }
     })

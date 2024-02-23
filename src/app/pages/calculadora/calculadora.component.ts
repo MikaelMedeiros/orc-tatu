@@ -3,8 +3,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HistoricService } from '../historic/service/historic.service';
 import { BudgetHistory } from '../historic/model/budget-reponse';
-import { HttpErrorResponse, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { HttpErrorResponse } from '@angular/common/http';
+import {  MessageService } from 'primeng/api';
+import { ToastService } from 'src/app/shared/toast.service';
 
 @Component({
   selector: 'app-calculadora',
@@ -23,8 +24,7 @@ export class CalculadoraComponent {
     private fb: FormBuilder,
     private clipboard: Clipboard,
     private historicService: HistoricService,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
+    private toastService: ToastService,
   ) {}
 
   styles: any[] = [];
@@ -235,24 +235,17 @@ export class CalculadoraComponent {
 
     this.historicService.saveOnBudgetHistory(budget)
     .subscribe({
-      next: ()=>{
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Sucesso',
-          detail: "Salvo com sucesso",
-          life: 3000,
-        });
+      next: (response: any)=>{
+
+        this.toastService.successMsg("Orçamento salvo");
       },
       error: (error:HttpErrorResponse)=>{
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro.',
-          detail: "Erro ao salvar orçamento",
-          life: 3000,
-        });
+        this.toastService.errorHandler(error);
       }
     })
   }
+
+
 
   resetForm() {
     this.budgetForm.reset();
