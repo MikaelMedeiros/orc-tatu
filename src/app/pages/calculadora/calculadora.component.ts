@@ -1,23 +1,28 @@
-import { Component } from '@angular/core';
+import { ToastService } from './../../shared/toast.service';
+import { CalculadoraService } from './service/calculadora.service';
+import { HistoricComponent } from './../historic/historic.component';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HistoricService } from '../historic/service/historic.service';
 import { BudgetHistory } from '../historic/model/budget-reponse';
 import { HttpErrorResponse } from '@angular/common/http';
-import {  MessageService } from 'primeng/api';
-import { ToastService } from 'src/app/shared/toast.service';
 
 @Component({
   selector: 'app-calculadora',
   templateUrl: './calculadora.component.html',
   styleUrls: ['./calculadora.component.css']
 })
-export class CalculadoraComponent {
+export class CalculadoraComponent implements AfterViewInit {
   generatedBudget = '';
   netValue = 0;
   parkingPrice: number | null | undefined = 0;
   hintVisible: boolean = false;
   studioPercent = 0;
+  @ViewChild(HistoricComponent, { static: false }) historicComponent?: HistoricComponent;
+  indexTab: number | any = 0;
+  count: number = 0;
+
 
 
   constructor(
@@ -25,7 +30,12 @@ export class CalculadoraComponent {
     private clipboard: Clipboard,
     private historicService: HistoricService,
     private toastService: ToastService,
+    private calculadoraService: CalculadoraService,
   ) {}
+
+  ngAfterViewInit(): void {
+    setTimeout(() =>this.getEstilos(), 1000);
+  }
 
   styles: any[] = [];
   details: any[] = [];
@@ -35,6 +45,7 @@ export class CalculadoraComponent {
   creditValue = 0;
 
   ngOnInit(): void {
+
     this.styles = [
       { name: 'Fineline', value: 'FINELINE', ptbr: 'fineline' },
       { name: 'Bold Line', value: 'BOLD_LINE', ptbr: 'bold line' },
@@ -52,26 +63,9 @@ export class CalculadoraComponent {
     ];
 
     this.bodyLocal = [
-      { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
-      { name: 'Ombro', value:'SHOULDER', ptbr: 'ombro', addtion: '2'},
-      { name: 'Mão', value:'HAND', ptbr: 'mão', addtion: '2'},
-      { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
-      { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
-      { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
-      { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
-      { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
-      { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
-      // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
-      // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
+
       // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
-      // { name: 'Peito', value:'Peito', category: 'category 2', addtion: '2'},
-      // { name: 'Barriga', value:'Barriga', category: 'category 2', addtion: '2'},
-      // { name: 'Costas', value:'Costas', category: 'category 2', addtion: '2'},
-      // { name: 'Costelas', value:'Costelas', category: 'category 2', addtion: '2'},
       // { name: 'Lombar', value:'Lombar', category: 'category 2', addtion: '2'},
-      // { name: 'Glúteos', value:'Glúteos', category: 'category 2', addtion: '2'},
-      // { name: 'Canela', value:'Canela', category: 'category 2', addtion: '2'},
-      // { name: 'Pé', value:'Pé', category: 'category 2', addtion: '2'}
     ]
   }
 ;
@@ -260,4 +254,27 @@ export class CalculadoraComponent {
   showHint(event: any) {
     this.hintVisible = !this.hintVisible;
   }
+
+  atualizaHistorico(event: any){
+    if(this.indexTab == 2){
+      this.historicComponent?.getBudgets();
+    }
+
+  }
+
+  getEstilos(){
+    this.calculadoraService.getBodyLocal().subscribe({
+      next:(resp:any)=>{
+        resp.forEach((element: any) => {
+          this.bodyLocal.push( { name: element, value: element, ptbr: element})
+          console.log('a')
+        });
+      },
+      error: (respErr)=>{
+        this.toastService.errorHandler(respErr);
+      }
+    })
+  }
 }
+
+

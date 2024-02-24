@@ -45,10 +45,16 @@
 
 .p-button-cancelado {
   background-color: #ff9b9b !important;
+  width: 2rem;
+  height: 1rem;
+  bottom: 0.5rem;
 }
 
 .p-button-agendar {
   background-color: #ffec99 !important;
+  width: 2rem;
+  height: 1rem;
+  bottom: 0.5rem;
 }
 
 
