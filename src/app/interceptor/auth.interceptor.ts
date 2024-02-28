@@ -28,9 +28,9 @@ export class LoggingInterceptor implements HttpInterceptor {
               'Content-Type' : "application/json"
           }
       })
-      return next.handle(reqClone);    
+      return next.handle(reqClone);
     }
-    
+
     return next.handle(req).pipe(catchError((err: HttpErrorResponse) => {
       if (err.status === 401 && !this.refresh) {
         this.refresh = true;

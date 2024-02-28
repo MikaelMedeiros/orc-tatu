@@ -1,4 +1,4 @@
-<p-tabView styleClass="tabview-custom">
+<p-tabView styleClass="tabview-custom" (onChange)="atualizaHistorico($event)" [(activeIndex)]="indexTab">
     <!-- Orçamento -->
     <p-tabPanel>
       <ng-template pTemplate="header">
@@ -141,7 +141,7 @@
       </form>
     </p-tabPanel>
     <!-- Historico -->
-    <p-tabPanel *ngIf="true">
+    <p-tabPanel *ngIf="true" >
       <ng-template pTemplate="header">
         <i class="pi pi-list"></i>
       </ng-template>

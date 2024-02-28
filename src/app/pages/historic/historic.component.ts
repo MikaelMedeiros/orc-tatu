@@ -7,6 +7,7 @@ import { BudgetHistory } from './model/budget-reponse';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import { ToastService } from 'src/app/shared/toast.service';
 
 
 @Component({
@@ -16,14 +17,13 @@ import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 })
 
-export class HistoricComponent implements OnInit {
+export class HistoricComponent implements OnInit{
 
   budgets: any = [];
   responsiveOptions: any[] | undefined;
   currentIndex: number | undefined;
   visible: boolean = false;
-  @ViewChild(ModalAgendamentoComponent, { static: false })
-  modalAgendamento!: ModalAgendamentoComponent;
+  @ViewChild(ModalAgendamentoComponent, { static: false }) modalAgendamento!: ModalAgendamentoComponent;
   formFiltersGroup!: FormGroup<any>;
   isCanleados: boolean = false;
   isAgendados: boolean =false;
@@ -35,13 +35,15 @@ export class HistoricComponent implements OnInit {
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private el: ElementRef, private renderer: Renderer2
+    private renderer: Renderer2,
+    private toastService: ToastService
   ) {}
+
+
 
   ngOnInit(): void {
     this.initFormFilters();
     this.responsiveOption();
-    this.getBudgets();
     this.removeClassCheckbox();
   }
 
@@ -81,27 +83,16 @@ export class HistoricComponent implements OnInit {
   }
 
   }
+
   getBudgets(){
      this.historicService.getHistoric().subscribe({
       next: (res:BudgetHistory[])=>{
         this.budgets = res
       },
       error: (error:HttpErrorResponse)=>{
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Confirmado',
-          detail: (this.errorBuild(error)),
-          life: 300000,
-        });
+        this.toastService.errorHandler(error);
       }
     })
-  }
-
-  errorBuild(erro : any){
-    if(erro.status = '401'){
-      return 'vc errou';
-    }
-    return ''
   }
 
   initFormFilters() {
