@@ -63,9 +63,27 @@ export class CalculadoraComponent implements AfterViewInit {
     ];
 
     this.bodyLocal = [
+      { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
+      { name: 'Ombro', value:'SHOULDER', ptbr: 'ombro', addtion: '2'},
+      { name: 'Mão', value:'HAND', ptbr: 'mão', addtion: '2'},
+      { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
+      { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
+      { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
+      { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
+      { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
+      { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
 
+      // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
+      // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
       // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
+      // { name: 'Peito', value:'Peito', category: 'category 2', addtion: '2'},
+      // { name: 'Barriga', value:'Barriga', category: 'category 2', addtion: '2'},
+      // { name: 'Costas', value:'Costas', category: 'category 2', addtion: '2'},
+      // { name: 'Costelas', value:'Costelas', category: 'category 2', addtion: '2'},
       // { name: 'Lombar', value:'Lombar', category: 'category 2', addtion: '2'},
+      // { name: 'Glúteos', value:'Glúteos', category: 'category 2', addtion: '2'},
+      // { name: 'Canela', value:'Canela', category: 'category 2', addtion: '2'},
+      // { name: 'Pé', value:'Pé', category: 'category 2', addtion: '2'}
     ]
   }
 ;
