@@ -37,9 +37,9 @@ export class HomeComponent implements OnInit{
              if (result === true) {
                this.user = this.authService.user;
                this.salvarObjetoLocalStorage('user', this.user)
+               this.router.navigateByUrl("/calculator")
              }
-           });
-           this.router.navigate(["/"])
+           });          
          }
 
        }

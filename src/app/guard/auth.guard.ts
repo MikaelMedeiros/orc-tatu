@@ -7,8 +7,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router: Router = inject(Router)
   //const authService: AuthService = inject(AuthService);
   const codeLogin: string = route.queryParams['code'];
-  const token = window.localStorage.getItem('token');  
-  
+  const token = window.localStorage.getItem('user');   
+  console.log(token);
     if (codeLogin || token) {  
       //authService.getUser    
       return true;

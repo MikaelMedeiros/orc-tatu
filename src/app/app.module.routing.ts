@@ -11,8 +11,8 @@ import { CommonModule } from "@angular/common";
 const routes: Routes = [
     {
         path: '', component: HomeComponent,
-        children: [
-            {   path: '', component: CalculadoraComponent       },
+        children: [            
+            {   path: 'calculator', component: CalculadoraComponent  },
             {   path: 'budgets', component: HistoricComponent   }
         ],
          canActivate: [authGuard]
