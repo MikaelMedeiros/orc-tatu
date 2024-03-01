@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHandler, H
 import { Injectable } from "@angular/core";
 import { Observable, catchError, switchMap, tap, throwError } from "rxjs";
 import { Usuario } from "../pages/login/model/usuario";
+import { Router } from "@angular/router";
 
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
     return next(req).pipe(tap(event => {
@@ -17,10 +18,25 @@ export class LoggingInterceptor implements HttpInterceptor {
   static refreshToken: string | null;
   refresh = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
+  baseUrl: string = "http://localhost:8080"
+
+  isLoginRoute(req: HttpRequest<any>, next: HttpHandler): boolean {
+    return req.url == `${this.baseUrl}/authentication/url`;      
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if(this.isLoginRoute(req, next)) return next.handle(req);
+
+    
+
     this.user = this.recuperarObjetoLocalStorage('user');
+    console.log(this.user)
+    if(!this.user) {
+      this.router.navigate(['/login']);
+      return next.handle(req);
+    }  
+
     if(this.user?.tokenInfoDTO.accessToken){
       const reqClone =  req.clone({
           setHeaders: {
@@ -67,9 +83,15 @@ export class LoggingInterceptor implements HttpInterceptor {
 
   recuperarObjetoLocalStorage(chave: string): any {
     const objetoString = localStorage.getItem(chave);
-    if (objetoString !== null && objetoString !== '{}') {
-      return JSON.parse(objetoString);
+    
+    try {
+      if (objetoString && objetoString !== null && objetoString !== '{}') {
+        return JSON.parse(objetoString);
+      }
+    } catch (error) {
+      this.router.navigate(['/login']);
     }
+    
 
     return null;
   }

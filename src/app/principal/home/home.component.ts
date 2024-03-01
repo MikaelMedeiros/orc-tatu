@@ -54,10 +54,15 @@ export class HomeComponent implements OnInit{
 
   recuperarObjetoLocalStorage(chave: string): any {
     const objetoString = localStorage.getItem(chave);
-    if (objetoString !== null && objetoString !== '{}') {
-      return JSON.parse(objetoString);
+    
+    try {
+      if (objetoString && objetoString !== null && objetoString !== '{}') {
+        return JSON.parse(objetoString);
+      }
+    } catch (error) {
+      this.router.navigate(['/login']);
     }
-
+    
     return null;
   }
 }
