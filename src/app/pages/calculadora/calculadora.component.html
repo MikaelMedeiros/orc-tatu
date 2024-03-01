@@ -28,7 +28,7 @@
               <label class="block">Estilo</label>
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="style"  (onChange)="generateBudget()" [options]="styles" formControlName="style" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="style"  (onChange)="generateBudget()" [options]="styles" formControlName="style" [multiple]="true" optionLabel="name"></p-selectButton>
                   <small class="p-error block" *ngIf="budgetForm.get('style')?.invalid && budgetForm.get('style')?.dirty">Preencha o(s) estilo(s)</small>
                 </div>
               </div>
@@ -38,7 +38,7 @@
               <label class="block">Detalhes</label>
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="details" (onChange)="generateBudget()" [options]="details" formControlName="details" [multiple]="true" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="details" (onChange)="generateBudget()" [options]="details" formControlName="details" [multiple]="true" optionLabel="name" ></p-selectButton>
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@
               <label for="bodyLocal" class="block">Local do corpo</label>
               <div class="overflow-y-auto surface-overlay p-2 border-primary-500 border-2 border-round">
                 <div style="width: 600px;">
-                  <p-selectButton id="bodyLocal" (onChange)="generateBudget()" [options]="bodyLocal" formControlName="bodyLocal" optionLabel="name" optionValue="value"></p-selectButton>
+                  <p-selectButton id="bodyLocal" (onChange)="generateBudget()" [options]="bodyLocal" formControlName="bodyLocal" optionLabel="name" ></p-selectButton>
                 </div>
               </div>
             </div>

@@ -34,7 +34,7 @@ export class CalculadoraComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    setTimeout(() =>this.getEstilos(), 1000);
+   // setTimeout(() =>this.getEstilos(), 1000);
   }
 
   styles: any[] = [];
@@ -72,7 +72,6 @@ export class CalculadoraComponent implements AfterViewInit {
       { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
       { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
       { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
-
       // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
       // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
       // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
@@ -190,7 +189,8 @@ export class CalculadoraComponent implements AfterViewInit {
     this.generatedBudget = this.generatedBudget.concat(` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`);
 
     if(this.budgetForm.get('bodyLocal')?.value) {
-      this.generatedBudget = this.generatedBudget.concat(` no(a) ${this.budgetForm.get('bodyLocal')?.value}`);
+      let bodylocal: any = this.budgetForm.get('bodyLocal')?.value;
+      this.generatedBudget = this.generatedBudget.concat(` no(a) ${bodylocal?.ptbr}`);
     }
 
     if(this.getTextFormated(this.budgetForm.get('details')?.value)) {
@@ -202,9 +202,9 @@ export class CalculadoraComponent implements AfterViewInit {
     .concat(` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
   }
 
-  getTextFormated(lista: string []| undefined | null): string | undefined | null {
+  getTextFormated(lista: any[]| undefined | null): string | undefined | null {
     if (typeof lista !== undefined && lista != null) {
-      let listaFiltrada = lista.filter(item => item !== '');
+      let listaFiltrada = lista.map(item => item.ptbr);
       if(listaFiltrada.length > 1) {
         let ultimo = listaFiltrada.pop();
         return listaFiltrada.join(', ') + ' e ' + ultimo;
@@ -228,16 +228,15 @@ export class CalculadoraComponent implements AfterViewInit {
   saveBudget() {
     const budgetRaw = this.budgetForm.getRawValue();
     const configRaw = this.configForm.getRawValue();
-
     let budget: BudgetHistory = new BudgetHistory(
       budgetRaw.client,
       this.generatedBudget,
       budgetRaw.draw,
       budgetRaw.cm,
       configRaw.valorcm,
-      budgetRaw.bodyLocal,
-      budgetRaw.style,
-      budgetRaw.details,
+      this.getValueFromRaw(budgetRaw.bodyLocal),
+      this.getValuesFromRaw(budgetRaw.style),
+      this.getValuesFromRaw(budgetRaw.details),
       configRaw.percentageTax,
       configRaw.parkingPrice,
       configRaw.materials,
@@ -257,7 +256,13 @@ export class CalculadoraComponent implements AfterViewInit {
     })
   }
 
+  private getValuesFromRaw(raw: any): any{
+    return raw.map((item: { value: any; }) => item.value);
+  }
 
+ private getValueFromRaw(raw: any): any{
+      return raw?.value;
+  }
 
   resetForm() {
     this.budgetForm.reset();
@@ -285,7 +290,6 @@ export class CalculadoraComponent implements AfterViewInit {
       next:(resp:any)=>{
         resp.forEach((element: any) => {
           this.bodyLocal.push( { name: element, value: element, ptbr: element})
-          console.log('a')
         });
       },
       error: (respErr)=>{
