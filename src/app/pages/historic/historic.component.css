@@ -12,9 +12,10 @@
 }
 
 .bordar-carousel {
-  border: 1px solid lightgray;
+  border: 1px solid #b19df7;
   border-radius: 8px;
   height: 16rem;
+
 }
 
 
@@ -45,18 +46,20 @@
 
 .p-button-cancelado {
   background-color: #ff9b9b !important;
+  width: 2rem;
+  height: 1rem;
+  bottom: 0.5rem;
 }
 
 .p-button-agendar {
   background-color: #ffec99 !important;
+  width: 2rem;
+  height: 1rem;
+  bottom: 0.5rem;
 }
 
 
-::ng-deep .p-autocomplete-input {
-  width: 6.5rem;
-  right: 1.5rem;
-  position: relative;
-}
+
 
 ::ng-deep .custom-panel-class{
   right: 3rem;

@@ -1,12 +1,13 @@
 <form [formGroup]="formFiltersGroup" class="p-inputgroup">
-  <div class="filters  gap-3" style="display: flex;">
-    <div>
-      <label style="justify-content: flex-end;" for="date">Data</label>
-      <p-calendar formControlName="data"   id="date" selectionMode="range" dateFormat="dd/mm/yy" [readonlyInput]="true"></p-calendar>
+  <div>
+    <div class="field" >
+      <label class="flex" for="username">Nome</label>
+      <p-autoComplete (onSelect)="onNameAutocompleSelect($event)" formControlName="nome"  [suggestions]="autocompleteBudget"
+      [forceSelection]="true" emptyMessage="true" (completeMethod)="autocompleBudget($event)" ></p-autoComplete>
     </div>
-    <div class="p-float-label  gap-6" style="width: 3rem;">
-      <label style="justify-content: flex-end;" for="username">Nome</label>
-      <p-autoComplete [panelStyleClass]="'custom-panel-class'" (onSelect)="onNameAutocompleSelect($event)" formControlName="nome"  [suggestions]="autocompleteBudget" [forceSelection]="true" emptyMessage="true" (completeMethod)="autocompleBudget($event)" ></p-autoComplete>
+    <div class="field">
+      <label class="flex" for="username">Data</label>
+      <p-calendar formControlName="data"   id="date" selectionMode="range" dateFormat="dd/mm/yy" [readonlyInput]="true"></p-calendar>
     </div>
   </div>
 </form>
@@ -17,7 +18,7 @@
   <div class="flex align-items-center" style="padding-left: 2rem">
     <p-checkbox label="Orçados" [binary]="true" (ngModelChange)="filtrarBudgets()" name="teste" checkboxIcon="false" appRemoveClassCheckbox [(ngModel)]="isAgendados"></p-checkbox>
   </div>
-</div>{{!isCanleados}}
+</div>
 
 
 <div *ngIf="!(budgets && budgets.length > 0)">
