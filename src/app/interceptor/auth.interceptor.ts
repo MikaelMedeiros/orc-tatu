@@ -34,10 +34,10 @@ export class LoggingInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
     
-    if(this.user?.tokenInfoDTO.accessToken && !this.tokenExpired(this.user)){  
+    if(this.user?.accessToken && !this.tokenExpired(this.user)){  
       const reqClone =  req.clone({
           setHeaders: {
-              'Authorization' : `Bearer ${this.user?.tokenInfoDTO.accessToken}` ,
+              'Authorization' : `Bearer ${this.user?.accessToken}` ,
               'Content-Type' : "application/json"
           }
       })
@@ -50,13 +50,13 @@ export class LoggingInterceptor implements HttpInterceptor {
         this.refresh = true;
 
         let params = new HttpParams();
-        params = params.append('refresh-token', `${this.user?.tokenInfoDTO.refreshToken}`);
+        params = params.append('refresh-token', `${this.user?.refreshToken}`);
         return this.http.get(`${this.baseUrl}/authentication/refresh-token`, {params}).pipe(
           switchMap((res: any) => {
             this.setToken(res);
             return next.handle(req.clone({
               setHeaders: {
-                "Authorization": `Bearer ${this.user?.tokenInfoDTO.accessToken}`,
+                "Authorization": `Bearer ${this.user?.accessToken}`,
                 'Content-Type' : "application/json"
               }
             }));
@@ -70,22 +70,17 @@ export class LoggingInterceptor implements HttpInterceptor {
 
   setToken(res: any) {
     if (this.user !== undefined && this.user !== null) {
-      // Verifica se LoggingInterceptor.user.tokenInfoDTO está definido e não é nulo
-      if (this.user.tokenInfoDTO !== undefined && this.user.tokenInfoDTO !== null) {
-          // Atribui o valor de res.token para LoggingInterceptor.user.tokenInfoDTO.accessToken
-          let expirationTime = new Date();          
-          expirationTime.setSeconds(expirationTime.getSeconds() + res.expiresInSeconds);
+        let expirationTime = new Date();          
+        expirationTime.setSeconds(expirationTime.getSeconds() + res.expiresInSeconds);
 
-          this.user.tokenInfoDTO.accessToken = res.accessToken;   
-          this.user.expiration = expirationTime.getTime();
-          this.user.tokenInfoDTO.expiration = expirationTime.getTime();
-          this.salvarObjetoLocalStorage('user', this.user);
-      }
-  }
+        this.user.accessToken = res.accessToken;           
+        this.user.expiration = expirationTime.getTime();
+        this.salvarObjetoLocalStorage('user', this.user);   
+    }
   }
 
   tokenExpired(user: Usuario): boolean {
-    return user.tokenInfoDTO.expiration < Date.now();    
+    return user.expiration < Date.now();    
   }
 
   recuperarObjetoLocalStorage(chave: string): any {

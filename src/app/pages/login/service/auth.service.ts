@@ -18,10 +18,6 @@ export class AuthService {
 
   user: Usuario = new Usuario();
 
-  public token: string = "";
-
-  private usuarioAutenticado = false;
-
   constructor(private http: HttpClient) { }
 
   baseUrl: string = `${environment.apiUrl}/authentication` ;
@@ -33,8 +29,7 @@ export class AuthService {
   getUser(code: string): Observable<boolean> {
     return this.http.get<Usuario>(this.baseUrl+"/callback?code=" + code, {observe: "response"})
       .pipe(map((response: HttpResponse<Usuario>) => {
-        if (response.status === 200 && response.body !== null) {
-          this.token = response.body.tokenInfoDTO.accessToken;
+        if (response.status === 200 && response.body !== null) {          
           this.user = response.body;
           return true;
         } else {

@@ -52,13 +52,13 @@ export class CalculadoraComponent implements AfterViewInit {
       { name: 'Realismo', value: 'REALISM', ptbr: 'realismo' },
       { name: 'Old School', value: 'OLD_SCHOOL', ptbr: 'old school' },
       { name: 'Black Work', value: 'BLACK_WORK', ptbr: 'black work' },
-      { name: 'Minimalista', value: 'BLACK_WORK', ptbr: 'black work' },
-      { name: 'Geek', value: 'BLACK_WORK', ptbr: 'black work' },
-      { name: 'Free Hand', value: 'BLACK_WORK', ptbr: 'black work' },
-      { name: 'Caligrafia', value: 'BLACK_WORK', ptbr: 'black work' },
-      { name: 'Cobertura', value: 'BLACK_WORK', ptbr: 'black work' },
-      { name: 'Neotradicional', value: 'BLACK_WORK', ptbr: 'black work' },      
-      { name: 'Tribal', value: 'BLACK_WORK', ptbr: 'black work' },      
+      { name: 'Minimalista', value: 'MINIMALIST', ptbr: 'minimalista' },
+      { name: 'Geek', value: 'GEEK', ptbr: 'geek' },
+      { name: 'Free Hand', value: 'FREE_HAND', ptbr: 'free hand' },
+      { name: 'Caligrafia', value: 'CALLIGRAPHY', ptbr: 'caligrafia' },
+      { name: 'Cobertura', value: 'COVERAGE', ptbr: 'cobertura' },
+      { name: 'Neotradicional', value: 'NEOTRADITIONAL', ptbr: 'neotradicional' },      
+      { name: 'Tribal', value: 'TRIBAL', ptbr: 'tribal' },      
     ];
 
     this.details = [
@@ -70,22 +70,23 @@ export class CalculadoraComponent implements AfterViewInit {
     ];
 
     this.bodyLocal = [
-      { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
-      { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},      
+      { name: 'Orelha', value:'EAR', ptbr: 'orelha', addtion: '2'},
+      { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
       { name: 'Ombro', value:'SHOULDER', ptbr: 'ombro', addtion: '2'},
-      { name: 'Peito', value:'CHEST', category: 'category 2', addtion: '2'},      
-      { name: 'Clavícula', value:'CHEST', category: 'category 2', addtion: '2'},      
+      { name: 'Clavícula', value:'CLAVICLE', ptbr: 'clavícula', addtion: '2'},      
+      { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
+      { name: 'Antebraço', value:'FOREARM', ptbr: 'antebraço', addtion: '2'},      
       { name: 'Mão', value:'HAND', ptbr: 'mão', addtion: '2'},
-      { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
-      { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
-      { name: 'Panturrilha', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
-      { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
+      { name: 'Peito', value:'CHEST', ptbr: 'peito', addtion: '2'},      
       { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
       { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
-      { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
-      { name: 'Cintura', value:'cintura', ptbr: 'pescoço', category: 'category', addtion: '1'},      
-      { name: 'Virilha', value:'virilha', category: 'category 2', addtion: '2'},
-      { name: 'Pé', value:'FOOT', category: 'category 2', addtion: '2'}
+      { name: 'Cintura', value:'WAIST', ptbr: 'cintura', category: 'category', addtion: '1'},      
+      { name: 'Virilha', value:'GROIN', ptbr: 'virilha', addtion: '2'},
+      { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
+      { name: 'Panturrilha', value:'CALF', ptbr: 'panturrilha', addtion: '2'},
+      { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
+      { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
+      { name: 'Pé', value:'FOOT', ptbr: 'pé', addtion: '2'}
     ]
   }
 ;
