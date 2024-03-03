@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, catchError, switchMap, tap, throwError } from "rxjs";
 import { Usuario } from "../pages/login/model/usuario";
 import { Router } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
     return next(req).pipe(tap(event => {
@@ -17,9 +18,9 @@ export class LoggingInterceptor implements HttpInterceptor {
   user: Usuario | null | undefined;
   static refreshToken: string | null;
   refresh = false;
+  baseUrl: string = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient, private router: Router) {}
-  baseUrl: string = "http://localhost:8080"
 
   isLoginRoute(req: HttpRequest<any>, next: HttpHandler): boolean {
     return req.url == `${this.baseUrl}/authentication/url`;      
@@ -54,7 +55,7 @@ export class LoggingInterceptor implements HttpInterceptor {
         let params = new HttpParams();
         params = params.append('refresh-token', `${this.user?.tokenInfoDTO.refreshToken}`);
 
-        return this.http.get('http://localhost:8080/authentication/refresh-token', {withCredentials: true, params}).pipe(
+        return this.http.get(`${this.baseUrl}/authentication/refresh-token`, {withCredentials: true, params}).pipe(
           switchMap((res: any) => {
             this.setToken(res);
             return next.handle(req.clone({

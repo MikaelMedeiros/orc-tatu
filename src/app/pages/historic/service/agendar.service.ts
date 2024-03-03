@@ -1,12 +1,13 @@
 import { AgendaDTO } from './../model/agendaDTO';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgendarService {
-  baseUrl: string = "http://localhost:8080/events"
+  baseUrl: string = `${environment.apiUrl}/events`;
   constructor(private http: HttpClient) { }
 
 

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { Observable, map } from 'rxjs';
 import { LoggingInterceptor, loggingInterceptor } from 'src/app/interceptor/auth.interceptor';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  baseUrl: string = 'http://localhost:8080/authentication' ;
+  baseUrl: string = `${environment.apiUrl}/authentication` ;
 
   retrieveGoogleLoginUrl(): any {
     return this.http.get(`${this.baseUrl}/url`);
