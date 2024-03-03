@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { BudgetHistory } from '../model/budget-reponse';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 })
 export class HistoricService {
 
-  baseUrl: string = "http://localhost:8080/budgets"
+  baseUrl: string = `${environment.apiUrl}/budgets`;
   token: string = "";
 
   constructor(private http: HttpClient) { }
@@ -22,8 +23,9 @@ export class HistoricService {
     return this.http.post<any>(this.baseUrl, budget,{observe: 'response'});
   }
 
+  //TODO Mudar essa chamada para uma service de agendamento;
   agendarTattoo(agendamento: any) {
-    return this.http.post('http://localhost:8080/events', agendamento);
+    return this.http.post(`${environment.apiUrl}/events`, agendamento);
   }
 
 

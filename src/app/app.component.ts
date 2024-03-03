@@ -10,7 +10,7 @@ import { PrimeNGConfig } from 'primeng/api';
 export class AppComponent  implements OnInit {
 
   constructor(private config: PrimeNGConfig) {}
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.config.setTranslation({
       apply: 'Aplicar',
       clear: 'Limpar',

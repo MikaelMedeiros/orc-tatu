@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoggingInterceptor } from 'src/app/interceptor/auth.interceptor';
-import { AuthService } from 'src/app/pages/login/service/auth.service';
 import { Usuario } from 'src/app/pages/login/model/usuario';
+import { AuthService } from 'src/app/pages/login/service/auth.service';
 
 
 @Component({
@@ -37,9 +36,9 @@ export class HomeComponent implements OnInit{
              if (result === true) {
                this.user = this.authService.user;
                this.salvarObjetoLocalStorage('user', this.user)
+               this.router.navigateByUrl("/calculator")
              }
-           });
-           this.router.navigate(["/"])
+           });          
          }
 
        }
@@ -54,10 +53,15 @@ export class HomeComponent implements OnInit{
 
   recuperarObjetoLocalStorage(chave: string): any {
     const objetoString = localStorage.getItem(chave);
-    if (objetoString !== null && objetoString !== '{}') {
-      return JSON.parse(objetoString);
+    
+    try {
+      if (objetoString && objetoString !== null && objetoString !== '{}') {
+        return JSON.parse(objetoString);
+      }
+    } catch (error) {
+      this.router.navigate(['/login']);
     }
-
+    
     return null;
   }
 }

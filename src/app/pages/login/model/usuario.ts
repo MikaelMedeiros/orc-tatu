@@ -3,6 +3,8 @@ import { TokenInfoDTO } from "./tokenInfoDTO";
 export class Usuario {
     name!: string;
     picture!: string;
-    tokenInfoDTO!: TokenInfoDTO;
-    expiration!: Date;
+    accessToken!: string;
+    tokenType!: string;
+    refreshToken!: string;
+    expiration!: number;
 }
