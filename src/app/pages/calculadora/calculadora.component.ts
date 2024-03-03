@@ -1,12 +1,12 @@
-import { ToastService } from './../../shared/toast.service';
-import { CalculadoraService } from './service/calculadora.service';
-import { HistoricComponent } from './../historic/historic.component';
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { HistoricService } from '../historic/service/historic.service';
-import { BudgetHistory } from '../historic/model/budget-reponse';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { BudgetHistory } from '../historic/model/budget-reponse';
+import { HistoricService } from '../historic/service/historic.service';
+import { ToastService } from './../../shared/toast.service';
+import { HistoricComponent } from './../historic/historic.component';
+import { CalculadoraService } from './service/calculadora.service';
 
 @Component({
   selector: 'app-calculadora',
@@ -52,6 +52,13 @@ export class CalculadoraComponent implements AfterViewInit {
       { name: 'Realismo', value: 'REALISM', ptbr: 'realismo' },
       { name: 'Old School', value: 'OLD_SCHOOL', ptbr: 'old school' },
       { name: 'Black Work', value: 'BLACK_WORK', ptbr: 'black work' },
+      { name: 'Minimalista', value: 'BLACK_WORK', ptbr: 'black work' },
+      { name: 'Geek', value: 'BLACK_WORK', ptbr: 'black work' },
+      { name: 'Free Hand', value: 'BLACK_WORK', ptbr: 'black work' },
+      { name: 'Caligrafia', value: 'BLACK_WORK', ptbr: 'black work' },
+      { name: 'Cobertura', value: 'BLACK_WORK', ptbr: 'black work' },
+      { name: 'Neotradicional', value: 'BLACK_WORK', ptbr: 'black work' },      
+      { name: 'Tribal', value: 'BLACK_WORK', ptbr: 'black work' },      
     ];
 
     this.details = [
@@ -64,25 +71,21 @@ export class CalculadoraComponent implements AfterViewInit {
 
     this.bodyLocal = [
       { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
+      { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},      
       { name: 'Ombro', value:'SHOULDER', ptbr: 'ombro', addtion: '2'},
+      { name: 'Peito', value:'CHEST', category: 'category 2', addtion: '2'},      
+      { name: 'Clavícula', value:'CHEST', category: 'category 2', addtion: '2'},      
       { name: 'Mão', value:'HAND', ptbr: 'mão', addtion: '2'},
       { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
       { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
+      { name: 'Panturrilha', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
       { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
       { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
       { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
       { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
-      // { name: 'Antebraço', value:'Antebraço', category: 'category 2', addtion: '2'},
-      // { name: 'Pescoço', value:'Pescoço', category: 'category 2', addtion: '2'},
-      // { name: 'Rosto', value:'Rosto', category: 'category', addtion: '1'},
-      // { name: 'Peito', value:'Peito', category: 'category 2', addtion: '2'},
-      // { name: 'Barriga', value:'Barriga', category: 'category 2', addtion: '2'},
-      // { name: 'Costas', value:'Costas', category: 'category 2', addtion: '2'},
-      // { name: 'Costelas', value:'Costelas', category: 'category 2', addtion: '2'},
-      // { name: 'Lombar', value:'Lombar', category: 'category 2', addtion: '2'},
-      // { name: 'Glúteos', value:'Glúteos', category: 'category 2', addtion: '2'},
-      // { name: 'Canela', value:'Canela', category: 'category 2', addtion: '2'},
-      // { name: 'Pé', value:'Pé', category: 'category 2', addtion: '2'}
+      { name: 'Cintura', value:'cintura', ptbr: 'pescoço', category: 'category', addtion: '1'},      
+      { name: 'Virilha', value:'virilha', category: 'category 2', addtion: '2'},
+      { name: 'Pé', value:'FOOT', category: 'category 2', addtion: '2'}
     ]
   }
 ;
@@ -93,18 +96,18 @@ export class CalculadoraComponent implements AfterViewInit {
     id: [],
     client: [],
     draw: [],
-    cm: [1, Validators.required],
+    cm: [null, Validators.required],
     bodyLocal: [],
     style:  [[], Validators.required],
     details: [[]]
   })
 
   configForm = this.fb.group({
-    valorcm: [30, Validators.required],
+    valorcm: [35, Validators.required],
     percentageTax: [30],
-    parkingPrice: [10],
-    creditTax: [20],
-    materials: [0]
+    parkingPrice: [80],
+    creditTax: [60],
+    materials: [80]
   })
 
   bodyPriceForm = this.fb.group({
@@ -116,7 +119,7 @@ export class CalculadoraComponent implements AfterViewInit {
   })
 
   generateBudget() {
-    this.calculateTatooValueAndPix();
+    this.calculateTattooValueAndPix();
     this.calculateCreditValue();
     this.addParkingPriceToPixAndCredit();
     this.addMaterialValueToPixAndCredit();
@@ -124,7 +127,7 @@ export class CalculadoraComponent implements AfterViewInit {
     this.generateTextBudget();
   }
 
-  calculateTatooValueAndPix() {
+  calculateTattooValueAndPix() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.configForm.get('valorcm')?.value;
     if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {
@@ -199,7 +202,7 @@ export class CalculadoraComponent implements AfterViewInit {
 
     //default
     this.generatedBudget = this.generatedBudget.concat(` fica no valor de R$${this.pixValue} no PIX`)
-    .concat(` ou R$${this.creditValue} no Cartão de Crédito em até 3x.`);
+    .concat(` ou R$${this.creditValue} no Cartão de Crédito em até 3x sem juros!`);
   }
 
   getTextFormated(lista: any[]| undefined | null): string | undefined | null {
@@ -219,8 +222,7 @@ export class CalculadoraComponent implements AfterViewInit {
     this.bodyPriceForm.get(fieldForm)?.setValue(value) ;
   }
 
-  copyText() {
-    this.generateBudget();
+  copyText() {    
     this.clipboard.copy(this.generatedBudget);
     this.saveBudget();
   }
@@ -260,13 +262,13 @@ export class CalculadoraComponent implements AfterViewInit {
     return raw.map((item: { value: any; }) => item.value);
   }
 
- private getValueFromRaw(raw: any): any{
+  private getValueFromRaw(raw: any): any{
       return raw?.value;
   }
 
   resetForm() {
     this.budgetForm.reset();
-    this.budgetForm.get('cm')?.setValue(1);
+    this.budgetForm.get('cm')?.setValue(null);
     this.configForm.get('valorcm')?.setValue(30);
     this.budgetForm.get('style')?.setValue(null);
     this.generatedBudget = '';

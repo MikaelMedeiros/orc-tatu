@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHandler, HttpHandlerFn, HttpInterceptor, HttpParams, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, switchMap, tap, throwError } from "rxjs";
-import { Usuario } from "../pages/login/model/usuario";
 import { Router } from "@angular/router";
+import { Observable, catchError, switchMap, tap, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
+import { Usuario } from "../pages/login/model/usuario";
 
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
     return next(req).pipe(tap(event => {
@@ -28,23 +28,20 @@ export class LoggingInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if(this.isLoginRoute(req, next)) return next.handle(req);
-
-    
-
     this.user = this.recuperarObjetoLocalStorage('user');
-    console.log(this.user)
     if(!this.user) {
       this.router.navigate(['/login']);
       return next.handle(req);
-    }  
-
-    if(this.user?.tokenInfoDTO.accessToken){
+    }
+    
+    if(this.user?.tokenInfoDTO.accessToken && !this.tokenExpired(this.user)){  
       const reqClone =  req.clone({
           setHeaders: {
               'Authorization' : `Bearer ${this.user?.tokenInfoDTO.accessToken}` ,
               'Content-Type' : "application/json"
           }
       })
+      this.refresh = false;
       return next.handle(reqClone);
     }
 
@@ -54,13 +51,13 @@ export class LoggingInterceptor implements HttpInterceptor {
 
         let params = new HttpParams();
         params = params.append('refresh-token', `${this.user?.tokenInfoDTO.refreshToken}`);
-
-        return this.http.get(`${this.baseUrl}/authentication/refresh-token`, {withCredentials: true, params}).pipe(
+        return this.http.get(`${this.baseUrl}/authentication/refresh-token`, {params}).pipe(
           switchMap((res: any) => {
             this.setToken(res);
             return next.handle(req.clone({
               setHeaders: {
-                Authorization: `Bearer ${this.user?.tokenInfoDTO.accessToken}`
+                "Authorization": `Bearer ${this.user?.tokenInfoDTO.accessToken}`,
+                'Content-Type' : "application/json"
               }
             }));
           })
@@ -76,10 +73,19 @@ export class LoggingInterceptor implements HttpInterceptor {
       // Verifica se LoggingInterceptor.user.tokenInfoDTO está definido e não é nulo
       if (this.user.tokenInfoDTO !== undefined && this.user.tokenInfoDTO !== null) {
           // Atribui o valor de res.token para LoggingInterceptor.user.tokenInfoDTO.accessToken
-          this.user.tokenInfoDTO.accessToken = res.accessToken;
-          this.user.expiration = res.expiresInSeconds;
+          let expirationTime = new Date();          
+          expirationTime.setSeconds(expirationTime.getSeconds() + res.expiresInSeconds);
+
+          this.user.tokenInfoDTO.accessToken = res.accessToken;   
+          this.user.expiration = expirationTime.getTime();
+          this.user.tokenInfoDTO.expiration = expirationTime.getTime();
+          this.salvarObjetoLocalStorage('user', this.user);
       }
   }
+  }
+
+  tokenExpired(user: Usuario): boolean {
+    return user.tokenInfoDTO.expiration < Date.now();    
   }
 
   recuperarObjetoLocalStorage(chave: string): any {
@@ -95,5 +101,9 @@ export class LoggingInterceptor implements HttpInterceptor {
     
 
     return null;
+  }
+
+  salvarObjetoLocalStorage(chave: string, objeto: Usuario): void {
+    localStorage.setItem(chave, JSON.stringify(objeto));
   }
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoggingInterceptor } from 'src/app/interceptor/auth.interceptor';
-import { AuthService } from 'src/app/pages/login/service/auth.service';
 import { Usuario } from 'src/app/pages/login/model/usuario';
+import { AuthService } from 'src/app/pages/login/service/auth.service';
 
 
 @Component({

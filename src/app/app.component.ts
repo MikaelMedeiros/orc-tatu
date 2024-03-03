@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +10,7 @@ import { environment } from 'src/environments/environment';
 export class AppComponent  implements OnInit {
 
   constructor(private config: PrimeNGConfig) {}
-  ngOnInit(): void {
-    console.log(environment.apiUrl);
-
+  ngOnInit(): void {    
     this.config.setTranslation({
       apply: 'Aplicar',
       clear: 'Limpar',

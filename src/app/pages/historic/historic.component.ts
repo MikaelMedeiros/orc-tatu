@@ -1,13 +1,12 @@
-import { ModalAgendamentoComponent } from './modal-agendamento/modal-agendamento.component';
-import { AfterViewInit, Component, Directive, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { HistoricService } from './service/historic.service';
-import { FormBuilder } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { BudgetHistory } from './model/budget-reponse';
-import { FormControl, FormGroup } from '@angular/forms';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { ToastService } from 'src/app/shared/toast.service';
+import { ModalAgendamentoComponent } from './modal-agendamento/modal-agendamento.component';
+import { BudgetHistory } from './model/budget-reponse';
+import { HistoricService } from './service/historic.service';
 
 
 @Component({
