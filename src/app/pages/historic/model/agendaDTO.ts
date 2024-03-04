@@ -6,19 +6,25 @@ export class AgendaDTO {
  summary: string | Nullable;
  startDateTime: any | Nullable;
  endDateTime: any | Nullable;
- tipoTattoo: string | Nullable;
+ tipoAgendamento: string | Nullable;
+ paid: boolean | Nullable; 
+ paymentMehtod: string | Nullable;
 
  constructor(budgetID: number | Nullable,
   description: string | Nullable,
   summary: string| Nullable,
   startDateTime: any| Nullable,
   endDateTime: any | Nullable,
-  tipoTattoo: string | Nullable){
+  tipoAgendamento: string | Nullable,
+  paid: boolean | Nullable,
+  paymentMehtod: string | Nullable){
    this.budgetID = budgetID;
    this.description = description;
    this.summary = summary;
    this.startDateTime = startDateTime;
    this.endDateTime = endDateTime;
-   this.tipoTattoo = tipoTattoo;
+   this.tipoAgendamento = tipoAgendamento;
+   this.paid = paid;
+   this.paymentMehtod = paymentMehtod;
   }
 }

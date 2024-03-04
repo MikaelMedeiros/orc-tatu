@@ -24,9 +24,10 @@ export class ModalAgendamentoComponent {
   visible: boolean = false;
   startDate: Date | Nullable;
   minDate: Date = new Date();
-  tipoTattoo: string = 'tattoo';
+  tipoAgendamento: string = 'tattoo';
   duration: number = 3;
-  pagamentoAdiantado: string = 'false';
+  pagamentoAdiantado: boolean = false;
+  paymentMehtod: string = "PIX";
 
   @ViewChild('tattoo') tattoo: RadioButton | undefined;
 
@@ -62,7 +63,9 @@ export class ModalAgendamentoComponent {
       `${this.budget?.clientName}: ${this.budget?.draw}`,
       this.startDate,
       this.endDate,
-      this.tipoTattoo
+      this.tipoAgendamento,
+      this.pagamentoAdiantado,
+      this.paymentMehtod,
     ));
 
     this.agendarService.agendar(
@@ -72,7 +75,9 @@ export class ModalAgendamentoComponent {
         `${this.budget?.clientName}: ${this.budget?.draw}`,
         this.setToBrazilTimezone(this.startDate),
         this.setToBrazilTimezone(this.endDate),
-        this.tipoTattoo
+        this.tipoAgendamento,
+        this.pagamentoAdiantado,
+        this.paymentMehtod,
       )
     ).subscribe({
       next:(n) =>{
@@ -110,8 +115,7 @@ export class ModalAgendamentoComponent {
   setToBrazilTimezone(date: Date | Nullable) { 
     if(date) {
       let brazilDateStr = new Date(date).toLocaleString("en-US", {timeZone: "America/Sao_Paulo"});
- 
-      return new Date(brazilDateStr).getTime();                     
+      return new Date(brazilDateStr).getTime();
     } else { 
       console.log('nao converteu')
       return date;
