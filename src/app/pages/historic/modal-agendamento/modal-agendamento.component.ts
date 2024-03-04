@@ -14,6 +14,7 @@ import { AgendarService } from '../service/agendar.service';
   styleUrls: ['./modal-agendamento.component.css'],
 })
 export class ModalAgendamentoComponent {
+  endDate: Date | Nullable;
   constructor(
     private agendarService: AgendarService,
     private messageService: MessageService
@@ -21,32 +22,56 @@ export class ModalAgendamentoComponent {
 
   @Input() budget: BudgetHistory | Nullable;
   visible: boolean = false;
-  date: Date | Nullable;
+  startDate: Date | Nullable;
   minDate: Date = new Date();
   tipoTattoo: string = 'tattoo';
+  duration: number = 3;
   pagamentoAdiantado: string = 'false';
-
 
   @ViewChild('tattoo') tattoo: RadioButton | undefined;
 
 
   agendar() {
-    if (this.date === undefined) {
+    if (this.startDate === null && this.startDate === undefined) {
       this.messageService.add({
         severity: 'error',
         summary: 'Erro ao agendar',
         detail: 'Por favor selecione data e hora.',
-        life: 300000,
+        life: 3000,
       });
       return; // Sair do método após exibir a mensagem de erro
+    } else {
+      //this.startDate = this.setToBrazilTimezone(this.startDate);
     }
+
+    if (this.duration === undefined) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro ao agendar',
+        detail: 'Por favor informe a duração',
+        life: 3000,
+      });
+      return; // Sair do método após exibir a mensagem de erro
+    } else {
+      this.addTattooDuration();
+    }
+
+   console.log( new AgendaDTO(
+      this.budget?.id,
+      this.budget?.description,
+      `${this.budget?.clientName}: ${this.budget?.draw}`,
+      this.startDate,
+      this.endDate,
+      this.tipoTattoo
+    ));
 
     this.agendarService.agendar(
       new AgendaDTO(
         this.budget?.id,
         this.budget?.description,
         `${this.budget?.clientName}: ${this.budget?.draw}`,
-        this.date,
+        this.setToBrazilTimezone(this.startDate),
+        this.setToBrazilTimezone(this.endDate),
         this.tipoTattoo
       )
     ).subscribe({
@@ -72,5 +97,24 @@ export class ModalAgendamentoComponent {
 
   fecharCalendario(calendar: Calendar) {
     calendar.hideOverlay();
+  }
+
+  public addTattooDuration() {
+    const startDate = this.startDate;
+    if(startDate) {          
+      this.endDate = new Date(startDate);
+      this.endDate.setHours(startDate.getHours() + this.duration);           
+    }   
+  }
+
+  setToBrazilTimezone(date: Date | Nullable) { 
+    if(date) {
+      let brazilDateStr = new Date(date).toLocaleString("en-US", {timeZone: "America/Sao_Paulo"});
+ 
+      return new Date(brazilDateStr).getTime();                     
+    } else { 
+      console.log('nao converteu')
+      return date;
+    }
   }
 }

@@ -36,6 +36,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { RemoveClassCheckboxDirective } from './diretivas/remove-class-checkbox.directive';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastService } from './shared/toast.service';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { ToastService } from './shared/toast.service';
     CalendarModule,
     RadioButtonModule,
     CheckboxModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    DropdownModule,
+    MultiSelectModule
   ],
   providers: [
     AuthService,
