@@ -23,6 +23,15 @@ export class ToastService {
     });
   }
 
+  errorMsg(msg: string){
+    this.messageService.clear();
+   this.messageService.add({
+     severity: 'error',
+     detail: msg,
+     life: 3500,
+   });
+ }
+
 
   successHandler(success: HttpResponse<any>){
     this.messageService.clear();
