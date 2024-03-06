@@ -7,6 +7,7 @@ import { HistoricService } from '../historic/service/historic.service';
 import { ToastService } from './../../shared/toast.service';
 import { HistoricComponent } from './../historic/historic.component';
 import { CalculadoraService } from './service/calculadora.service';
+import { BudgetRequest } from './model/budget-reponse';
 
 @Component({
   selector: 'app-calculadora',
@@ -231,7 +232,7 @@ export class CalculadoraComponent implements AfterViewInit {
   saveBudget() {
     const budgetRaw = this.budgetForm.getRawValue();
     const configRaw = this.configForm.getRawValue();
-    let budget: BudgetHistory = new BudgetHistory(
+    let budget: BudgetRequest = new BudgetRequest(
       budgetRaw.client,
       this.generatedBudget,
       budgetRaw.draw,

@@ -167,7 +167,7 @@
       <textarea id="generatedBudget" [(ngModel)]="generatedBudget" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
     </div>
   </div>
-  <div class="flex flex-row-reverse flex-wrap">
+  <div class="flex flex-row-reverse flex-wrap" *ngIf="generatedBudget && !budgetForm.invalid">
     <div class="formgroup-inline col-2">
       <p-button icon="pi pi-copy"  type="button" severity="success" title="Copiar texto" (click)="saveBudget()">
         <i class="pi pi-save"></i>
