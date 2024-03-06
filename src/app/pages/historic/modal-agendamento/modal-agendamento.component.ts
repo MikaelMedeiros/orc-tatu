@@ -25,7 +25,7 @@ export class ModalAgendamentoComponent {
   startDate: Date | Nullable;
   minDate: Date = new Date();
   tipoAgendamento: string = 'tattoo';
-  duration: number = 3;
+  duration: string = '03:00';
   pagamentoAdiantado: boolean = false;
   paymentMehtod: string = "PIX";
   time: Date | any;
@@ -33,7 +33,7 @@ export class ModalAgendamentoComponent {
   @ViewChild('tattoo') tattoo: RadioButton | undefined;
 
 
-  agendar() {
+  validacaoAgendar(){
     if (this.startDate === null && this.startDate === undefined) {
       this.messageService.add({
         severity: 'error',
@@ -58,6 +58,9 @@ export class ModalAgendamentoComponent {
       this.addTattooDuration();
     }
 
+  }
+  agendar() {
+    this.validacaoAgendar();
     this.agendarService.agendar(
       new AgendaDTO(
         this.budget?.id,
@@ -98,7 +101,11 @@ export class ModalAgendamentoComponent {
     const startDate = this.startDate;
     if(startDate) {
       this.endDate = new Date(startDate);
-      this.endDate.setHours(startDate.getHours() + this.duration);
+      let tempoDuracao = this.duration.split(':');
+      let horaDuracao = Number(tempoDuracao[0]);
+      let minDuracao = Number(tempoDuracao[1])
+      this.endDate.setHours(startDate.getHours() + horaDuracao);
+      this.endDate.setMinutes(startDate.getMinutes() + minDuracao)
     }
   }
 
