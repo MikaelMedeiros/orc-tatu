@@ -28,6 +28,7 @@ export class ModalAgendamentoComponent {
   duration: number = 3;
   pagamentoAdiantado: boolean = false;
   paymentMehtod: string = "PIX";
+  time: Date | any;
 
   @ViewChild('tattoo') tattoo: RadioButton | undefined;
 
@@ -106,17 +107,17 @@ export class ModalAgendamentoComponent {
 
   public addTattooDuration() {
     const startDate = this.startDate;
-    if(startDate) {          
+    if(startDate) {
       this.endDate = new Date(startDate);
-      this.endDate.setHours(startDate.getHours() + this.duration);           
-    }   
+      this.endDate.setHours(startDate.getHours() + this.duration);
+    }
   }
 
-  setToBrazilTimezone(date: Date | Nullable) { 
+  setToBrazilTimezone(date: Date | Nullable) {
     if(date) {
       let brazilDateStr = new Date(date).toLocaleString("en-US", {timeZone: "America/Sao_Paulo"});
       return new Date(brazilDateStr).getTime();
-    } else { 
+    } else {
       console.log('nao converteu')
       return date;
     }

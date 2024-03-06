@@ -38,6 +38,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastService } from './shared/toast.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { InputMaskModule } from 'primeng/inputmask';
+
 
 @NgModule({
   declarations: [
@@ -77,7 +79,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     CheckboxModule,
     AutoCompleteModule,
     DropdownModule,
-    MultiSelectModule
+    MultiSelectModule,
+    InputMaskModule
   ],
   providers: [
     AuthService,

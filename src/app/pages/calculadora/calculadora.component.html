@@ -1,11 +1,11 @@
 <p-tabView styleClass="tabview-custom" (onChange)="atualizaHistorico($event)" [(activeIndex)]="indexTab">
     <!-- Orçamento -->
-    
+
     <p-tabPanel>
       <ng-template pTemplate="header">
         <i class="pi pi-calculator"></i>
       </ng-template>
-      
+
       <form [formGroup]="budgetForm" (ngSubmit)="generateBudget()">
 
         <div class="field" >
@@ -27,12 +27,12 @@
         </div>
 
 
-            <div class="field">              
-              <p-multiSelect id="style" (onChange)="generateBudget()" [options]="styles" formControlName="style" [filter]="false" optionLabel="name" placeholder="Categorias"></p-multiSelect>                  
+            <div class="field">
+              <p-multiSelect id="style" (onChange)="generateBudget()" [options]="styles" formControlName="style" [filter]="false" optionLabel="name" placeholder="Categorias"></p-multiSelect>
               <small class="p-error block" *ngIf="budgetForm.get('style')?.invalid && budgetForm.get('style')?.dirty">Preencha o(s) estilo(s)</small>
             </div>
 
-            <div class="field" >                        
+            <div class="field" >
               <p-multiSelect id="details" (onChange)="generateBudget()" [options]="details" formControlName="details" [filter]="false" optionLabel="name" placeholder="Detalhes"></p-multiSelect>
             </div>
 
@@ -167,10 +167,18 @@
       <textarea id="generatedBudget" [(ngModel)]="generatedBudget" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
     </div>
   </div>
-
-  <div class="mt-3">
-    <p-button icon="pi pi-copy" *ngIf="generatedBudget && !budgetForm.invalid" type="button" severity="success" title="Copiar texto" (click)="copyText()"></p-button>
+  <div class="flex flex-row-reverse flex-wrap">
+    <div class="formgroup-inline col-2">
+      <p-button icon="pi pi-copy"  type="button" severity="success" title="Copiar texto" (click)="saveBudget()">
+        <i class="pi pi-save"></i>
+      </p-button>
+    </div>
+    <div class="formgroup-inline col-2">
+      <p-button icon="pi pi-copy"  type="button"  title="Copiar texto" (click)="copyText()">
+      </p-button>
+    </div>
   </div>
+
 
   <p-dialog header="Dica" [modal]="true" [closable]="true" position="bottom" [(visible)]="hintVisible" [style]="{width: '90vw'}">
     <p>

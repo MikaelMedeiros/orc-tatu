@@ -57,8 +57,8 @@ export class CalculadoraComponent implements AfterViewInit {
       { name: 'Free Hand', value: 'FREE_HAND', ptbr: 'free hand' },
       { name: 'Caligrafia', value: 'CALLIGRAPHY', ptbr: 'caligrafia' },
       { name: 'Cobertura', value: 'COVERAGE', ptbr: 'cobertura' },
-      { name: 'Neotradicional', value: 'NEOTRADITIONAL', ptbr: 'neotradicional' },      
-      { name: 'Tribal', value: 'TRIBAL', ptbr: 'tribal' },      
+      { name: 'Neotradicional', value: 'NEOTRADITIONAL', ptbr: 'neotradicional' },
+      { name: 'Tribal', value: 'TRIBAL', ptbr: 'tribal' },
     ];
 
     this.details = [
@@ -73,14 +73,14 @@ export class CalculadoraComponent implements AfterViewInit {
       { name: 'Orelha', value:'EAR', ptbr: 'orelha', addtion: '2'},
       { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
       { name: 'Ombro', value:'SHOULDER', ptbr: 'ombro', addtion: '2'},
-      { name: 'Clavícula', value:'CLAVICLE', ptbr: 'clavícula', addtion: '2'},      
+      { name: 'Clavícula', value:'CLAVICLE', ptbr: 'clavícula', addtion: '2'},
       { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
-      { name: 'Antebraço', value:'FOREARM', ptbr: 'antebraço', addtion: '2'},      
+      { name: 'Antebraço', value:'FOREARM', ptbr: 'antebraço', addtion: '2'},
       { name: 'Mão', value:'HAND', ptbr: 'mão', addtion: '2'},
-      { name: 'Peito', value:'CHEST', ptbr: 'peito', addtion: '2'},      
+      { name: 'Peito', value:'CHEST', ptbr: 'peito', addtion: '2'},
       { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
       { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
-      { name: 'Cintura', value:'WAIST', ptbr: 'cintura', category: 'category', addtion: '1'},      
+      { name: 'Cintura', value:'WAIST', ptbr: 'cintura', category: 'category', addtion: '1'},
       { name: 'Virilha', value:'GROIN', ptbr: 'virilha', addtion: '2'},
       { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
       { name: 'Panturrilha', value:'CALF', ptbr: 'panturrilha', addtion: '2'},
@@ -227,9 +227,9 @@ export class CalculadoraComponent implements AfterViewInit {
     this.bodyPriceForm.get(fieldForm)?.setValue(value) ;
   }
 
-  copyText() {    
+  copyText() {
     this.clipboard.copy(this.generatedBudget);
-    this.saveBudget();
+    this.toastService.successMsg("Orçamento  copiado");
   }
 
   saveBudget() {
@@ -254,13 +254,14 @@ export class CalculadoraComponent implements AfterViewInit {
     this.historicService.saveOnBudgetHistory(budget)
     .subscribe({
       next: (response: any)=>{
-
-        this.toastService.successMsg("Orçamento salvo");
+        this.clipboard.copy(this.generatedBudget);
+        this.toastService.successMsg("Orçamento salvo e copiado");
       },
       error: (error:HttpErrorResponse)=>{
         this.toastService.errorHandler(error);
       }
     })
+
   }
 
   private getValuesFromRaw(raw: any): any{

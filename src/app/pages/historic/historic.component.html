@@ -1,7 +1,7 @@
 <form [formGroup]="formFiltersGroup" class="p-inputgroup">
   <div>
     <div class="field" >
-      <label class="flex" for="username">Nome</label>
+      <label class="flex" for="username">Cliente</label>
       <p-autoComplete (onSelect)="onNameAutocompleSelect($event)" formControlName="nome"  [suggestions]="autocompleteBudget"
       [forceSelection]="true" emptyMessage="true" (completeMethod)="autocompleBudget($event)" ></p-autoComplete>
     </div>
@@ -39,18 +39,37 @@
   <ng-template let-budget pTemplate="item"  style="border: 1px solid lightgray; border-radius: 8px; padding: 10px;">
     <div class="bordar-carousel">
       <div style="bottom: 1.5rem; position: relative;">
+        <div class="flex flex-wrap">
           <div class="flex center gap-3 col-12">
             <div class="p-mb-1 col-8">
               <p>{{"Cliente: " + budget.clientName }}</p>
             </div>
-            <div class="p-mt-0 p-mb-3 align-items-end col-4">
-              <p>Valor:{{ budget.tattooValue }}</p>
+          </div>
+          <div class="formgroup-inline">
+            <div class="pr-2">
+              <i class="pi pi-wallet" style="font-size: 1rem; color: #93deac"></i>
+            </div>
+            <label style="color: #93deac" class="block"> R${{budget.netValue}}</label>
+          </div>
+
+          <div class="pl-3">
+            <div class="formgroup-inline">
+              <div class="pr-2">
+                <i class="pi pi-percentage" style="font-size: 1rem; color: #de9393"></i>
+              </div>
+              <label style="color: #de9393" class="block"> R${{budget.studioPercent}}</label>
             </div>
           </div>
-          <div class=" flex center gap-3 description" style="bottom: 1rem;position: relative;">
-            <p class="p-mb-1 col-12 ">{{"Descrição: " + budget.description }}</p>
-           <p></p>
+
+          <div class="pl-3">
+            <div class="formgroup-inline">
+              <div class="pr-2">
+                <i class="pi pi-palette" style="font-size: 1rem; color: #93bade"></i>
+              </div>
+              <label style="color: #93bade" class="block"> R${{budget.netValue + budget.studioPercent}}</label>
+            </div>
           </div>
+        </div>
       <div class="flex center gap-3 center historic-balls "  style="bottom: 1rem;position: relative;">
         <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-cancelado" (click)="confirm1($event, budget); $event.stopPropagation()" >
           <span class="pi pi-times p-button-icon ng-star-inserted"></span>
