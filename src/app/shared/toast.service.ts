@@ -11,16 +11,33 @@ export class ToastService {
 
   }
 
-  errorHandler(error: HttpErrorResponse){
+  errorHandler(error: HttpErrorResponse) {
     this.messageService.clear();
-    error.error.errors.forEach((ex: any) => {
+    if(error.error.errors) {
+      error.error.errors.forEach((ex: any) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro.',
+          detail: ex,
+          life: 3500,
+        });
+      });
+    } else {
       this.messageService.add({
         severity: 'error',
         summary: 'Erro.',
-        detail: ex,
+        detail: this.verifyAuthenticationError(error.error.error),
         life: 3500,
-      });
-    });
+      });      
+    }
+  }
+
+  verifyAuthenticationError(error: any): string {
+    if(error == 'Usuário não encontrado.') {
+      return `${error} Por favor, relogue.`;
+    } else {
+      return error;
+    }
   }
 
   errorMsg(msg: string){

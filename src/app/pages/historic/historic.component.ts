@@ -88,7 +88,7 @@ export class HistoricComponent implements OnInit{
       next: (res:BudgetHistory[])=>{
         this.budgets = res
       },
-      error: (error:HttpErrorResponse)=>{
+      error: (error:HttpErrorResponse)=>{        
         this.toastService.errorHandler(error);
       }
     })

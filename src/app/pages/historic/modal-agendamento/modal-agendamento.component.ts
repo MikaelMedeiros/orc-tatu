@@ -65,7 +65,7 @@ export class ModalAgendamentoComponent {
       )
     ).subscribe({
       next:(n) =>{
-        this.toastService.successMsg('Tattoo agendada na sua agenda Google');
+        this.toastService.successMsg('Tattoo incluída na sua agenda Google');
       },
       error: (error:HttpErrorResponse)=>{        
         this.toastService.errorHandler(error);          
