@@ -12,6 +12,7 @@ export class ToastService {
   }
 
   errorHandler(error: HttpErrorResponse){
+    this.messageService.clear();
     error.error.errors.forEach((ex: any) => {
       this.messageService.add({
         severity: 'error',
@@ -24,6 +25,7 @@ export class ToastService {
 
 
   successHandler(success: HttpResponse<any>){
+    this.messageService.clear();
     this.messageService.add({
       severity: 'success',
       detail: success.statusText ,
@@ -33,6 +35,7 @@ export class ToastService {
 
 
   successMsg(msg: string){
+     this.messageService.clear();
     this.messageService.add({
       severity: 'success',
       detail: msg,

@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit{
      var userInLocal = this.recuperarObjetoLocalStorage('user');
      if(userInLocal){
        this.user = userInLocal;
+       this.router.navigateByUrl("/calculator")
      }else{
        this.route.queryParams
        .subscribe(params => {

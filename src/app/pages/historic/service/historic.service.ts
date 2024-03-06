@@ -1,3 +1,4 @@
+import { BudgetRequest } from './../../calculadora/model/budget-reponse';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { BudgetHistory } from '../model/budget-reponse';
@@ -19,7 +20,7 @@ export class HistoricService {
     return this.http.get<BudgetHistory[]>(this.baseUrl).pipe();
   }
 
-  saveOnBudgetHistory(budget: BudgetHistory): Observable<HttpResponse<any>> {
+  saveOnBudgetHistory(budget: BudgetRequest): Observable<HttpResponse<any>> {
     return this.http.post<any>(this.baseUrl, budget,{observe: 'response'});
   }
 

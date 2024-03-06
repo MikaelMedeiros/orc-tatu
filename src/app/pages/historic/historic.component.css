@@ -12,28 +12,10 @@
 }
 
 .bordar-carousel {
-  border: 1px solid #b19df7;
+  border: 2px solid #b19df7;
   border-radius: 8px;
-  height: 16rem;
-
-}
-
-
-.green {
-  background-color: green!important;
-  background: green!important;
-}
-
-.red {
-  background-color: red!important;
-}
-
-.p-button-success{
-  background-color: yellow!important;
-}
-
-.blue {
-  background-color: blue!important;
+  height: 10rem;
+  padding-bottom: 0.2rem;
 }
 
 
@@ -42,24 +24,23 @@
   max-width: 250px; /* Ajuste a largura conforme necessário */
 }
 
-
-
 .p-button-cancelado {
   background-color: #ff9b9b !important;
   width: 2rem;
-  height: 1rem;
-  bottom: 0.5rem;
+  height: 2rem;
+  top: 2rem;
+  position: relative;
+  padding: 0.5rem 0.5rem
 }
 
 .p-button-agendar {
   background-color: #ffec99 !important;
   width: 2rem;
-  height: 1rem;
-  bottom: 0.5rem;
+  height: 2rem;
+  top: 2rem;
+  position: relative;
+  padding: 0.5rem 0.5rem
 }
-
-
-
 
 ::ng-deep .custom-panel-class{
   right: 3rem;

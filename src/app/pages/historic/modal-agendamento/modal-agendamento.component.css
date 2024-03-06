@@ -1,36 +1,3 @@
-:host ::ng-deep .p-hidden-accessible {
-    position: relative;
-    top: 21px;
-}
-
-.label-radio {
-    right: 36px;
-    position: relative;
-    padding-bottom: 5px;
-}
-
-.radios {
-    padding-top: 10px;
-    padding-left: 10px;
-}
-
-
-.label-boolean-radio{
-    top: 18px;
-    right: 7px;
-    position: relative;
-    padding-left: 10px;
-}
-
-.left-35{
-    left: 25px;
-    position: relative;
-}
-
-.boolean-radios{
-    bottom: 20px;
-    position: relative;
-}
 
 .botton-footer-calendar{
     justify-content: flex-end;

@@ -1,0 +1,3 @@
+:host ::ng-deep .p-hidden-accessible {
+    display: none;
+}
