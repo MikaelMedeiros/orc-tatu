@@ -119,10 +119,6 @@ export class CalculadoraComponent implements AfterViewInit {
     pescoco: [0]
   })
 
-  dataGerada(event: any) {
-    console.log('Teste:   ', event)
-  }
-
   generateBudget() {
     this.calculateTattooValueAndPix();
     this.calculateCreditValue();

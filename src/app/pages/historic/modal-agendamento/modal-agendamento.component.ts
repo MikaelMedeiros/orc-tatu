@@ -58,17 +58,6 @@ export class ModalAgendamentoComponent {
       this.addTattooDuration();
     }
 
-   console.log( new AgendaDTO(
-      this.budget?.id,
-      this.budget?.description,
-      `${this.budget?.clientName}: ${this.budget?.draw}`,
-      this.startDate,
-      this.endDate,
-      this.tipoAgendamento,
-      this.pagamentoAdiantado,
-      this.paymentMehtod,
-    ));
-
     this.agendarService.agendar(
       new AgendaDTO(
         this.budget?.id,
