@@ -7,6 +7,7 @@ import { Nullable } from 'primeng/ts-helpers';
 import { AgendaDTO } from '../model/agendaDTO';
 import { BudgetHistory } from '../model/budget-reponse';
 import { AgendarService } from '../service/agendar.service';
+import { ToastService } from 'src/app/shared/toast.service';
 
 @Component({
   selector: 'app-modal-agendamento',
@@ -17,7 +18,7 @@ export class ModalAgendamentoComponent {
   endDate: Date | Nullable;
   constructor(
     private agendarService: AgendarService,
-    private messageService: MessageService
+    private toastService: ToastService
   ) {}
 
   @Input() budget: BudgetHistory | Nullable;
@@ -25,7 +26,7 @@ export class ModalAgendamentoComponent {
   startDate: Date | Nullable;
   minDate: Date = new Date();
   tipoAgendamento: string = 'tattoo';
-  duration: number = 3;
+  duration: string = '03:00';
   pagamentoAdiantado: boolean = false;
   paymentMehtod: string = "PIX";
   time: Date | any;
@@ -33,31 +34,24 @@ export class ModalAgendamentoComponent {
   @ViewChild('tattoo') tattoo: RadioButton | undefined;
 
 
-  agendar() {
+  validacaoAgendar(){
     if (this.startDate === null && this.startDate === undefined) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Erro ao agendar',
-        detail: 'Por favor selecione data e hora.',
-        life: 3000,
-      });
+      this.toastService.errorMsg('Por favor selecione data e hora.');
       return; // Sair do método após exibir a mensagem de erro
     } else {
       //this.startDate = this.setToBrazilTimezone(this.startDate);
     }
 
     if (this.duration === undefined) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Erro ao agendar',
-        detail: 'Por favor informe a duração',
-        life: 3000,
-      });
+      this.toastService.errorMsg('Por favor informe a duração');
       return; // Sair do método após exibir a mensagem de erro
     } else {
       this.addTattooDuration();
     }
 
+  }
+  agendar() {
+    this.validacaoAgendar();
     this.agendarService.agendar(
       new AgendaDTO(
         this.budget?.id,
@@ -71,20 +65,10 @@ export class ModalAgendamentoComponent {
       )
     ).subscribe({
       next:(n) =>{
-        this.messageService.add({
-          severity: 'success',
-          detail: 'Agendado.',
-          life: 3000,
-        });
+        this.toastService.successMsg('Tattoo incluída na sua agenda Google');
       },
-      error: (error:HttpErrorResponse)=>{
-        error.status
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: error.message,
-          life: 3000,
-        });
+      error: (error:HttpErrorResponse)=>{        
+        this.toastService.errorHandler(error);          
       }
     })
 
@@ -98,7 +82,11 @@ export class ModalAgendamentoComponent {
     const startDate = this.startDate;
     if(startDate) {
       this.endDate = new Date(startDate);
-      this.endDate.setHours(startDate.getHours() + this.duration);
+      let tempoDuracao = this.duration.split(':');
+      let horaDuracao = Number(tempoDuracao[0]);
+      let minDuracao = Number(tempoDuracao[1])
+      this.endDate.setHours(startDate.getHours() + horaDuracao);
+      this.endDate.setMinutes(startDate.getMinutes() + minDuracao)
     }
   }
 
