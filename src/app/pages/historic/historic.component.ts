@@ -83,6 +83,15 @@ export class HistoricComponent implements OnInit{
 
   }
 
+  addBudgetOnList(budget: any) {
+    this.budgets.unshift(budget);
+    this.filtrarBudgets();
+  }
+
+  calculaIndexSizeCarroucel() {
+    return Math.ceil(this.budgets.length / 2);
+  }
+
   getBudgets(){
      this.historicService.getHistoric().subscribe({
       next: (res:BudgetHistory[])=>{
@@ -180,10 +189,10 @@ export class HistoricComponent implements OnInit{
   returnsAmountCollected(): number {
     if(this.budgets){
     return this.budgets
-      .filter((budget: { status: string }) => budget.status === 'verde')
+      .filter((budget: { status: string }) => budget.status === 'BUDGETED')
       .reduce(
-        (total: any, budget: { tattooValue: any }) =>
-          total + (budget.tattooValue || 0),
+        (total: any, budget: { netValue: any }) =>
+          total + (budget.netValue || 0),
         0
       );
     }else{
@@ -216,7 +225,7 @@ export class HistoricComponent implements OnInit{
 
 
   showDialgAgendar(budget: BudgetHistory) {
-    this.modalAgendamento.visible = true;
+    this.modalAgendamento.showModalCalendar = true;
     this.modalBudgetInput = budget;
   }
 

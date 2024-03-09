@@ -10,7 +10,7 @@ export class CalculadoraService {
 
   constructor(private httpClient: HttpClient) { }
 
-  baseUrl: string = `${environment.apiUrl}/calculato`;
+  baseUrl: string = `${environment.apiUrl}/calculator`;
 
   getBodyLocal():Observable<HttpResponse<any>>{
    return this.httpClient.get<any>(`${this.baseUrl}/body-locals`).pipe();

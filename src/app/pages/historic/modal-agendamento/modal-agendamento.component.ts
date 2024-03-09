@@ -1,13 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { MessageService } from 'primeng/api';
 import { Calendar } from 'primeng/calendar';
 import { RadioButton } from 'primeng/radiobutton';
 import { Nullable } from 'primeng/ts-helpers';
+import { ToastService } from 'src/app/shared/toast.service';
 import { AgendaDTO } from '../model/agendaDTO';
 import { BudgetHistory } from '../model/budget-reponse';
 import { AgendarService } from '../service/agendar.service';
-import { ToastService } from 'src/app/shared/toast.service';
 
 @Component({
   selector: 'app-modal-agendamento',
@@ -22,7 +21,7 @@ export class ModalAgendamentoComponent {
   ) {}
 
   @Input() budget: BudgetHistory | Nullable;
-  visible: boolean = false;
+  showModalCalendar: boolean = false;
   startDate: Date | Nullable;
   minDate: Date = new Date();
   tipoAgendamento: string = 'tattoo';
@@ -65,6 +64,7 @@ export class ModalAgendamentoComponent {
       )
     ).subscribe({
       next:(n) =>{
+        this.showModalCalendar = false;
         this.toastService.successMsg('Tattoo incluída na sua agenda Google');
       },
       error: (error:HttpErrorResponse)=>{        

@@ -1,4 +1,4 @@
-<p-tabView styleClass="tabview-custom" (onChange)="atualizaHistorico($event)" [(activeIndex)]="indexTab">
+<p-tabView styleClass="tabview-custom" [(activeIndex)]="indexTab">
     <!-- Orçamento -->
 
     <p-tabPanel>
@@ -127,7 +127,7 @@
       </form>
     </p-tabPanel>
     <!-- Historico -->
-    <p-tabPanel *ngIf="true" >
+    <p-tabPanel *ngIf="!free" >
       <ng-template pTemplate="header">
         <i class="pi pi-list"></i>
       </ng-template>
@@ -168,8 +168,8 @@
     </div>
   </div>
   <div class="flex flex-row-reverse flex-wrap" *ngIf="generatedBudget && !budgetForm.invalid">
-    <div class="formgroup-inline col-2">
-      <p-button icon="pi pi-copy"  type="button" severity="success" title="Copiar texto" (click)="saveBudget()">
+    <div *ngIf="!free" class="formgroup-inline col-2">
+      <p-button icon="pi pi-copy"  type="button" severity="success" title="Copiar e Salvar texto" (click)="saveBudget()">
         <i class="pi pi-save"></i>
       </p-button>
     </div>
@@ -179,7 +179,7 @@
     </div>
   </div>
 
-
+  
   <p-dialog header="Dica" [modal]="true" [closable]="true" position="bottom" [(visible)]="hintVisible" [style]="{width: '90vw'}">
     <p>
         Informe aqui os custos com metrô, gasolina e/ou estacionamento.

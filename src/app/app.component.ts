@@ -28,7 +28,7 @@ export class AppComponent  implements OnInit {
   }
 
   mandarUmWhatsapp() {
-    window.open('https://wa.me/5561991885361?text=Oi%20Mikael,%20tudo%20bem?%20Gostaria%20de%20saber%20mais%20sobre%20o%20Orc%20Tattoo%20:D', '_blank')
+    window.open('https://wa.me/5561991885361?text=Oi%20Mikael,%20tudo%20bem?%20Nao%20consegui%20logar%20me%20de%20acesso%20ao%20Orc%20Tattoo%20:D', '_blank')
   }
 
 }

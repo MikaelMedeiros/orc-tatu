@@ -8,14 +8,14 @@ import { AuthenticationComponent } from "./principal/authentication/authenticati
 import { authGuard } from "./guard/auth.guard";
 import { CommonModule } from "@angular/common";
 
-const routes: Routes = [
+const routes: Routes = [    
     {
         path: '', component: HomeComponent,
         children: [            
             {   path: 'calculator', component: CalculadoraComponent  },
             {   path: 'budgets', component: HistoricComponent   }
         ],
-         canActivate: [authGuard]
+        canActivate: [authGuard]
     },
     {
 

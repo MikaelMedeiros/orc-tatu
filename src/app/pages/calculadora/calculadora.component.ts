@@ -1,6 +1,6 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HistoricService } from '../historic/service/historic.service';
 import { ToastService } from './../../shared/toast.service';
@@ -13,7 +13,7 @@ import { BudgetRequest } from './model/budget-reponse';
   templateUrl: './calculadora.component.html',
   styleUrls: ['./calculadora.component.css']
 })
-export class CalculadoraComponent implements AfterViewInit {
+export class CalculadoraComponent implements OnInit {
   generatedBudget = '';
   netValue = 0;
   parkingPrice: number | null | undefined = 0;
@@ -23,7 +23,7 @@ export class CalculadoraComponent implements AfterViewInit {
   indexTab: number | any = 0;
   count: number = 0;
 
-
+  
 
   constructor(
     private fb: FormBuilder,
@@ -33,9 +33,7 @@ export class CalculadoraComponent implements AfterViewInit {
     private calculadoraService: CalculadoraService,
   ) {}
 
-  ngAfterViewInit(): void {
-   // setTimeout(() =>this.getEstilos(), 1000);
-  }
+  @Input() free: boolean = false;
 
   styles: any[] = [];
   details: any[] = [];
@@ -250,8 +248,12 @@ export class CalculadoraComponent implements AfterViewInit {
     this.historicService.saveOnBudgetHistory(budget)
     .subscribe({
       next: (response: any)=>{
-        this.clipboard.copy(this.generatedBudget);
+        const budget = response.body;
+        this.atualizaHistorico(budget);
+        this.clipboard.copy(this.generatedBudget);        
         this.toastService.successMsg("Orçamento salvo e copiado");
+        this.indexTab = 2
+        this.resetForm();
       },
       error: (error:HttpErrorResponse)=>{
         this.toastService.errorHandler(error);
@@ -282,11 +284,8 @@ export class CalculadoraComponent implements AfterViewInit {
     this.hintVisible = !this.hintVisible;
   }
 
-  atualizaHistorico(event: any){
-    if(this.indexTab == 2){
-      this.historicComponent?.getBudgets();
-    }
-
+  atualizaHistorico(budget: any){
+      this.historicComponent?.addBudgetOnList(budget);
   }
 
   getEstilos(){

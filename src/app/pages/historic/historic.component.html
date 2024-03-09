@@ -33,7 +33,6 @@
   verticalViewPortHeight="21rem"
   [responsiveOptions]="responsiveOptions"
   [showIndicators]="false"
-  [ngClass]="'seu-componente'"
 >
   <ng-template let-budget pTemplate="item"  style="border: 1px solid lightgray; border-radius: 8px; padding: 10px;">
     <div class="bordar-carousel">
@@ -82,12 +81,18 @@
   </ng-template>
 </p-carousel>
 <p-confirmDialog></p-confirmDialog>
+<div class="text-center field center">
+  Página {{ currentIndex == null ? 1 : currentIndex }} de {{ calculaIndexSizeCarroucel() }}
+</div>
+<div class="flex flex-wrap">
+  <div class="formgroup-inline">
+    <div class="pr-2">
+      <i class="pi pi-wallet" style="font-size: 1rem; color: #93deac"></i>
+    </div>
+    <label style="color: #93deac" class="block">Total líquido previsto R${{returnsAmountCollected()}}</label>
+  </div>
+</div>
 
-<div class="text-center">
-  {{ currentIndex == null ? 1 : currentIndex }} de {{ budgets.length }}
-</div>
-<p>Valor arrecadado: {{ returnsAmountCollected() }}</p>
-</div>
 
 
 <app-modal-agendamento [budget]="modalBudgetInput"></app-modal-agendamento>

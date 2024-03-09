@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://my-api-url'
+    apiUrl: 'https://api.orctattoo.com.br/api/v1'
 };
