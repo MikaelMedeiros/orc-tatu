@@ -50,8 +50,8 @@ export class LoggingInterceptor implements HttpInterceptor {
         this.refresh = true;
 
         let params = new HttpParams();
-        params = params.append('refresh-token', `${this.user?.refreshToken}`);
-        return this.http.get(`${this.baseUrl}/authentication/refresh-token`, {params}).pipe(
+        params = params.append('token', `${this.user?.refreshToken}`);
+        return this.http.get(`${this.baseUrl}/authentication/refresh`, {params}).pipe(
           switchMap((res: any) => {
             this.setToken(res);
             return next.handle(req.clone({
@@ -70,11 +70,8 @@ export class LoggingInterceptor implements HttpInterceptor {
 
   setToken(res: any) {
     if (this.user !== undefined && this.user !== null) {
-        let expirationTime = new Date();          
-        expirationTime.setSeconds(expirationTime.getSeconds() + res.expiresInSeconds);
-
         this.user.accessToken = res.accessToken;           
-        this.user.expiration = expirationTime.getTime();
+        this.user.expiration = res.expiration;
         this.salvarObjetoLocalStorage('user', this.user);   
     }
   }
