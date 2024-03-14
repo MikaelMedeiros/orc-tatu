@@ -1,12 +1,13 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HistoricService } from '../historic/service/historic.service';
 import { ToastService } from './../../shared/toast.service';
 import { HistoricComponent } from './../historic/historic.component';
-import { CalculadoraService } from './service/calculadora.service';
 import { BudgetRequest } from './model/budget-reponse';
+import { EnumType } from './model/enum-type';
+import { EnumService } from './service/enums.service';
 
 @Component({
   selector: 'app-calculadora',
@@ -30,7 +31,7 @@ export class CalculadoraComponent implements OnInit {
     private clipboard: Clipboard,
     private historicService: HistoricService,
     private toastService: ToastService,
-    private calculadoraService: CalculadoraService,
+    private enumService: EnumService,
   ) {}
 
   @Input() free: boolean = false;
@@ -43,7 +44,16 @@ export class CalculadoraComponent implements OnInit {
   creditValue = 0;
 
   ngOnInit(): void {
+    if(this.free) {
+      this.setEnumDisconected();
+    } else {
+      this.setEnum(EnumType.Styles);
+      this.setEnum(EnumType.BodyLocal);
+      this.setEnum(EnumType.Details);   
+    }
+  }
 
+  setEnumDisconected() {
     this.styles = [
       { name: 'Fineline', value: 'FINELINE', ptbr: 'fineline' },
       { name: 'Bold Line', value: 'BOLD_LINE', ptbr: 'bold line' },
@@ -87,7 +97,6 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Pé', value:'FOOT', ptbr: 'pé', addtion: '2'}
     ]
   }
-;
 
   text: string | undefined;
 
@@ -288,18 +297,43 @@ export class CalculadoraComponent implements OnInit {
       this.historicComponent?.addBudgetOnList(budget);
   }
 
-  getEstilos(){
-    this.calculadoraService.getBodyLocal().subscribe({
-      next:(resp:any)=>{
-        resp.forEach((element: any) => {
-          this.bodyLocal.push( { name: element, value: element, ptbr: element})
-        });
-      },
-      error: (respErr)=>{
-        this.toastService.errorHandler(respErr);
-      }
-    })
+  setEnum(enumType: any) {
+      this.enumService.getEnum(enumType).subscribe({
+        next:(resp: any)=>{
+            const list = Object.keys(resp).map(key => {
+                return {
+                    value: resp[key].enumValue,
+                    name: resp[key].namePtBr,
+                    namePtBr: resp[key].namePtBr
+                };
+            });        
+            list.sort((a, b) => a.namePtBr.localeCompare(b.namePtBr));
+            this.setListEnum(enumType, list)      
+        },
+        error: (respErr)=>{
+          if(respErr.status != 401) {
+            this.toastService.errorHandler(respErr);          
+          }
+        }
+    }); 
   }
+
+  setListEnum(enumType: EnumType, list: any) {
+    switch(enumType) {
+      case EnumType.BodyLocal:
+          this.bodyLocal = list;
+          break;
+      case EnumType.Details:
+          this.details = list;
+          break;
+      case EnumType.Styles:
+          this.styles = list;
+          break;      
+    }
+  }
+
 }
+
+
 
 

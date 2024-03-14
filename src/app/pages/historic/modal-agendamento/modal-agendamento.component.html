@@ -12,6 +12,7 @@
     </div>
 
     <div class="field">
+      <label for="tipo" class="block">Duração:</label>
       <div class="flex flex-wrap gap-3 duration">
         <div class="flex align-items-center">
           <p-inputMask mask="99:99" [(ngModel)]="duration" (onInput)="addTattooDuration()" placeholder="HH:MM"></p-inputMask>
@@ -24,12 +25,12 @@
 
       <div class="flex flex-wrap gap-3">
         <div class="flex align-items-center">
-          <p-radioButton name="tattoo" value="tattoo" [(ngModel)]="tipoAgendamento" inputId="tattoo"></p-radioButton>
+          <p-radioButton name="tattoo" value="TATTOO" [(ngModel)]="tipoAgendamento" inputId="tattoo"></p-radioButton>
           <label for="tattoo" class="ml-2">Tattoo</label>
         </div>
 
         <div class="flex align-items-center">
-            <p-radioButton name="retoque" value="retoque" [(ngModel)]="tipoAgendamento" inputId="retoque"></p-radioButton>
+            <p-radioButton name="retoque" value="RETOUCHING" [(ngModel)]="tipoAgendamento" inputId="retoque"></p-radioButton>
             <label for="retoque" class="ml-2">Retoque</label>
         </div>
       </div>

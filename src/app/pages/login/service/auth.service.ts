@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http'
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http'
 import { Usuario } from '../model/usuario';
 import { Router } from '@angular/router';
 
@@ -18,7 +18,7 @@ export class AuthService {
 
   user: Usuario = new Usuario();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   baseUrl: string = `${environment.apiUrl}/authentication` ;
 
@@ -38,6 +38,37 @@ export class AuthService {
       }));
   }
 
+  revokeToken(): Observable<HttpResponse<any>> {
+    this.user = this.recuperarObjetoLocalStorage('user');
+    let tokenToRevoke = '';
 
+    if(this.user?.refreshToken) {
+      tokenToRevoke = this.user?.refreshToken;
+    } else {
+      tokenToRevoke = this.user?.accessToken;
+    }
+      
+
+    let params = new HttpParams();
+        params = params.append('token', `${tokenToRevoke}`);
+    
+    return this.http.get<any>(`${this.baseUrl}/revoke`, {params} ).pipe();
+  }
+
+
+  recuperarObjetoLocalStorage(chave: string): any {
+    const objetoString = localStorage.getItem(chave);
+    
+    try {
+      if (objetoString && objetoString !== null && objetoString !== '{}') {
+        return JSON.parse(objetoString);
+      }
+    } catch (error) {
+      this.router.navigate(['/login']);
+    }
+    
+
+    return null;
+  }
 
 }
