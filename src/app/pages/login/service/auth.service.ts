@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http'
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http'
 import { Usuario } from '../model/usuario';
 import { Router } from '@angular/router';
 
@@ -36,6 +36,22 @@ export class AuthService {
           return false;
         }
       }));
+  }
+
+  revokeToken(): Observable<HttpResponse<any>> {
+    let tokenToRevoke = '';
+
+    if(this.user?.refreshToken) {
+      tokenToRevoke = this.user?.refreshToken;
+    } else {
+      tokenToRevoke = this.user?.accessToken;
+    }
+      
+
+    let params = new HttpParams();
+        params = params.append('token', `${tokenToRevoke}`);
+    
+    return this.http.get<any>(`${this.baseUrl}/revoke`, {params} ).pipe();
   }
 
 

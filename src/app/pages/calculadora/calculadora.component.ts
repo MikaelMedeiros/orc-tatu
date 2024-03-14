@@ -1,12 +1,13 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HistoricService } from '../historic/service/historic.service';
 import { ToastService } from './../../shared/toast.service';
 import { HistoricComponent } from './../historic/historic.component';
-import { CalculadoraService } from './service/calculadora.service';
 import { BudgetRequest } from './model/budget-reponse';
+import { EnumType } from './model/enum-type';
+import { EnumService } from './service/enums.service';
 
 @Component({
   selector: 'app-calculadora',
@@ -30,7 +31,7 @@ export class CalculadoraComponent implements OnInit {
     private clipboard: Clipboard,
     private historicService: HistoricService,
     private toastService: ToastService,
-    private calculadoraService: CalculadoraService,
+    private enumService: EnumService,
   ) {}
 
   @Input() free: boolean = false;
@@ -43,51 +44,10 @@ export class CalculadoraComponent implements OnInit {
   creditValue = 0;
 
   ngOnInit(): void {
-
-    this.styles = [
-      { name: 'Fineline', value: 'FINELINE', ptbr: 'fineline' },
-      { name: 'Bold Line', value: 'BOLD_LINE', ptbr: 'bold line' },
-      { name: 'Realismo', value: 'REALISM', ptbr: 'realismo' },
-      { name: 'Old School', value: 'OLD_SCHOOL', ptbr: 'old school' },
-      { name: 'Black Work', value: 'BLACK_WORK', ptbr: 'black work' },
-      { name: 'Minimalista', value: 'MINIMALIST', ptbr: 'minimalista' },
-      { name: 'Geek', value: 'GEEK', ptbr: 'geek' },
-      { name: 'Free Hand', value: 'FREE_HAND', ptbr: 'free hand' },
-      { name: 'Caligrafia', value: 'CALLIGRAPHY', ptbr: 'caligrafia' },
-      { name: 'Cobertura', value: 'COVERAGE', ptbr: 'cobertura' },
-      { name: 'Neotradicional', value: 'NEOTRADITIONAL', ptbr: 'neotradicional' },
-      { name: 'Tribal', value: 'TRIBAL', ptbr: 'tribal' },
-    ];
-
-    this.details = [
-      { name: 'Sombreamento', value: 'SHADING', ptbr: 'sombreamento' },
-      { name: 'Pontilhismo', value: 'POINTILLISM', ptbr: 'pontilhismo'  },
-      { name: 'Linhas', value: 'LINES', ptbr: 'linhas' },
-      { name: 'Colorido', value: 'COLORFUL',  ptbr: 'colorido' },
-      { name: 'Tinta Branca', value: 'WHITE_INK', ptbr: 'tinta branca' }
-    ];
-
-    this.bodyLocal = [
-      { name: 'Orelha', value:'EAR', ptbr: 'orelha', addtion: '2'},
-      { name: 'Pescoço', value:'NECK', ptbr: 'pescoço', addtion: '2'},
-      { name: 'Ombro', value:'SHOULDER', ptbr: 'ombro', addtion: '2'},
-      { name: 'Clavícula', value:'CLAVICLE', ptbr: 'clavícula', addtion: '2'},
-      { name: 'Braço', value:'ARM', ptbr: 'braço', addtion: '2'},
-      { name: 'Antebraço', value:'FOREARM', ptbr: 'antebraço', addtion: '2'},
-      { name: 'Mão', value:'HAND', ptbr: 'mão', addtion: '2'},
-      { name: 'Peito', value:'CHEST', ptbr: 'peito', addtion: '2'},
-      { name: 'Costela', value:'RIB', ptbr: 'costela', addtion: '2'},
-      { name: 'Costas', value:'BACK', ptbr: 'costas', addtion: '2'},
-      { name: 'Cintura', value:'WAIST', ptbr: 'cintura', category: 'category', addtion: '1'},
-      { name: 'Virilha', value:'GROIN', ptbr: 'virilha', addtion: '2'},
-      { name: 'Perna', value:'LEG', ptbr: 'perna', addtion: '2'},
-      { name: 'Panturrilha', value:'CALF', ptbr: 'panturrilha', addtion: '2'},
-      { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
-      { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
-      { name: 'Pé', value:'FOOT', ptbr: 'pé', addtion: '2'}
-    ]
+    this.setEnum(EnumType.Styles);
+    this.setEnum(EnumType.BodyLocal);
+    this.setEnum(EnumType.Details);    
   }
-;
 
   text: string | undefined;
 
@@ -288,18 +248,43 @@ export class CalculadoraComponent implements OnInit {
       this.historicComponent?.addBudgetOnList(budget);
   }
 
-  getEstilos(){
-    this.calculadoraService.getBodyLocal().subscribe({
-      next:(resp:any)=>{
-        resp.forEach((element: any) => {
-          this.bodyLocal.push( { name: element, value: element, ptbr: element})
-        });
-      },
-      error: (respErr)=>{
-        this.toastService.errorHandler(respErr);
-      }
-    })
+  setEnum(enumType: any) {
+      this.enumService.getEnum(enumType).subscribe({
+        next:(resp: any)=>{
+            const list = Object.keys(resp).map(key => {
+                return {
+                    value: resp[key].enumValue,
+                    name: resp[key].namePtBr,
+                    namePtBr: resp[key].namePtBr
+                };
+            });        
+            console.log(list);
+            list.sort((a, b) => a.namePtBr.localeCompare(b.namePtBr));
+            this.setListEnum(enumType, list)      
+        },
+        error: (respErr)=>{
+            this.toastService.errorHandler(respErr);
+          
+        }
+    }); 
   }
+
+  setListEnum(enumType: EnumType, list: any) {
+    switch(enumType) {
+      case EnumType.BodyLocal:
+          this.bodyLocal = list;
+          break;
+      case EnumType.Details:
+          this.details = list;
+          break;
+      case EnumType.Styles:
+          this.styles = list;
+          break;      
+    }
+  }
+
 }
+
+
 
 
