@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario } from 'src/app/pages/login/model/usuario';
 import { AuthService } from 'src/app/pages/login/service/auth.service';
+import { ToastService } from 'src/app/shared/toast.service';
 
 
 @Component({
@@ -11,12 +12,21 @@ import { AuthService } from 'src/app/pages/login/service/auth.service';
 })
 export class HomeComponent implements OnInit{
 
-  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private authService: AuthService, private toastService: ToastService, private route: ActivatedRoute, private router: Router) {}
 
   user: Usuario = new Usuario();
   logout() {
-    localStorage.removeItem('user')
-    this.router.navigate(['/login'])
+    this.authService.revokeToken().subscribe({
+      next:()=>{          
+          localStorage.removeItem('user')
+      },
+      error: (respErr)=>{
+        this.toastService.errorHandler(respErr);        
+      }
+    });
+    
+    this.router.navigate(['/login'])   
+    
   }
 
   ngOnInit(): void {

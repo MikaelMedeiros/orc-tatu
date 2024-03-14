@@ -18,7 +18,7 @@ export class AuthService {
 
   user: Usuario = new Usuario();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   baseUrl: string = `${environment.apiUrl}/authentication` ;
 
@@ -39,6 +39,7 @@ export class AuthService {
   }
 
   revokeToken(): Observable<HttpResponse<any>> {
+    this.user = this.recuperarObjetoLocalStorage('user');
     let tokenToRevoke = '';
 
     if(this.user?.refreshToken) {
@@ -55,5 +56,19 @@ export class AuthService {
   }
 
 
+  recuperarObjetoLocalStorage(chave: string): any {
+    const objetoString = localStorage.getItem(chave);
+    
+    try {
+      if (objetoString && objetoString !== null && objetoString !== '{}') {
+        return JSON.parse(objetoString);
+      }
+    } catch (error) {
+      this.router.navigate(['/login']);
+    }
+    
+
+    return null;
+  }
 
 }
