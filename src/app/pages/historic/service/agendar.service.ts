@@ -1,4 +1,4 @@
-import { AgendaDTO } from './../model/agendaDTO';
+import { ScheduleInfoDTO } from '../model/schedule-info-dto';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -11,7 +11,7 @@ export class AgendarService {
   constructor(private http: HttpClient) { }
 
 
-  agendar(agendaDTO: AgendaDTO){
+  agendar(agendaDTO: ScheduleInfoDTO){
    return this.http.post(this.baseUrl, agendaDTO).pipe()
   }
 }

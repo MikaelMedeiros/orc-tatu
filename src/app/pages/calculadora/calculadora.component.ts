@@ -311,8 +311,9 @@ export class CalculadoraComponent implements OnInit {
             this.setListEnum(enumType, list)      
         },
         error: (respErr)=>{
-            this.toastService.errorHandler(respErr);
-          
+          if(respErr.status != 401) {
+            this.toastService.errorHandler(respErr);          
+          }
         }
     }); 
   }

@@ -44,6 +44,7 @@ export class HistoricComponent implements OnInit{
     this.initFormFilters();
     this.responsiveOption();
     this.removeClassCheckbox();
+    this.getBudgets();
   }
 
   filtrarCancelados(novoValor: boolean) {

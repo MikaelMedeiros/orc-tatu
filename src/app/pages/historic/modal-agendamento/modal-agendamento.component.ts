@@ -4,7 +4,7 @@ import { Calendar } from 'primeng/calendar';
 import { RadioButton } from 'primeng/radiobutton';
 import { Nullable } from 'primeng/ts-helpers';
 import { ToastService } from 'src/app/shared/toast.service';
-import { AgendaDTO } from '../model/agendaDTO';
+import { ScheduleInfoDTO } from '../model/schedule-info-dto';
 import { BudgetHistory } from '../model/budget-reponse';
 import { AgendarService } from '../service/agendar.service';
 
@@ -24,7 +24,7 @@ export class ModalAgendamentoComponent {
   showModalCalendar: boolean = false;
   startDate: Date | Nullable;
   minDate: Date = new Date();
-  tipoAgendamento: string = 'tattoo';
+  tipoAgendamento: string = 'TATTOO';
   duration: string = '03:00';
   pagamentoAdiantado: boolean = false;
   paymentMehtod: string = "PIX";
@@ -37,8 +37,6 @@ export class ModalAgendamentoComponent {
     if (this.startDate === null && this.startDate === undefined) {
       this.toastService.errorMsg('Por favor selecione data e hora.');
       return; // Sair do método após exibir a mensagem de erro
-    } else {
-      //this.startDate = this.setToBrazilTimezone(this.startDate);
     }
 
     if (this.duration === undefined) {
@@ -52,7 +50,7 @@ export class ModalAgendamentoComponent {
   agendar() {
     this.validacaoAgendar();
     this.agendarService.agendar(
-      new AgendaDTO(
+      new ScheduleInfoDTO(
         this.budget?.id,
         this.budget?.description,
         `${this.budget?.clientName}: ${this.budget?.draw}`,
@@ -66,6 +64,7 @@ export class ModalAgendamentoComponent {
       next:(n) =>{
         this.showModalCalendar = false;
         this.toastService.successMsg('Tattoo incluída na sua agenda Google');
+        
       },
       error: (error:HttpErrorResponse)=>{        
         this.toastService.errorHandler(error);          

@@ -38,8 +38,12 @@
     <div class="bordar-carousel">
       <div style="bottom: 1.5rem; position: relative;">
           <div class="flex center gap-3 col-12">
-            <div class="p-mb-1 col-8">
-              <p>{{"Cliente: " + budget.clientName }}</p>
+            <div class="p-mb-1 col-7">
+              <p>{{budget.clientName }}</p>
+            </div>
+
+            <div class="p-mb-1 col-4">
+              <p>{{budget.status}}</p>
             </div>
           </div>
           <div class="flex flex-wrap center  col-12" style=" font-size: 0.8rem!important;">
@@ -69,9 +73,9 @@
           </div>
         </div>
       <div class="flex center gap-3 center historic-balls "  style="bottom: 1rem;position: relative;">
-        <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-cancelado" (click)="confirm1($event, budget); $event.stopPropagation()" >
+        <!-- <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-cancelado" (click)="confirm1($event, budget); $event.stopPropagation()" >
           <span class="pi pi-times p-button-icon ng-star-inserted"></span>
-        </button>
+        </button> -->
         <button class="p-ripple p-element p-button p-component p-button-icon-only p-button-agendar" (click)="showDialgAgendar(budget)" >
           <span class="pi pi-calendar-plus p-button-icon ng-star-inserted"></span>
         </button>
