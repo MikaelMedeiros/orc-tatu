@@ -87,43 +87,19 @@
       </form>
     </p-tabPanel>
     <!-- Valores do corpo -->
-    <p-tabPanel *ngIf="false">
+    <p-tabPanel *ngIf="true">
       <ng-template pTemplate="header">
+        <i class="pi pi-arrow-up"></i>
         <i class="pi pi-dollar"></i>
-        <i class="pi pi-user-edit"></i>
       </ng-template>
 
-      <form [formGroup]="bodyPriceForm">
-        <div class="field" >
-          <label for="virilha" class="block">Virilha</label>
-          <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="virilha" inputId="virilha" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>
-          <p-slider formControlName="virilha" (onSlideEnd)="handleSlide($event.value, 'virilha')"  class="w-full"></p-slider>
-        </div>
+      <form [formGroup]="additionPriceForm">
 
-        <div class="field" >
-          <label for="braco" class="block">Braco</label>
-          <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="braco" inputId="braco" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>
-          <p-slider formControlName="braco" (onSlideEnd)="handleSlide($event.value, 'braco')"  class="w-full"></p-slider>
-        </div>
-
-        <div class="field" >
-          <label for="perna" class="block">Perna</label>
-          <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="perna" inputId="perna" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>
-          <p-slider formControlName="perna" (onSlideEnd)="handleSlide($event.value, 'perna')"  class="w-full"></p-slider>
-        </div>
-
-        <div class="field" >
-          <label for="mao" class="block">Mão</label>
-          <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="mao" inputId="mao" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>
-          <p-slider formControlName="mao" (onSlideEnd)="handleSlide($event.value, 'mao')"  class="w-full"></p-slider>
-        </div>
-
-        <div class="field" >
-          <label for="pescoco" class="block">Pescoço</label>
-          <p-inputNumber  class="w-full" (onInput)="generateBudget()" formControlName="pescoco" inputId="pescoco" suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>
-          <p-slider formControlName="pescoco" (onSlideEnd)="handleSlide($event.value, 'pescoco')"  class="w-full"></p-slider>
-        </div>
-
+        <div class="field" *ngFor="let item of fieldsAddition" >
+          <label for={{item.for}} class="block">{{item.label}}</label>
+          <p-inputNumber  class="w-full" (onInput)="handleSlide($event.value, item.for)" formControlName={{item.formControlName}} inputId={{item.inputId}} suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>
+          <p-slider formControlName={{item.formControlName}} (onSlideEnd)="handleSlide($event.value, item.for)"  class="w-full"></p-slider>
+        </div>       
       </form>
     </p-tabPanel>
     <!-- Historico -->
@@ -159,7 +135,7 @@
         <div class="pr-2">
           <i class="pi pi-palette" style="font-size: 1rem; color: #93bade"></i>
         </div>
-        <label style="color: #93bade" class="block"> R${{netValue + studioPercent}}</label>
+        <label style="color: #93bade" class="block"> R${{tattooValue}}</label>
       </div>
     </div>
 

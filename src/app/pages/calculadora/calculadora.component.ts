@@ -8,6 +8,7 @@ import { HistoricComponent } from './../historic/historic.component';
 import { BudgetRequest } from './model/budget-reponse';
 import { EnumType } from './model/enum-type';
 import { EnumService } from './service/enums.service';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-calculadora',
@@ -23,8 +24,9 @@ export class CalculadoraComponent implements OnInit {
   @ViewChild(HistoricComponent, { static: false }) historicComponent?: HistoricComponent;
   indexTab: number | any = 0;
   count: number = 0;
-
-  
+  recalculatedValue: number = 0;
+  fieldsAddition: any[] = [];
+  additionsToSum: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +42,7 @@ export class CalculadoraComponent implements OnInit {
   details: any[] = [];
   bodyLocal: any[] = [];
   pixValue = 0;
+  tattooBaseValue = 0;
   tattooValue = 0;
   creditValue = 0;
 
@@ -67,6 +70,7 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Cobertura', value: 'COVERAGE', ptbr: 'cobertura' },
       { name: 'Neotradicional', value: 'NEOTRADITIONAL', ptbr: 'neotradicional' },
       { name: 'Tribal', value: 'TRIBAL', ptbr: 'tribal' },
+      
     ];
 
     this.details = [
@@ -75,6 +79,7 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Linhas', value: 'LINES', ptbr: 'linhas' },
       { name: 'Colorido', value: 'COLORFUL',  ptbr: 'colorido' },
       { name: 'Tinta Branca', value: 'WHITE_INK', ptbr: 'tinta branca' }
+      
     ];
 
     this.bodyLocal = [
@@ -95,6 +100,8 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
       { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
       { name: 'Pé', value:'FOOT', ptbr: 'pé', addtion: '2'}
+
+      
     ]
   }
 
@@ -118,12 +125,46 @@ export class CalculadoraComponent implements OnInit {
     materials: [80]
   })
 
-  bodyPriceForm = this.fb.group({
+  additionPriceForm = this.fb.group({
     braco: [0],
     perna: [0],
     virilha: [0],
     mao: [0],
-    pescoco: [0]
+    pescoco: [0],
+    sombreamento: [0],
+    pontilhismo: [0],
+    linhas: [0],
+    colorido: [0],
+    tintaBranca: [0],
+    fineline: [],
+    boldline: [0],
+    realismo: [0],
+    oldschool: [0],
+    blackwork: [0],
+    minimalista: [0],
+    geek: [0],
+    freehand: [0],
+    caligrafia: [0],
+    cobertura: [0],
+    neotradicional: [0],
+    tribal: [0],
+    EAR: [0],
+    NECK: [0],
+    SHOULDER: [0],
+    CLAVICLE: [0],
+    ARM: [0],
+    FOREARM: [0],
+    HAND: [0],
+    CHEST: [0],
+    RIB: [0],
+    BACK: [0],
+    WAIST: [0],
+    GROIN: [0],
+    LEG: [0],
+    CALF: [0],
+    CINNAMON: [0],
+    ANKLE: [0],
+    FOOT: [0],
   })
 
   generateBudget() {
@@ -132,14 +173,19 @@ export class CalculadoraComponent implements OnInit {
     this.addParkingPriceToPixAndCredit();
     this.addMaterialValueToPixAndCredit();
     this.calculateNetValue();
+    this.appearToConfigureAddition();
     this.generateTextBudget();
   }
+
+  
 
   calculateTattooValueAndPix() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.configForm.get('valorcm')?.value;
     if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {
-      this.tattooValue = (valorcm * cm);
+      this.tattooBaseValue = (valorcm * cm);      
+      this.tattooValue = (valorcm * cm); 
+      this.tattooValue = this.sumAdditionValue();      
       this.pixValue = this.tattooValue;
     }
   }
@@ -177,6 +223,8 @@ export class CalculadoraComponent implements OnInit {
     } else {
       this.netValue = this.tattooValue - (this.tattooValue * 0 / 100)
     }
+
+    this.recalculatedValue = this.netValue + this.studioPercent;
   }
 
 
@@ -226,8 +274,82 @@ export class CalculadoraComponent implements OnInit {
     return "";
   }
 
-  handleSlide(value: any, fieldForm: string) {
-    this.bodyPriceForm.get(fieldForm)?.setValue(value) ;
+  appearToConfigureAddition() {
+    let selectedDetails: any[] = this.budgetForm.get('details')?.value || [];
+    let selectedBodyLocal: any = this.budgetForm.get('bodyLocal')?.value || null;
+
+    if(selectedDetails) {
+      
+      this.fieldsAddition = selectedDetails.map(selected => {
+        return {
+          for: selected.ptbr,
+          label: selected.name,
+          formControlName: selected.ptbr,
+          inputId: selected.ptbr                
+        }
+      })
+    }
+
+    if(selectedBodyLocal) {
+      
+      this.fieldsAddition = this.fieldsAddition.concat(
+         {
+          for: selectedBodyLocal.value,
+          label: selectedBodyLocal.name,
+          formControlName: selectedBodyLocal.value,
+          inputId: selectedBodyLocal.value   
+        }
+      )
+      
+    }
+  }
+
+  handleSlide(value: any, fieldForm: string) {        
+    this.additionPriceForm.get(fieldForm)?.setValue(value) ;
+    let addition = this.recalculateAdditionValue(value);   
+    this.holdAddition(fieldForm, addition);
+    //this.recalculatedValue = this.sumAdditionValue();
+    this.generateBudget();
+  }
+
+  recalculateAdditionValue(additionValue: number) {    
+    return this.tattooValue * (additionValue/100);        
+  }
+
+  holdAddition(fieldForm: string, addition: number) {
+      
+      // lista vazia
+      if((!this.additionsToSum || this.additionsToSum.length === 0)) {
+        let additionToSum = {
+          field: fieldForm,
+          addition: addition
+        }
+        this.additionsToSum.push(additionToSum);
+      }
+
+      //alterar valor de addition quando já existe na lista    
+      this.additionsToSum.map(item => {
+        if (item.field == fieldForm) {
+          item.addition = addition          
+        } 
+      })
+    
+      // adicionar item que não existe na lista
+      if(!this.additionsToSum.some(item => item.field === fieldForm)) {
+        let additionToSum = {
+          field: fieldForm,
+          addition: addition
+        }
+        this.additionsToSum.push(additionToSum);
+      }
+      
+      console.log('Aditions to sum: ', this.additionsToSum)
+  }
+
+  sumAdditionValue() {
+    let sum = this.additionsToSum.reduce((total, item) => total + item.addition, 0);    
+    console.log('Recalculated value: ', this.tattooValue + sum);
+    return this.tattooValue + sum;
   }
 
   copyText() {
