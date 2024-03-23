@@ -11,7 +11,7 @@ jobs:
     steps: 
     # 1. Configure AWS credentials      
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4.0.2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -19,13 +19,11 @@ jobs:
           
       # 2. Checkout Repository
       - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          ref: main
+        uses: actions/checkout@v4       
       
       # 3. Setup Node
       - name: Setup Node 
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@v4
         with:
           node-version: '18.18.2'
           
@@ -49,6 +47,6 @@ jobs:
       # 6. Copy to S3 bucket.
       - name: Copy to S3 Bucket
         run: |
-          aws s3 cp ./dist/* s3://orc-tattoo
+          aws s3 cp ./dist/* s3://orc-tattoo --recursive
           
    
