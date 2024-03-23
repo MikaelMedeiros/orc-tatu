@@ -27,6 +27,7 @@ export class CalculadoraComponent implements OnInit {
   fieldsAddition: any[] = [];
   additionsToSum: any[] = [];
   maxInstallments?: { name: string; value: number; }[];
+  hintText?: string;
 
   constructor(
     private fb: FormBuilder,
@@ -251,7 +252,13 @@ export class CalculadoraComponent implements OnInit {
     }
 
     //default
-    this.generatedBudget = this.generatedBudget.concat(` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`);
+    let cm = this.budgetForm.get('cm')?.value;
+    if(cm) {
+      let sum = cm + 2;
+      this.generatedBudget = this.generatedBudget.concat(` de ${this.budgetForm.get('cm')?.value}cm a ${sum}cm,`);
+    } else {
+      this.generatedBudget = this.generatedBudget.concat(` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`);
+    }
 
     if(this.budgetForm.get('bodyLocal')?.value) {
       let bodylocal: any = this.budgetForm.get('bodyLocal')?.value;
@@ -429,7 +436,8 @@ export class CalculadoraComponent implements OnInit {
     this.netValue = 0;
   }
 
-  showHint(event: any) {
+  showHint(event: any, hintId: string) {
+    this.setHintText(hintId);
     this.hintVisible = !this.hintVisible;
   }
 
@@ -478,6 +486,20 @@ export class CalculadoraComponent implements OnInit {
           this.styles = list;
           break;      
     }
+  }
+
+  setHintText(hintId: string) {
+    switch(hintId) {
+      case 'transport':
+        this.hintText = "Informe aqui os custos com metrô, ônibus, bicicleta, gasolina e/ou estacionamento.";
+        break;
+      case 'percentageTax':
+        this.hintText = "Aqui você pode informar os gastos com água, luz ou apenas o quanto o estúdio te cobra, mas lembre-se que é em porcentagem.";
+        break;
+      default:
+        this.hintText = "Desculpa, não temos dica ainda :/"
+    }
+    
   }
 
 }

@@ -63,14 +63,17 @@
         </div>
 
         <div class="field" >
-          <label for="percentageTax" class="block">Porcentagem do studio</label>
+          <div class="formgroup-inline">
+            <label for="percentageTax" class="block">Porcentagem do studio</label>
+            <i class="pi pi-info-circle" (click)="showHint($event, 'percentageTax')" style="font-size: 0.8rem; color: #b19df7"></i>
+          </div>
           <p-inputNumber (onInput)="generateBudget()" inputId="percentageTax" suffix="%" formControlName="percentageTax" [showButtons]="true"> </p-inputNumber>
         </div>
 
         <div class="field" >
           <div class="formgroup-inline">
             <label for="parkingPrice" class="block">Transporte</label>
-            <i class="pi pi-info-circle" (click)="showHint($event)" style="font-size: 0.8rem; color: #b19df7"></i>
+            <i class="pi pi-info-circle" (click)="showHint($event, 'transport')" style="font-size: 0.8rem; color: #b19df7"></i>
           </div>
           <p-inputNumber (onInput)="generateBudget()" formControlName="parkingPrice" inputId="parkingPrice" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="0" [step]="0.5"> </p-inputNumber>
         </div>
@@ -161,6 +164,6 @@
   
   <p-dialog header="Dica" [modal]="true" [closable]="true" position="bottom" [(visible)]="hintVisible" [style]="{width: '90vw'}">
     <p>
-        Informe aqui os custos com metrô, gasolina e/ou estacionamento.
+        {{hintText}}
     </p>
   </p-dialog>
