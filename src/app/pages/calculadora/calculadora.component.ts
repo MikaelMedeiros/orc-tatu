@@ -26,6 +26,7 @@ export class CalculadoraComponent implements OnInit {
   count: number = 0;  
   fieldsAddition: any[] = [];
   additionsToSum: any[] = [];
+  maxInstallments?: { name: string; value: number; }[];
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +57,14 @@ export class CalculadoraComponent implements OnInit {
   }
 
   setEnumDisconected() {
+    this.maxInstallments = [
+      {name: '1x', value: 1},
+      {name: '2x', value: 2},
+      {name: '3x', value: 3},
+      {name: '4x', value: 4},
+      {name: '5x', value: 5},
+    ]
+
     this.styles = [
       { name: 'Fineline', value: 'FINELINE', ptbr: 'fineline' },
       { name: 'Bold Line', value: 'BOLD_LINE', ptbr: 'bold line' },
@@ -121,7 +130,8 @@ export class CalculadoraComponent implements OnInit {
     percentageTax: [30],
     parkingPrice: [80],
     creditTax: [60],
-    materials: [80]
+    materials: [80],
+    maxInstallments: [3]
   })
 
   additionPriceForm = this.fb.group({
@@ -254,7 +264,17 @@ export class CalculadoraComponent implements OnInit {
 
     //default
     this.generatedBudget = this.generatedBudget.concat(` fica no valor de R$${this.pixValue.toFixed(2)} no PIX`)
-    .concat(` ou R$${this.creditValue.toFixed(2)} no Cartão de Crédito em até 3x sem juros!`);
+
+    if(this.configForm.get('maxInstallments')?.value) {
+      let maxInstallments = this.configForm.get('maxInstallments')?.value;
+      let pricePerInstallment = this.calculateInstallments(maxInstallments, this.creditValue);
+      this.generatedBudget = this.generatedBudget.concat(` ou R$${this.creditValue.toFixed(2)} no Cartão de Crédito, em até x${maxInstallments} de R$${pricePerInstallment}.`);
+    }
+    
+  }
+
+  calculateInstallments(maxInstallments: any, creditValue: number) {
+    return (creditValue / maxInstallments).toFixed(2) ;        
   }
 
   getTextFormated(lista: any[]| undefined | null): string | undefined | null {

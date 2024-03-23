@@ -81,6 +81,10 @@
         </div>
 
         <div class="field" >
+          <p-dropdown id="maxInstallments" (onChange)="generateBudget()" [options]="maxInstallments" formControlName="maxInstallments" optionLabel="name" optionValue="value" [showClear]="true" placeholder="Máx. de parcelas"></p-dropdown>
+        </div>
+
+        <div class="field" >
           <label for="materials" class="block">Materiais</label>
           <p-inputNumber (onInput)="generateBudget()" formControlName="materials" inputId="materials" mode="currency" currency="BRL" locale="pt-BR" [showButtons]="true" [min]="0" [step]="0.5"> </p-inputNumber>
         </div>
