@@ -21,3 +21,9 @@
   top: 10px;
   position: relative;
 }
+
+::ng-deep .custom-toast .p-toast {
+  width: 23rem!important;
+  right: 0.15rem!important;
+  align-items: center!important;
+}

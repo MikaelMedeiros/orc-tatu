@@ -1,0 +1,80 @@
+  <p-dialog header="Agendamento" [(visible)]="showModalCalendar" [modal]="true" [style]="{ width: '360px',height: '500px' }">
+    <p class="font-bold">Data do agendamento:</p>
+    <div class="field">
+      <p-calendar [(ngModel)]="startDate" [minDate]="minDate"
+                  [showTime]="true" hourFormat="24" [hideOnDateTimeSelect]="false"
+                  [touchUI]="true"  [showIcon]="true" #calendar
+                   dateFormat="dd/mm/yy">
+      <p-footer *ngIf="startDate" class="botton-footer-calendar">
+        <button class="p-ripple p-element p-button p-component p-button-agendar" (click)="fecharCalendario(calendar)">Ok</button>
+      </p-footer>
+      </p-calendar>
+    </div>
+
+    <div class="field">
+      <label for="tipo" class="block">Duração:</label>
+      <div class="flex flex-wrap gap-3 duration">
+        <div class="flex align-items-center">
+          <p-inputMask mask="99:99" [(ngModel)]="duration" (onInput)="addTattooDuration()" placeholder="HH:MM"></p-inputMask>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="tipo" class="block">Tipo de agendamento:</label>
+
+      <div class="flex flex-wrap gap-3">
+        <div class="flex align-items-center">
+          <p-radioButton name="tattoo" value="TATTOO" [(ngModel)]="tipoAgendamento" inputId="tattoo"></p-radioButton>
+          <label for="tattoo" class="ml-2">Tattoo</label>
+        </div>
+
+        <div class="flex align-items-center">
+            <p-radioButton name="retoque" value="RETOUCHING" [(ngModel)]="tipoAgendamento" inputId="retoque"></p-radioButton>
+            <label for="retoque" class="ml-2">Retoque</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="tipo" class="block">Foi pago adiantado?</label>
+
+      <div class="flex flex-wrap gap-3 boolean-radios ">
+        <div class="flex align-items-center">
+          <p-radioButton [value]=true [(ngModel)]="pagamentoAdiantado" inputId="sim"></p-radioButton>
+          <label for="sim" class="ml-2 label-boolean-radio">Sim</label>
+        </div>
+        <div class="flex align-items-center  left-35">
+          <p-radioButton [value]=false [(ngModel)]="pagamentoAdiantado" inputId="nao"></p-radioButton>
+          <label for="nao" class="ml-2 label-boolean-radio">Não</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field" *ngIf="pagamentoAdiantado">
+      <label for="tipo" class="block">Como foi pago?</label>
+
+      <div class="flex flex-wrap gap-3 boolean-radios ">
+        <div class="flex align-items-center">
+          <p-radioButton value="PIX" [(ngModel)]="paymentMehtod" inputId="pix"></p-radioButton>
+          <label for="pix" class="ml-2">Pix</label>
+        </div>
+        <div class="flex align-items-center  left-35">
+          <p-radioButton value="MONEY" [(ngModel)]="paymentMehtod" inputId="money"></p-radioButton>
+          <label for="money" class="ml-2">Dinheiro</label>
+        </div>
+        <div class="flex align-items-center  left-35">
+          <p-radioButton value="CREDIT_CARD" [(ngModel)]="paymentMehtod" inputId="creditCard"></p-radioButton>
+          <label for="creditCard" class="ml-2">Cartão</label>
+        </div>
+      </div>
+    </div>
+
+    <p-footer class=" gap-12" >
+      <button class="p-ripple p-element p-button  p-component  p-button-agendar" (click)="agendar()" >
+        <span >Agendar</span>
+      </button>
+    </p-footer>
+
+  </p-dialog>
+

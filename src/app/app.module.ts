@@ -15,16 +15,31 @@ import { AccordionModule } from 'primeng/accordion';
 import { DialogModule } from 'primeng/dialog';
 import { SliderModule } from 'primeng/slider';
 import { TableModule } from 'primeng/table';
-import { LoginComponent } from './login/login.component';
-import { AuthService } from './login/service/auth.service';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthService } from './pages/login/service/auth.service';
 import { AppModuleRouting } from './app.module.routing';
-import { CalculadoraComponent } from './calculadora/calculadora.component';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
-import { HistoricComponent } from './historic/historic.component';
+import { CalculadoraComponent } from './pages/calculadora/calculadora.component';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HistoricComponent } from './pages/historic/historic.component';
 import { HomeComponent } from './principal/home/home.component';
 import { AuthenticationComponent } from './principal/authentication/authentication.component';
 import { RouterOutlet } from '@angular/router';
-import { LoggingInterceptor } from './account/auth.interceptor';
+import { LoggingInterceptor } from './interceptor/auth.interceptor';
+import { CarouselModule } from 'primeng/carousel';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import {  ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { CalendarModule } from 'primeng/calendar';
+import { ModalAgendamentoComponent } from './pages/historic/modal-agendamento/modal-agendamento.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
+import { RemoveClassCheckboxDirective } from './diretivas/remove-class-checkbox.directive';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ToastService } from './shared/toast.service';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputMaskModule } from 'primeng/inputmask';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +48,9 @@ import { LoggingInterceptor } from './account/auth.interceptor';
     CalculadoraComponent,
     HistoricComponent,
     HomeComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    ModalAgendamentoComponent,
+    RemoveClassCheckboxDirective,
   ],
   imports: [
     BrowserModule,
@@ -53,15 +70,28 @@ import { LoggingInterceptor } from './account/auth.interceptor';
     SliderModule,
     TableModule,
     AppModuleRouting,
-    RouterOutlet
+    RouterOutlet,
+    CarouselModule,
+    ConfirmDialogModule,
+    ToastModule,
+    CalendarModule,
+    RadioButtonModule,
+    CheckboxModule,
+    AutoCompleteModule,
+    DropdownModule,
+    MultiSelectModule,
+    InputMaskModule
   ],
   providers: [
     AuthService,
     {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
     provideHttpClient(
       withInterceptorsFromDi()
-    )
-  ],  
+    ),
+    ConfirmationService,
+    MessageService,
+    ToastService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

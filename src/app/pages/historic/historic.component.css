@@ -1,0 +1,57 @@
+.ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px; /* Adiciona algum espaçamento entre as bolas */
+}
+
+.historic-balls{
+  justify-content: center;
+  align-items: center;
+}
+
+.bordar-carousel {
+  border: 2px solid #b19df7;
+  border-radius: 8px;
+  height: 10rem;
+  padding-bottom: 0.2rem;
+}
+
+
+/* Reduz a largura do p-toast */
+:host ::ng-deep .ui-toast .ui-toast-message {
+  max-width: 250px; /* Ajuste a largura conforme necessário */
+}
+
+.p-button-cancelado {
+  background-color: #ff9b9b !important;
+  width: 2rem;
+  height: 2rem;
+  top: 2rem;
+  position: relative;
+  padding: 0.5rem 0.5rem
+}
+
+.p-button-agendar {
+  background-color: #ffec99 !important;
+  width: 2rem;
+  height: 2rem;
+  top: 2rem;
+  position: relative;
+  padding: 0.5rem 0.5rem
+}
+
+::ng-deep .custom-panel-class{
+  right: 3rem;
+  position: relative;
+}
+
+::ng-deep .p-autocomplete-items{
+  width: 8rem;
+}
+
+
+::ng-deep .p-autocomplete-item{
+  right: 1rem;
+}
