@@ -23,8 +23,7 @@ export class CalculadoraComponent implements OnInit {
   studioPercent = 0;
   @ViewChild(HistoricComponent, { static: false }) historicComponent?: HistoricComponent;
   indexTab: number | any = 0;
-  count: number = 0;
-  recalculatedValue: number = 0;
+  count: number = 0;  
   fieldsAddition: any[] = [];
   additionsToSum: any[] = [];
 
@@ -41,7 +40,7 @@ export class CalculadoraComponent implements OnInit {
   styles: any[] = [];
   details: any[] = [];
   bodyLocal: any[] = [];
-  pixValue = 0;
+  pixValue = 0;  
   tattooBaseValue = 0;
   tattooValue = 0;
   creditValue = 0;
@@ -182,9 +181,8 @@ export class CalculadoraComponent implements OnInit {
   calculateTattooValueAndPix() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.configForm.get('valorcm')?.value;
-    if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {
-      this.tattooBaseValue = (valorcm * cm);      
-      this.tattooValue = (valorcm * cm); 
+    if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {         
+      this.tattooBaseValue = (valorcm * cm);       
       this.tattooValue = this.sumAdditionValue();      
       this.pixValue = this.tattooValue;
     }
@@ -222,9 +220,7 @@ export class CalculadoraComponent implements OnInit {
       this.netValue = this.tattooValue - (this.tattooValue * tax / 100)
     } else {
       this.netValue = this.tattooValue - (this.tattooValue * 0 / 100)
-    }
-
-    this.recalculatedValue = this.netValue + this.studioPercent;
+    }    
   }
 
 
@@ -257,8 +253,8 @@ export class CalculadoraComponent implements OnInit {
     }
 
     //default
-    this.generatedBudget = this.generatedBudget.concat(` fica no valor de R$${this.pixValue} no PIX`)
-    .concat(` ou R$${this.creditValue} no Cartão de Crédito em até 3x sem juros!`);
+    this.generatedBudget = this.generatedBudget.concat(` fica no valor de R$${this.pixValue.toFixed(2)} no PIX`)
+    .concat(` ou R$${this.creditValue.toFixed(2)} no Cartão de Crédito em até 3x sem juros!`);
   }
 
   getTextFormated(lista: any[]| undefined | null): string | undefined | null {
@@ -304,16 +300,16 @@ export class CalculadoraComponent implements OnInit {
     }
   }
 
-  handleSlide(value: any, fieldForm: string) {        
+  handleAddition(value: any, fieldForm: string) {      
+    console.log('event: ', value);
     this.additionPriceForm.get(fieldForm)?.setValue(value) ;
     let addition = this.recalculateAdditionValue(value);   
-    this.holdAddition(fieldForm, addition);
-    //this.recalculatedValue = this.sumAdditionValue();
+    this.holdAddition(fieldForm, addition);    
     this.generateBudget();
   }
 
   recalculateAdditionValue(additionValue: number) {    
-    return this.tattooValue * (additionValue/100);        
+    return this.tattooBaseValue * (additionValue/100);        
   }
 
   holdAddition(fieldForm: string, addition: number) {
@@ -348,8 +344,8 @@ export class CalculadoraComponent implements OnInit {
 
   sumAdditionValue() {
     let sum = this.additionsToSum.reduce((total, item) => total + item.addition, 0);    
-    console.log('Recalculated value: ', this.tattooValue + sum);
-    return this.tattooValue + sum;
+    console.log('Recalculated on base value: ', this.tattooBaseValue + sum);
+    return this.tattooBaseValue + sum;
   }
 
   copyText() {
@@ -402,10 +398,12 @@ export class CalculadoraComponent implements OnInit {
   }
 
   resetForm() {
-    this.budgetForm.reset();
+    this.budgetForm.reset(); 
     this.budgetForm.get('cm')?.setValue(null);
-    this.configForm.get('valorcm')?.setValue(30);
+    this.configForm.get('valorcm')?.setValue(35);
     this.budgetForm.get('style')?.setValue(null);
+    this.additionPriceForm.reset();
+    this.additionsToSum = [];    
     this.generatedBudget = '';
     this.studioPercent = 0;
     this.netValue = 0;
@@ -438,6 +436,14 @@ export class CalculadoraComponent implements OnInit {
           }
         }
     }); 
+  }
+
+  showBudgetValues() {
+    return (this.generatedBudget !== '') && !this.budgetForm.invalid;
+  }
+
+  showAdditionBudgetTab() {
+    return this.showBudgetValues() && (this.fieldsAddition.length > 0);
   }
 
   setListEnum(enumType: EnumType, list: any) {

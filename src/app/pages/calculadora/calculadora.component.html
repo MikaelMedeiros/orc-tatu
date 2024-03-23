@@ -86,8 +86,8 @@
         </div>
       </form>
     </p-tabPanel>
-    <!-- Valores do corpo -->
-    <p-tabPanel *ngIf="true">
+    <!-- Adição de valores no orçamento -->
+    <p-tabPanel *ngIf="showAdditionBudgetTab()">
       <ng-template pTemplate="header">
         <i class="pi pi-arrow-up"></i>
         <i class="pi pi-dollar"></i>
@@ -97,8 +97,7 @@
 
         <div class="field" *ngFor="let item of fieldsAddition" >
           <label for={{item.for}} class="block">{{item.label}}</label>
-          <p-inputNumber  class="w-full" (onInput)="handleSlide($event.value, item.for)" formControlName={{item.formControlName}} inputId={{item.inputId}} suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>
-          <p-slider formControlName={{item.formControlName}} (onSlideEnd)="handleSlide($event.value, item.for)"  class="w-full"></p-slider>
+          <p-inputNumber  class="w-full" (onInput)="handleAddition($event.value, item.for)" formControlName={{item.formControlName}} inputId={{item.inputId}} suffix="%" [min]="0" [max]="100" [step]="0.5"> </p-inputNumber>          
         </div>       
       </form>
     </p-tabPanel>
@@ -113,12 +112,12 @@
     </p-tabPanel>
 </p-tabView>
 
-  <div *ngIf="(generatedBudget !== '') && !budgetForm.invalid" class="flex flex-wrap">
+  <div *ngIf="showBudgetValues()" class="flex flex-wrap">
     <div class="formgroup-inline">
       <div class="pr-2">
         <i class="pi pi-wallet" style="font-size: 1rem; color: #93deac"></i>
       </div>
-      <label style="color: #93deac" class="block"> R${{netValue}}</label>
+      <label style="color: #93deac" class="block"> R${{netValue.toFixed(2)}}</label>
     </div>
 
     <div class="pl-3">
@@ -126,7 +125,7 @@
         <div class="pr-2">
           <i class="pi pi-percentage" style="font-size: 1rem; color: #de9393"></i>
         </div>
-        <label style="color: #de9393" class="block"> R${{studioPercent}}</label>
+        <label style="color: #de9393" class="block"> R${{studioPercent.toFixed(2)}}</label>
       </div>
     </div>
 
@@ -135,7 +134,7 @@
         <div class="pr-2">
           <i class="pi pi-palette" style="font-size: 1rem; color: #93bade"></i>
         </div>
-        <label style="color: #93bade" class="block"> R${{tattooValue}}</label>
+        <label style="color: #93bade" class="block"> R${{(netValue + studioPercent).toFixed(2)}}</label>
       </div>
     </div>
 
