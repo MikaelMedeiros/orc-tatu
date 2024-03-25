@@ -8,6 +8,7 @@ import { HistoricComponent } from './../historic/historic.component';
 import { BudgetRequest } from './model/budget-reponse';
 import { EnumType } from './model/enum-type';
 import { EnumService } from './service/enums.service';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-calculadora',
@@ -22,9 +23,11 @@ export class CalculadoraComponent implements OnInit {
   studioPercent = 0;
   @ViewChild(HistoricComponent, { static: false }) historicComponent?: HistoricComponent;
   indexTab: number | any = 0;
-  count: number = 0;
-
-  
+  count: number = 0;  
+  fieldsAddition: any[] = [];
+  additionsToSum: any[] = [];
+  maxInstallments?: { name: string; value: number; }[];
+  hintText?: string;
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +42,8 @@ export class CalculadoraComponent implements OnInit {
   styles: any[] = [];
   details: any[] = [];
   bodyLocal: any[] = [];
-  pixValue = 0;
+  pixValue = 0;  
+  tattooBaseValue = 0;
   tattooValue = 0;
   creditValue = 0;
 
@@ -54,6 +58,14 @@ export class CalculadoraComponent implements OnInit {
   }
 
   setEnumDisconected() {
+    this.maxInstallments = [
+      {name: '1x', value: 1},
+      {name: '2x', value: 2},
+      {name: '3x', value: 3},
+      {name: '4x', value: 4},
+      {name: '5x', value: 5},
+    ]
+
     this.styles = [
       { name: 'Fineline', value: 'FINELINE', ptbr: 'fineline' },
       { name: 'Bold Line', value: 'BOLD_LINE', ptbr: 'bold line' },
@@ -67,6 +79,7 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Cobertura', value: 'COVERAGE', ptbr: 'cobertura' },
       { name: 'Neotradicional', value: 'NEOTRADITIONAL', ptbr: 'neotradicional' },
       { name: 'Tribal', value: 'TRIBAL', ptbr: 'tribal' },
+      
     ];
 
     this.details = [
@@ -75,6 +88,7 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Linhas', value: 'LINES', ptbr: 'linhas' },
       { name: 'Colorido', value: 'COLORFUL',  ptbr: 'colorido' },
       { name: 'Tinta Branca', value: 'WHITE_INK', ptbr: 'tinta branca' }
+      
     ];
 
     this.bodyLocal = [
@@ -95,6 +109,8 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
       { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
       { name: 'Pé', value:'FOOT', ptbr: 'pé', addtion: '2'}
+
+      
     ]
   }
 
@@ -115,15 +131,50 @@ export class CalculadoraComponent implements OnInit {
     percentageTax: [30],
     parkingPrice: [80],
     creditTax: [60],
-    materials: [80]
+    materials: [80],
+    maxInstallments: [3]
   })
 
-  bodyPriceForm = this.fb.group({
+  additionPriceForm = this.fb.group({
     braco: [0],
     perna: [0],
     virilha: [0],
     mao: [0],
-    pescoco: [0]
+    pescoco: [0],
+    sombreamento: [0],
+    pontilhismo: [0],
+    linhas: [0],
+    colorido: [0],
+    tintaBranca: [0],
+    fineline: [],
+    boldline: [0],
+    realismo: [0],
+    oldschool: [0],
+    blackwork: [0],
+    minimalista: [0],
+    geek: [0],
+    freehand: [0],
+    caligrafia: [0],
+    cobertura: [0],
+    neotradicional: [0],
+    tribal: [0],
+    EAR: [0],
+    NECK: [0],
+    SHOULDER: [0],
+    CLAVICLE: [0],
+    ARM: [0],
+    FOREARM: [0],
+    HAND: [0],
+    CHEST: [0],
+    RIB: [0],
+    BACK: [0],
+    WAIST: [0],
+    GROIN: [0],
+    LEG: [0],
+    CALF: [0],
+    CINNAMON: [0],
+    ANKLE: [0],
+    FOOT: [0],
   })
 
   generateBudget() {
@@ -132,14 +183,18 @@ export class CalculadoraComponent implements OnInit {
     this.addParkingPriceToPixAndCredit();
     this.addMaterialValueToPixAndCredit();
     this.calculateNetValue();
+    this.appearToConfigureAddition();
     this.generateTextBudget();
   }
+
+  
 
   calculateTattooValueAndPix() {
     let cm = this.budgetForm.get('cm')?.value;
     let valorcm = this.configForm.get('valorcm')?.value;
-    if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {
-      this.tattooValue = (valorcm * cm);
+    if((typeof valorcm !== undefined && valorcm != null) && (typeof cm !== undefined && cm != null)) {         
+      this.tattooBaseValue = (valorcm * cm);       
+      this.tattooValue = this.sumAdditionValue();      
       this.pixValue = this.tattooValue;
     }
   }
@@ -176,7 +231,7 @@ export class CalculadoraComponent implements OnInit {
       this.netValue = this.tattooValue - (this.tattooValue * tax / 100)
     } else {
       this.netValue = this.tattooValue - (this.tattooValue * 0 / 100)
-    }
+    }    
   }
 
 
@@ -197,7 +252,13 @@ export class CalculadoraComponent implements OnInit {
     }
 
     //default
-    this.generatedBudget = this.generatedBudget.concat(` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`);
+    let cm = this.budgetForm.get('cm')?.value;
+    if(cm) {
+      let sum = cm + 2;
+      this.generatedBudget = this.generatedBudget.concat(` de ${this.budgetForm.get('cm')?.value}cm a ${sum}cm,`);
+    } else {
+      this.generatedBudget = this.generatedBudget.concat(` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`);
+    }
 
     if(this.budgetForm.get('bodyLocal')?.value) {
       let bodylocal: any = this.budgetForm.get('bodyLocal')?.value;
@@ -209,8 +270,18 @@ export class CalculadoraComponent implements OnInit {
     }
 
     //default
-    this.generatedBudget = this.generatedBudget.concat(` fica no valor de R$${this.pixValue} no PIX`)
-    .concat(` ou R$${this.creditValue} no Cartão de Crédito em até 3x sem juros!`);
+    this.generatedBudget = this.generatedBudget.concat(` fica no valor de R$${this.pixValue.toFixed(2)} no PIX`)
+
+    if(this.configForm.get('maxInstallments')?.value) {
+      let maxInstallments = this.configForm.get('maxInstallments')?.value;
+      let pricePerInstallment = this.calculateInstallments(maxInstallments, this.creditValue);
+      this.generatedBudget = this.generatedBudget.concat(` ou R$${this.creditValue.toFixed(2)} no Cartão de Crédito, em até x${maxInstallments} de R$${pricePerInstallment}.`);
+    }
+    
+  }
+
+  calculateInstallments(maxInstallments: any, creditValue: number) {
+    return (creditValue / maxInstallments).toFixed(2) ;        
   }
 
   getTextFormated(lista: any[]| undefined | null): string | undefined | null {
@@ -226,8 +297,82 @@ export class CalculadoraComponent implements OnInit {
     return "";
   }
 
-  handleSlide(value: any, fieldForm: string) {
-    this.bodyPriceForm.get(fieldForm)?.setValue(value) ;
+  appearToConfigureAddition() {
+    let selectedDetails: any[] = this.budgetForm.get('details')?.value || [];
+    let selectedBodyLocal: any = this.budgetForm.get('bodyLocal')?.value || null;
+
+    if(selectedDetails) {
+      
+      this.fieldsAddition = selectedDetails.map(selected => {
+        return {
+          for: selected.ptbr,
+          label: selected.name,
+          formControlName: selected.ptbr,
+          inputId: selected.ptbr                
+        }
+      })
+    }
+
+    if(selectedBodyLocal) {
+      
+      this.fieldsAddition = this.fieldsAddition.concat(
+         {
+          for: selectedBodyLocal.value,
+          label: selectedBodyLocal.name,
+          formControlName: selectedBodyLocal.value,
+          inputId: selectedBodyLocal.value   
+        }
+      )
+      
+    }
+  }
+
+  handleAddition(value: any, fieldForm: string) {      
+    console.log('event: ', value);
+    this.additionPriceForm.get(fieldForm)?.setValue(value) ;
+    let addition = this.recalculateAdditionValue(value);   
+    this.holdAddition(fieldForm, addition);    
+    this.generateBudget();
+  }
+
+  recalculateAdditionValue(additionValue: number) {    
+    return this.tattooBaseValue * (additionValue/100);        
+  }
+
+  holdAddition(fieldForm: string, addition: number) {
+      
+      // lista vazia
+      if((!this.additionsToSum || this.additionsToSum.length === 0)) {
+        let additionToSum = {
+          field: fieldForm,
+          addition: addition
+        }
+        this.additionsToSum.push(additionToSum);
+      }
+
+      //alterar valor de addition quando já existe na lista    
+      this.additionsToSum.map(item => {
+        if (item.field == fieldForm) {
+          item.addition = addition          
+        } 
+      })
+    
+      // adicionar item que não existe na lista
+      if(!this.additionsToSum.some(item => item.field === fieldForm)) {
+        let additionToSum = {
+          field: fieldForm,
+          addition: addition
+        }
+        this.additionsToSum.push(additionToSum);
+      }
+      
+      console.log('Aditions to sum: ', this.additionsToSum)
+  }
+
+  sumAdditionValue() {
+    let sum = this.additionsToSum.reduce((total, item) => total + item.addition, 0);    
+    console.log('Recalculated on base value: ', this.tattooBaseValue + sum);
+    return this.tattooBaseValue + sum;
   }
 
   copyText() {
@@ -280,16 +425,19 @@ export class CalculadoraComponent implements OnInit {
   }
 
   resetForm() {
-    this.budgetForm.reset();
+    this.budgetForm.reset(); 
     this.budgetForm.get('cm')?.setValue(null);
-    this.configForm.get('valorcm')?.setValue(30);
+    this.configForm.get('valorcm')?.setValue(35);
     this.budgetForm.get('style')?.setValue(null);
+    this.additionPriceForm.reset();
+    this.additionsToSum = [];    
     this.generatedBudget = '';
     this.studioPercent = 0;
     this.netValue = 0;
   }
 
-  showHint(event: any) {
+  showHint(event: any, hintId: string) {
+    this.setHintText(hintId);
     this.hintVisible = !this.hintVisible;
   }
 
@@ -318,6 +466,14 @@ export class CalculadoraComponent implements OnInit {
     }); 
   }
 
+  showBudgetValues() {
+    return (this.generatedBudget !== '') && !this.budgetForm.invalid;
+  }
+
+  showAdditionBudgetTab() {
+    return this.showBudgetValues() && (this.fieldsAddition.length > 0);
+  }
+
   setListEnum(enumType: EnumType, list: any) {
     switch(enumType) {
       case EnumType.BodyLocal:
@@ -330,6 +486,20 @@ export class CalculadoraComponent implements OnInit {
           this.styles = list;
           break;      
     }
+  }
+
+  setHintText(hintId: string) {
+    switch(hintId) {
+      case 'transport':
+        this.hintText = "Informe aqui os custos com metrô, ônibus, bicicleta, gasolina e/ou estacionamento.";
+        break;
+      case 'percentageTax':
+        this.hintText = "Aqui você pode informar os gastos com água, luz ou apenas o quanto o estúdio te cobra, mas lembre-se que é em porcentagem.";
+        break;
+      default:
+        this.hintText = "Desculpa, não temos dica ainda :/"
+    }
+    
   }
 
 }
