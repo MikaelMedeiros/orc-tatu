@@ -39,6 +39,7 @@ import { ToastService } from './shared/toast.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
+import { SpeedDialModule } from 'primeng/speeddial';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { InputMaskModule } from 'primeng/inputmask';
     AuthenticationComponent,
     ModalAgendamentoComponent,
     RemoveClassCheckboxDirective,
+    
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { InputMaskModule } from 'primeng/inputmask';
     AutoCompleteModule,
     DropdownModule,
     MultiSelectModule,
-    InputMaskModule
+    InputMaskModule,    
+    SpeedDialModule
   ],
   providers: [
     AuthService,
