@@ -10,7 +10,7 @@
 
         <div class="field" >
           <label for="client" class="block">Nome do cliente</label>
-          <input type="text" id="client" (onInput)="generateBudget()" pInputText formControlName="client"/>
+          <input type="text" id="client" (keyup)="generateBudget()" pInputText formControlName="client"/>
           <small class="p-error block" *ngIf="budgetForm.get('client')?.invalid && budgetForm.get('client')?.dirty">Preencha o nome do cliente</small>
         </div>
 
