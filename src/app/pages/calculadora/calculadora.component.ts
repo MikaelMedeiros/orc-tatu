@@ -161,7 +161,8 @@ export class CalculadoraComponent implements OnInit {
     parkingPrice: [80],
     creditTax: [60],
     materials: [80],
-    maxInstallments: [3]
+    maxInstallments: [3],
+    validity: [30]
   })
 
   additionPriceForm = this.fb.group({
@@ -304,9 +305,13 @@ export class CalculadoraComponent implements OnInit {
     if(this.configForm.get('maxInstallments')?.value) {
       let maxInstallments = this.configForm.get('maxInstallments')?.value;
       let pricePerInstallment = this.calculateInstallments(maxInstallments, this.creditValue);
-      this.generatedBudget = this.generatedBudget.concat(` ou R$${this.creditValue.toFixed(2)} no Cartão de Crédito, em até x${maxInstallments} de R$${pricePerInstallment}.`);
+      this.generatedBudget = this.generatedBudget.concat(` ou R$${this.creditValue.toFixed(2)} no cartão de crédito, em até x${maxInstallments} de R$${pricePerInstallment}.`);
     }
-    
+
+    if(this.configForm.get('validity')?.value) {
+      this.generatedBudget = this.generatedBudget.concat(` Validade do orçamento: ${this.configForm.get('validity')?.value} dias.`)
+    }
+
   }
 
   calculateInstallments(maxInstallments: any, creditValue: number) {
