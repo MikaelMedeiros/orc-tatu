@@ -8,7 +8,7 @@ import { HistoricComponent } from './../historic/historic.component';
 import { BudgetRequest } from './model/budget-reponse';
 import { EnumType } from './model/enum-type';
 import { EnumService } from './service/enums.service';
-import { empty } from 'rxjs';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-calculadora',
@@ -28,6 +28,9 @@ export class CalculadoraComponent implements OnInit {
   additionsToSum: any[] = [];
   maxInstallments?: { name: string; value: number; }[];
   hintText?: string;
+  items: MenuItem[] | null = [];
+  labelCalcType: string = 'Centímetro';
+  suffixCalcType: string = 'cm';
 
   constructor(
     private fb: FormBuilder,
@@ -46,8 +49,13 @@ export class CalculadoraComponent implements OnInit {
   tattooBaseValue = 0;
   tattooValue = 0;
   creditValue = 0;
+  valuedByHour = false;
+  valuedBy: any[] = [];
 
   ngOnInit(): void {
+    this.setMaxInstallments();
+    this.setSelectValuedBy();
+  
     if(this.free) {
       this.setEnumDisconected();
     } else {
@@ -57,15 +65,30 @@ export class CalculadoraComponent implements OnInit {
     }
   }
 
-  setEnumDisconected() {
-    this.maxInstallments = [
-      {name: '1x', value: 1},
-      {name: '2x', value: 2},
-      {name: '3x', value: 3},
-      {name: '4x', value: 4},
-      {name: '5x', value: 5},
+  setSelectValuedBy() {
+    this.items = [
+      {
+          icon: 'pi pi-clock ',
+          command: () => {
+            this.labelCalcType = 'Hora';
+            this.suffixCalcType = 'h';
+            this.generateTextBudget();
+            this.toastService.successMsg('Cálculo por hora');
+          }
+      },
+      {
+          icon: 'pi pi-sort-amount-up',
+          command: () => {
+            this.labelCalcType = 'Centímetro';
+            this.suffixCalcType = 'cm';
+            this.generateTextBudget();
+            this.toastService.successMsg('Cálculo por centímetro!');
+          }
+      }
     ]
+  }
 
+  setEnumDisconected() {    
     this.styles = [
       { name: 'Fineline', value: 'FINELINE', ptbr: 'fineline' },
       { name: 'Bold Line', value: 'BOLD_LINE', ptbr: 'bold line' },
@@ -79,7 +102,6 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Cobertura', value: 'COVERAGE', ptbr: 'cobertura' },
       { name: 'Neotradicional', value: 'NEOTRADITIONAL', ptbr: 'neotradicional' },
       { name: 'Tribal', value: 'TRIBAL', ptbr: 'tribal' },
-      
     ];
 
     this.details = [
@@ -87,8 +109,7 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Pontilhismo', value: 'POINTILLISM', ptbr: 'pontilhismo'  },
       { name: 'Linhas', value: 'LINES', ptbr: 'linhas' },
       { name: 'Colorido', value: 'COLORFUL',  ptbr: 'colorido' },
-      { name: 'Tinta Branca', value: 'WHITE_INK', ptbr: 'tinta branca' }
-      
+      { name: 'Tinta Branca', value: 'WHITE_INK', ptbr: 'tinta branca' }    
     ];
 
     this.bodyLocal = [
@@ -108,9 +129,17 @@ export class CalculadoraComponent implements OnInit {
       { name: 'Panturrilha', value:'CALF', ptbr: 'panturrilha', addtion: '2'},
       { name: 'Canela', value:'CINNAMON', ptbr: 'canela', addtion: '2'},
       { name: 'Tornozelo', value:'ANKLE', ptbr: 'tornozelo', addtion: '2'},
-      { name: 'Pé', value:'FOOT', ptbr: 'pé', addtion: '2'}
+      { name: 'Pé', value:'FOOT', ptbr: 'pé', addtion: '2'}      
+    ]
+  }
 
-      
+  setMaxInstallments() {
+    this.maxInstallments = [
+      {name: '1x', value: 1},
+      {name: '2x', value: 2},
+      {name: '3x', value: 3},
+      {name: '4x', value: 4},
+      {name: '5x', value: 5},
     ]
   }
 
@@ -132,7 +161,8 @@ export class CalculadoraComponent implements OnInit {
     parkingPrice: [80],
     creditTax: [60],
     materials: [80],
-    maxInstallments: [3]
+    maxInstallments: [3],
+    validity: [30]
   })
 
   additionPriceForm = this.fb.group({
@@ -253,11 +283,11 @@ export class CalculadoraComponent implements OnInit {
 
     //default
     let cm = this.budgetForm.get('cm')?.value;
-    if(cm) {
+    if(cm && this.suffixCalcType == 'cm') {
       let sum = cm + 2;
-      this.generatedBudget = this.generatedBudget.concat(` de ${this.budgetForm.get('cm')?.value}cm a ${sum}cm,`);
+      this.generatedBudget = this.generatedBudget.concat(` de ${this.budgetForm.get('cm')?.value+this.suffixCalcType} a ${sum+this.suffixCalcType},`);
     } else {
-      this.generatedBudget = this.generatedBudget.concat(` de aproximadamente ${this.budgetForm.get('cm')?.value}cm,`);
+      this.generatedBudget = this.generatedBudget.concat(` de aproximadamente ${this.budgetForm.get('cm')?.value+this.suffixCalcType},`);
     }
 
     if(this.budgetForm.get('bodyLocal')?.value) {
@@ -275,9 +305,13 @@ export class CalculadoraComponent implements OnInit {
     if(this.configForm.get('maxInstallments')?.value) {
       let maxInstallments = this.configForm.get('maxInstallments')?.value;
       let pricePerInstallment = this.calculateInstallments(maxInstallments, this.creditValue);
-      this.generatedBudget = this.generatedBudget.concat(` ou R$${this.creditValue.toFixed(2)} no Cartão de Crédito, em até x${maxInstallments} de R$${pricePerInstallment}.`);
+      this.generatedBudget = this.generatedBudget.concat(` ou R$${this.creditValue.toFixed(2)} no cartão de crédito, em até x${maxInstallments} de R$${pricePerInstallment}.`);
     }
-    
+
+    if(this.configForm.get('validity')?.value) {
+      this.generatedBudget = this.generatedBudget.concat(` Validade do orçamento: ${this.configForm.get('validity')?.value} dias.`)
+    }
+
   }
 
   calculateInstallments(maxInstallments: any, creditValue: number) {
