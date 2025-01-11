@@ -530,6 +530,18 @@ export class CalculadoraComponent implements OnInit {
       case 'percentageTax':
         this.hintText = "Aqui você pode informar os gastos com água, luz ou apenas o quanto o estúdio te cobra, mas lembre-se que é em porcentagem.";
         break;
+      case 'netValue':
+        this.hintText = "Valor líquido ("
+            + "valor da tatuagem - porcentagem do estúdio)"
+        break;
+      case 'studioPercent':
+        this.hintText = "Porcentagem do estúdio ("
+            + "valor da tatuagem  * (porcentagem do estúdio / 100)"
+        break;
+      case 'tattooValue':
+        this.hintText = "Valor da tatuagem ("
+            + `valor de ${this.suffixCalcType} * ${this.suffixCalcType})`;
+        break;
       default:
         this.hintText = "Desculpa, não temos dica ainda :/"
     }

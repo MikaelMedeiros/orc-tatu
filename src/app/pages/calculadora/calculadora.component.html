@@ -124,16 +124,16 @@
     </p-tabPanel>
 </p-tabView>
 
-  <div *ngIf="showBudgetValues()" class="flex flex-wrap">
-    <div class="formgroup-inline">
+  <div   class="flex flex-wrap">
+    <div class="formgroup-inline" (click)="showHint($event, 'netValue')">
       <div class="pr-2">
         <i class="pi pi-wallet" style="font-size: 1rem; color: #93deac"></i>
       </div>
-      <label style="color: #93deac" class="block"> R${{netValue.toFixed(2)}}</label>
+      <label  style="color: #93deac" class="block"> R${{netValue.toFixed(2)}}</label>
     </div>
 
     <div class="pl-3">
-      <div class="formgroup-inline">
+      <div class="formgroup-inline" (click)="showHint($event, 'studioPercent')">
         <div class="pr-2">
           <i class="pi pi-percentage" style="font-size: 1rem; color: #de9393"></i>
         </div>
@@ -142,7 +142,7 @@
     </div>
 
     <div class="pl-3">
-      <div class="formgroup-inline">
+      <div class="formgroup-inline"  (click)="showHint($event, 'tattooValue')">
         <div class="pr-2">
           <i class="pi pi-palette" style="font-size: 1rem; color: #93bade"></i>
         </div>
@@ -170,6 +170,6 @@
   
   <p-dialog header="Dica" [modal]="true" [closable]="true" position="bottom" [(visible)]="hintVisible" [style]="{width: '90vw'}">
     <p>
-        {{hintText}}
-    </p>
+      <label [innerText]="hintText"></label> 
+    </p>    
   </p-dialog>
