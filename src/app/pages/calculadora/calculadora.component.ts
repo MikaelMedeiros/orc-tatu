@@ -159,7 +159,7 @@ export class CalculadoraComponent implements OnInit {
     valorcm: [35, Validators.required],
     percentageTax: [30],
     parkingPrice: [80],
-    creditTax: [60],
+    creditTax: [15],
     materials: [80],
     maxInstallments: [3],
     validity: [30]
@@ -232,7 +232,7 @@ export class CalculadoraComponent implements OnInit {
   calculateCreditValue() {
     let creditTax = this.configForm.get('creditTax')?.value;
     if(creditTax) {
-      this.creditValue = this.pixValue + creditTax;
+      this.creditValue = this.pixValue + (this.pixValue * (creditTax / 100));
     } else {
       this.creditValue = this.pixValue;
     }
@@ -531,16 +531,20 @@ export class CalculadoraComponent implements OnInit {
         this.hintText = "Aqui você pode informar os gastos com água, luz ou apenas o quanto o estúdio te cobra, mas lembre-se que é em porcentagem.";
         break;
       case 'netValue':
-        this.hintText = "Valor líquido ("
-            + "valor da tatuagem - porcentagem do estúdio)"
+        this.hintText = "Valor líquido ="
+            + "(valor da tatuagem - porcentagem do estúdio)"
         break;
       case 'studioPercent':
-        this.hintText = "Porcentagem do estúdio ("
-            + "valor da tatuagem  * (porcentagem do estúdio / 100)"
+        this.hintText = "Porcentagem do estúdio ="
+            + "(valor da tatuagem  * (porcentagem do estúdio / 100)"
         break;
       case 'tattooValue':
-        this.hintText = "Valor da tatuagem ("
-            + `valor de ${this.suffixCalcType} * ${this.suffixCalcType})`;
+        this.hintText = "Valor da tatuagem ="
+            + `(valor de ${this.suffixCalcType} * ${this.suffixCalcType} + acréscimo por detalhes + acréscimo por parte do corpo)`;
+        break;
+      case 'personValue':
+        this.hintText = "Valor que a pessoa irá pagar ="
+            + `(valor da tattoo + materiais + transporte))`;
         break;
       default:
         this.hintText = "Desculpa, não temos dica ainda :/"
